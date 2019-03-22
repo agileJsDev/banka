@@ -7,7 +7,8 @@
 body {
 	font-family: Arial, Helvetica, sans-serif;
   margin: 0;
-	padding: 0;
+  padding: 0;
+  background-color:#D9D9D9;
 }
 
 main {
@@ -51,11 +52,16 @@ header {
 }
 
 #branding {
-	float: left
+  float: left;
 }
 
 #branding h1 {
-	margin: 0
+  margin: 0;
+}
+
+#branding a{
+  text-decoration: none;
+  color: #ffffff
 }
 
 .nav {
@@ -143,11 +149,11 @@ header {
 	width: 30%
 }
 
-#undertext-line{
+#undertext-line {
 	text-align: center;
 }
 
-#undertext-line:after{
+#undertext-line:after, .form-box h2:after{
 	content: '';
 	height: 3px;
 	width: 10%;
@@ -188,7 +194,12 @@ header {
 .footer {
 	padding:30px 0 10px 0;
 	background-color: #D9D9D9;
+}
 
+#fixed__footer {
+	position: absolute;
+	bottom:0;
+	width: 100%;
 }
 
 /* Mobile menu Style  --Start*/
@@ -256,8 +267,72 @@ margin-top:20px
 	 background-color: #53181A;
 }
 
+/* FORM */
+
+ .inner-container {
+  display: flex;
+  justify-content: center;
+	align-items: center;
+}
+
+.form-box {
+  height: 330px;
+  width: 25%;
+  display:flex;
+  margin-top: 170px;
+  background-color: #cfcbc8;
+  justify-content: center;
+  align-items:center;
+  border-radius: 10px;
+  flex-direction:column;
+	overflow:hidden;
+}
+
+.form {
+  padding:10px;
+  margin: 0 10px 10px 10px
+}
+
+input[type=email], input[type=password] {
+  width: 100%;
+  padding: 15px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+  border-radius: 10px;
+  outline: none
+}
+
+input[type=email]:focus, input[type=password]:focus {
+  box-shadow: 0px 0px 3px #d67841
+}
+
+button[type=submit]{
+  width:100%;
+  margin: 8px 0;
+}
+.form-box h2 {
+  margin-top: 50px;
+  color: #2c282e
+}
+.form-box h2:after {
+  width:70%!important;
+}
+
+#forget-pass {
+  float: right;
+   font-size: 15px;
+}
+
+
 /* Media Queries */
 @media(max-width: 768px) {
+	.sticky__header {
+		position: sticky;
+    top: 0;
+	}
+	
 	.x-btn {
 		display:block
 	}
@@ -284,6 +359,9 @@ margin-top:20px
 	}
 	.container {
 		width: 90%
+	}
+	.form-box {
+		width: 90%;
 	}
 }
 
