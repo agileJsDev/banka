@@ -67,7 +67,6 @@ header {
 .nav {
 	float: right;
 	margin-top: 8px;
-
 }
 
 .nav a, .mobile__top-nav a {
@@ -162,15 +161,11 @@ header {
 	margin: 10px auto 0;
 	}
 
-/* Home page Sign up now style */
+/* Homepage create account now style */
 .flex-horiz {
 	display :flex ;
 	justify-content: center;
 	margin-top: 40px;
-}
-
-.flex-horiz input {
-	margin-top: 5px
 }
 
 .flex-horiz h1 {
@@ -200,6 +195,7 @@ header {
 	position: absolute;
 	bottom:0;
 	width: 100%;
+	padding-top: 0
 }
 
 /* Mobile menu Style  --Start*/
@@ -288,12 +284,18 @@ margin-top:20px
 	overflow:hidden;
 }
 
+.reg__box {
+	height: 500px!important;
+	margin-top: 30px;
+	/* line-height: 5px */
+}
+
 .form {
   padding:10px;
   margin: 0 10px 10px 10px
 }
 
-input[type=email], input[type=password] {
+input[type=email], input[type=password], input[type=text] {
   width: 100%;
   padding: 15px 20px;
   margin: 8px 0;
@@ -301,10 +303,10 @@ input[type=email], input[type=password] {
   border: 1px solid #ccc;
   box-sizing: border-box;
   border-radius: 10px;
-  outline: none
+	outline: none
 }
 
-input[type=email]:focus, input[type=password]:focus {
+input[type=email]:focus, input[type=password]:focus, input[type=text]:focus {
   box-shadow: 0px 0px 3px #d67841
 }
 
@@ -326,11 +328,67 @@ button[type=submit]{
 }
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /* Media Queries */
 @media(max-width: 768px) {
 	.sticky__header {
 		position: sticky;
-    top: 0;
+		top: 0;
 	}
 	
 	.x-btn {
@@ -365,3 +423,9 @@ button[type=submit]{
 	}
 }
 
+@media screen and (max-width: 1024px) and (min-width: 769px) {
+	.form-box {
+		width: 50%;
+		margin-top: 100px
+	}
+}
