@@ -6,3 +6,4 @@ xBtn.addEventListener('click', () => {
 	mobileMenu.style.display === "block" ? mobileMenu.style.display = "none" : mobileMenu.style.display = "block";
 	xBtn.classList.toggle("change");
 });
+
