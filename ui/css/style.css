@@ -5,7 +5,7 @@
 }
 
 body {
-	font-family: Arial, Helvetica, sans-serif;
+	font-family: "Open Sans","Helvetica Neue",Helvetica,Arial,sans-serif;
   margin: 0;
   padding: 0;
   background-color:#D9D9D9;
@@ -43,7 +43,7 @@ main {
 
 /* Header Style */
 
-header {
+.main__header {
 	background: #9F4632;
 	color:#ffffff;
 	padding: 10px 0;
@@ -80,6 +80,24 @@ header {
 	background-color:#53181A;
 	font-weight: bold;
 	border-radius: 6px
+}
+
+.dropdown__active .sidenav {
+	display: block;
+	position: fixed;
+	top: 64px;
+	width: 100%;
+	animation-name: slide;
+	animation-duration: 0.1s;
+}
+
+@keyframes slide {
+	from {
+		margin-left: 100%;
+	}
+	to {
+		margin-left: 0;
+	}
 }
 
 .nav a:hover {
@@ -192,10 +210,7 @@ header {
 }
 
 #fixed__footer {
-	position: absolute;
-	bottom:0;
-	width: 100%;
-	padding-top: 0
+	margin-top: 20px
 }
 
 /* Mobile menu Style  --Start*/
@@ -287,7 +302,6 @@ margin-top:20px
 .reg__box {
 	height: 500px!important;
 	margin-top: 30px;
-	/* line-height: 5px */
 }
 
 .form {
@@ -295,7 +309,7 @@ margin-top:20px
   margin: 0 10px 10px 10px
 }
 
-input[type=email], input[type=password], input[type=text] {
+input[type=email], input[type=password], input[type=text], select {
   width: 100%;
   padding: 15px 20px;
   margin: 8px 0;
@@ -327,29 +341,119 @@ button[type=submit]{
    font-size: 15px;
 }
 
+/* Dashboard Grid Style */
+.grid-container {
+	display : grid;
+	grid-template-columns: 170px 1fr;
+	grid-template-rows: 1fr;
+	grid-template-areas: 
+		"sidenav main"
+		"sidenav main"
+		"sidenav main";
+	height: 91vh
+}
+
+.sidenav {
+	grid-area: sidenav;
+	background-color: #1e1f26;
+	display: flex;
+	flex-direction: column;
+	border-right: 1px dashed #444346
+}
 
 
+.main {
+	grid-area: main;
+}
+
+.grid__footer {
+	background-color: #EEEFEC;
+	bottom: 0;
+	right: 0;
+	position: fixed;
+	padding-right: 10px
+
+}
+
+.sidenav__list {
+	padding: 0;
+	list-style-type: none;
+	color: #fff;
+}
+
+.sidenav__item {
+	cursor: pointer;
+	font-weight: bold;
+	text-transform: uppercase;
+	border-bottom: #444346 dotted 1.5px;
+	font-size:15px
+}
+
+.sidenav__item:last-of-type {
+	border-bottom:#444346 solid 2px;
+}
+.sidenav__item:first-of-type {
+	border-top:#444346 solid 2px;
+	margin-top: -18px;
+}
+
+.sidenav__item:hover {
+	background-color: #000000;
+}
+
+.sidenav__item a {
+display: block;
+	padding: 20px 20px 20px 45px;
+	color: #ffffff;
+	text-decoration: none
+}
+.sidenav__item a:hover {
+	color: #daaa0c
+}
 
 
+.sidenav__profile {
+	display: flex;
+	min-height: 80px;
+	align-items: center;
+	background: #000000;
+	color: #ffffff;
+}
 
+.user__avatar {
+	background-image: url('../img/user.png');
+	background-repeat: no-repeat;
+	background-size: cover;
+	border-radius: 50%;
+	border: 1px dashed rgb(255, 255, 255);
+	height: 50px;
+	width: 50px;
+	margin: 0 15px 0 5px;
+}
 
+.dash-container {
+	width: 95%;
+	margin:auto;
+	overflow: hidden;
+}
 
+.main_overview {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
 
+.create__account-box {
+	width : 40%;
+	border-radius: 20px
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+.create__account-box__header span {
+	float: right;
+}
+.create__account-box__header {
+	text-align: center;
+}
 
 
 
@@ -387,8 +491,8 @@ button[type=submit]{
 /* Media Queries */
 @media(max-width: 768px) {
 	.sticky__header {
-		position: sticky;
-		top: 0;
+		position: fixed;
+		width: 100%;
 	}
 	
 	.x-btn {
@@ -400,7 +504,7 @@ button[type=submit]{
 	}
 
 	#board h1 {
-		margin-top: 50px;
+		margin-top: 80px;
 	}
 
 	.box{
@@ -421,11 +525,34 @@ button[type=submit]{
 	.form-box {
 		width: 90%;
 	}
+	.reg__box {
+		margin-top: 90px;
+	}
+
+	.grid-container {
+		display: grid;
+		grid-template-columns: 1fr;
+		grid-template-rows: 1fr 50px;
+		grid-template-areas:
+			"main",
+			"grid__footer";
+			height: 92vh
+	}
+
+		.sidenav {
+		display: none;
+	}
+
+	.create__account-box__header span {
+		float: none
+	}
 }
 
 @media screen and (max-width: 1024px) and (min-width: 769px) {
 	.form-box {
 		width: 50%;
-		margin-top: 100px
+		margin-top: 100px;
 	}
+
+
 }
