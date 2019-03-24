@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+		<meta name="description" content="A light-weight core banking application">
+		<meta name="keywords" content="banking app, light weight bank app, powerful bank application">
+		<link rel="stylesheet" href="./css/style.css">
+		<title>Banka</title>
+	</head>
+	<body>
+		<header class="main__header sticky__header">
+			<div class="dash-container">
+
+				<button class="x-btn">
+						<div id="bar1"></div>
+						<div id="bar2"></div>
+						<div id="bar3"></div>
+				</button>
+
+				<div id="branding">
+						<h1 ><a href="./index.html">Banka</a></h1>
+				</div>
+			
+				
+			</div>
+		</header>
+
+    <div class="grid-container">
+
+			<aside class="sidenav" >
+				<div class="sidenav__profile">
+					<div class="user__avatar"></div>
+					<div class="user__title">Ayodeji A</div>
+				</div>
+
+
+				<ul class="sidenav__list">
+				<li class="sidenav__item"><a href="profile.html">Profile</a></li>
+					<li class="sidenav__item"><a href="#">Logout</a></li>
+			
+				</ul>
+			</aside>
+			
+			<main class="main">
+				<div class="main_overview">
+						<div class="create__account-box reg__box form-box">
+							<div class="create__account-box__header">
+								<div>
+								<span>Welcome,   <strong class="user__title"> Ayodeji A</strong></span>
+								</div>
+								<div>
+										<h2><strong> Open Your Bank Account Online</strong></h2>
+								</div>
+							</div>
+								<div>
+									<form method="POST" action="./index.html" class="form" class="register">
+											
+												<input type="text" placeholder="Fisrt Name" name="firstname" required>
+												<input type="text" placeholder="Last Name" name="lastname" required>
+												<select required>
+													 <option value='' selected disabled>Select Account Type</option>
+													<option value="savings">Savings Account</option>
+													<option value="current">Current Account</option>
+												</select>
+		
+												
+												<button type="submit" class="btn">Sign Up</button>
+										</form>
+								</div>						
+						</div>
+				</div>
+			</main>
+			
+      
+		</div>
+		<footer class="grid__footer">
+				<div class="footer__copyright"> &copy; Banka&trade; 2019 </div>
+			</footer>
+		
+		<script type="text/javascript" src="js/main.js"></script>
+	</body>
+</html>
