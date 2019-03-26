@@ -5,7 +5,6 @@ const comfirmPasswordDom = document.querySelector("#confirm_password");
 const grid = document.querySelector(".grid-container");
 
 
-
 /* Mobile Menu Functionality*/
 xBtn.addEventListener('click', () => {
 	if ( mobileMenu) {
@@ -17,9 +16,6 @@ xBtn.addEventListener('click', () => {
 	xBtn.classList.toggle("change");
 });
 
-
-
-
 /* Front-end Password Confirmation */
 const confirmPassword = () => {
 	if ( passwordDOM.value === comfirmPasswordDom.value ) {
@@ -28,7 +24,7 @@ const confirmPassword = () => {
 		comfirmPasswordDom.setCustomValidity("Passwords don't match.");
 	}
 }
-
 if (passwordDOM) {
 	passwordDOM.oninput = confirmPassword;comfirmPasswordDom.oninput = confirmPassword;
 };
+
