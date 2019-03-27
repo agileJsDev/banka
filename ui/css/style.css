@@ -41,6 +41,19 @@ main {
 	outline: none
 }
 
+#account__type {
+	padding: 20px 20px 20px 7px;
+	color: #daaa0c;
+	text-align: center;
+	font-style: italic;
+	font-size: 12px;
+	cursor: auto
+}
+
+#account__type:hover {
+	background: none
+}
+
 /* Header Style */
 
 .main__header {
@@ -303,7 +316,7 @@ margin-top:20px
   margin: 0 10px 10px 10px
 }
 
-input[type=email], input[type=password], input[type=text], select {
+input[type=email], input[type=password], input[type=text], select, input[type=number] {
   width: 100%;
   padding: 15px 20px;
   margin: 8px 0;
@@ -314,8 +327,9 @@ input[type=email], input[type=password], input[type=text], select {
 	outline: none
 }
 
-input[type=email]:focus, input[type=password]:focus, input[type=text]:focus {
-  box-shadow: 0px 0px 3px #d67841
+input[type=email]:focus, input[type=password]:focus, input[type=text]:focus, input[type=text]:focus{
+	box-shadow: 0px 0px 3px #d67841;
+	
 }
 
 button[type=submit]{
@@ -643,6 +657,61 @@ button[type=submit]{
 	box-shadow: 0 4px 8px 0 rgba(48, 45, 45, 0.4)
  }
 
+/* Bank Account Update Page Style  */
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+	margin: 0;
+}
+
+.update__amount {
+	display: flex;
+	justify-content: space-between;
+}
+
+.update__amount .btn {
+	width: 20%
+}
+
+#credit__btn {
+	background: rgb(13, 87, 13)
+}
+
+#debit__btn {
+	background: rgb(235, 8, 8)
+}
+
+::-webkit-input-placeholder {
+	color:#000000;
+	font-size:16px ;
+	font-style: italic;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -667,7 +736,7 @@ body .hidden{
 	align-items: center;
 }
 .divi h1:first-of-type {
-border-bottom: 3px solid #7A2326;
+border-bottom: 3px dotted #918F8D;
 text-align: center
 }
 .divi h1:last-of-type {
@@ -696,8 +765,8 @@ text-align: center
   background-color: rgba(0,0,0,0.2);  
 }
 
-.transac__dialog-content {
-	background-color: #cfcbc8;
+.dialog__content {
+	background-color: #F7F1F1;
 	margin: 10% auto;
 	padding: 20px;
 	width: 40%;
@@ -708,9 +777,6 @@ text-align: center
 	animation-duration: 0.5s;
 	box-shadow: 0 5px 8px 0 rgba(26, 24, 24, 0.5)
 } 
-.transac__dialog-content .close{
-	display: inline-block
-}
 
 /* modal button  */ 
 .close {
@@ -721,7 +787,7 @@ text-align: center
 }
 
 .close:hover, .close:focus {
-	color: #daaa0c;
+	color: #7A2326;
 	text-decoration: none;
   cursor: pointer;
 }
@@ -812,7 +878,7 @@ text-align: center
 	.transac__section .row__amount{
 		width: 7%
 	}
-	.transac__dialog-content {
+	.dialog__content {
 	
 		margin: 30% auto;
 		width: 80%;
