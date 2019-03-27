@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta http-equiv="X-UA-Compatible" content="ie=edge">
+		<meta name="description" content="A light-weight core banking application">
+		<meta name="keywords" content="banking app, light weight bank app, powerful bank application">
+		<link rel="stylesheet" href="./css/style.css">
+		<title>Update Account | Banka</title>
+	</head>
+	<body>
+		<header class="main__header sticky__header">
+			<div class="dash-container">
+
+				<button class="x-btn">
+						<div id="bar1"></div>
+						<div id="bar2"></div>
+						<div id="bar3"></div>
+          </button>
+          <div class="dialog">
+              <div class="dialog__content">
+                  <span class="close">&times;</span>
+                  <div class="divi">
+                  </div>
+              </div>
+          </div> 
+
+				<div id="branding">
+						<h1 ><a href="./index.html">Banka</a></h1>
+				</div>
+			
+				
+			</div>
+		</header>
+
+    <div class="grid-container">
+
+			<aside class="sidenav" >
+				<div class="sidenav__profile">
+					<div class="user__avatar"></div>
+					<div class="user__title">John Doe</div>
+				</div>
+
+
+				<ul class="sidenav__list">
+            <li class="sidenav__item" id="account__type">Staff A/C</li>
+            <li class="sidenav__item"><a href="#">Bank Accounts</a></li>
+					<li class="sidenav__item"><a href="#">Logout</a></li>
+			
+				</ul>
+			</aside>
+			
+			<main class="main">
+            <div class="transac__section">
+                <div class="card__header">
+                    <h3>Update Account</h3>
+                  </div>
+               <div id="account__update-form">
+                <form method="POST" action="./index.html" class="form" class="account__update">
+                  <input type="number" placeholder="Enter Account Number" name="account__number" required>
+                  <input type="text" placeholder="Account Name  (Auto-fill)" name="autofill" readonly>
+                  <input type="text" placeholder="Enter Description" name="description" required>
+                  <input type="number" placeholder="NGN Amount" name="amount" required>
+                  <input type="text" placeholder="Account Balance - N 50, 450" name="balance" class="account__balance"readonly>
+                  <div class="update__amount">
+                    <button type="submit" class="btn" id="credit__btn">Credit</button>
+                    <button type="submit" class="btn" id="debit__btn">Debit</button>
+                  </div>
+                </form>
+               </div>
+              </div>
+			</main>
+			
+      
+		</div>
+		<footer class="grid__footer">
+				<div class="footer__copyright"> &copy; Banka&trade; 2019 </div>
+			</footer>
+		
+		<script type="text/javascript" src="js/main.js"></script>
+	</body>
+</html>
