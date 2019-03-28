@@ -656,6 +656,10 @@ button[type="submit"] {
   width: 9%;
 }
 
+.row__status {
+  width: 20%;
+}
+
 .view_details button {
   width: 100%;
   background: #53181a;
@@ -689,11 +693,13 @@ input[type="number"]::-webkit-outer-spin-button {
   width: 20%;
 }
 
-#credit__btn {
+#credit__btn,
+.activate__btn {
   background: rgb(13, 87, 13);
 }
 
-#debit__btn {
+#debit__btn,
+.d_activate__btn {
   background: rgb(235, 8, 8);
 }
 
@@ -710,6 +716,34 @@ input[type="number"]::-webkit-outer-spin-button {
   margin: 5px 15px;
   color: #1e1f26;
 }
+
+/* Users Page Style */
+.row__actions {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.activate__btn,
+.d_activate__btn {
+  padding: 5px 20px;
+  color: white;
+  border: none;
+  outline: none;
+  border-radius: 5px;
+  text-transform: uppercase;
+  margin: 3px
+}
+
+.activate__btn:hover,
+.d_activate__btn:hover {
+  background: #9f4632;
+}
+
+
+
+
+
+
 
 /* Taost message Style */
 .toast__success,
@@ -901,6 +935,14 @@ body .hidden {
   .toast__fail {
     width: 90%;
   }
+  .row__actions {
+    display: flex;
+    flex-direction: column;
+    align-items: center
+  }
+  .col__name, .col__status {
+    width: 33.3%
+  }
 }
 
 @media screen and (max-width: 1024px) and (min-width: 769px) {
@@ -950,6 +992,8 @@ body .hidden {
   }
 }
 
+/* Loading Animation Style */
+
 .loading,
 .check--btn[disabled].loading {
   background-image: linear-gradient(
@@ -968,7 +1012,9 @@ body .hidden {
   background-position: 4000000px;
 }
 
-.btn[disabled] {
+.btn[disabled],
+.activate__btn[disabled],
+.d_activate__btn[disabled] {
   background-color: #e2e2e2;
   color: #bbb;
 }
