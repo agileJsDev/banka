@@ -566,18 +566,6 @@ button[type="submit"] {
   white-space: nowrap;
 }
 
-.row__date {
-  width: 25%;
-}
-
-.row__narrative {
-  width: 60%;
-}
-
-.row__amount {
-  width: 20%;
-}
-
 .table td {
   white-space: nowrap;
   overflow: hidden;
@@ -656,9 +644,7 @@ button[type="submit"] {
   width: 9%;
 }
 
-.row__status {
-  width: 20%;
-}
+
 
 .view_details button {
   width: 100%;
@@ -738,6 +724,37 @@ input[type="number"]::-webkit-outer-spin-button {
 .d_activate__btn:hover {
   background: #9f4632;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -909,39 +926,37 @@ body .hidden {
   #table__mobile-adj {
     padding: 0 0 20px 0;
   }
-  #row__monile-adj {
+  /* #row__monile-adj {
     width: 24%;
-  }
+  } */
   .box__section,
   #box__reduced_margin {
     margin: 80px 3px 10px 3px;
   }
-  .box__section .row__date {
-    width: 8%;
-  }
-  .box__section #row__monile-adj {
-    width: 10%;
-  }
-  .box__section .row__amount {
-    width: 7%;
-  }
+ 
   .dialog__content {
     margin: 30% auto;
     width: 312px;
     height: 325px;
+    overflow:hidden;
+    text-overflow: ellipsis;
   }
 
   .toast__success,
   .toast__fail {
     width: 90%;
   }
-  .row__actions {
+
+  .table__head, .table__row{
     display: flex;
     flex-direction: column;
+    margin-top: 10px;
     align-items: center
   }
-  .col__name, .col__status {
-    width: 33.3%
+  
+  .table__head th {
+    width: 100%;
+    text-align: center
   }
 }
 
