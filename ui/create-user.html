@@ -8,7 +8,7 @@
 	<meta name="description" content="A light-weight core banking application">
 	<meta name="keywords" content="banking app, light weight bank app, powerful bank application">
 	<link rel="stylesheet" href="./css/style.css">
-	<title>Update Account | Banka</title>
+	<title>Create User Account | Banka</title>
 </head>
 
 <body>
@@ -20,7 +20,6 @@
 				<div id="bar2"></div>
 				<div id="bar3"></div>
 			</button>
-
 			<div class="dialog">
 				<div class="dialog__content">
 					<span class="close">&times;</span>
@@ -32,6 +31,8 @@
 			<div id="branding">
 				<h1><a href="./index.html">Banka</a></h1>
 			</div>
+
+
 		</div>
 	</header>
 
@@ -45,7 +46,7 @@
 
 
 			<ul class="sidenav__list">
-				<li class="sidenav__item" id="account__type">Staff A/C</li>
+				<li class="sidenav__item" id="account__type">Admin A/C</li>
 				<li class="sidenav__item"><a href="#">Bank Accounts</a></li>
 				<li class="sidenav__item"><a href="#">Logout</a></li>
 
@@ -55,25 +56,29 @@
 		<main class="main">
 			<div class="box__section" id="box__reduced_margin">
 				<div class="card__header">
-					<h3>Update Account</h3>
+					<h3>Create Staff/Admin Account</h3>
 				</div>
-				<div id="account__update-form">
-					<form method="POST" action="./index.html" class="form" class="account__update">
-						<input type="number" placeholder="Enter Account Number" name="account__number" required>
-						<input type="text" placeholder="Account Name  (Auto-fill)" name="autofill" readonly>
-						<input type="text" placeholder="Account Balance - N 50, 450" name="balance" class="account__balance"
-							readonly>
-						<input type="text" placeholder="Enter Description" name="description" required>
-						<input type="number" placeholder="NGN Amount" name="amount" required>
-						
-						<div class="update__amount">
-							<button type="submit" class="btn" id="credit__btn">Credit</button>
-							<button type="submit" class="btn" id="debit__btn">Debit</button>
-						</div>
+				<div id="create__user-form">
+					<form class="form" class="account__update">
+						<input type="email" placeholder="User Eamil Address" name="email" required>
+						<input type="text" placeholder="User Fisrt Name" name="firstname" required>
+						<input type="text" placeholder=" User Last Name" name="lastname" required>
+						<select required>
+							<option value='' selected disabled>Select User Role</option>
+							<option value="admin">Admin</option>
+							<option value="staff">Staff</option>
+						</select>
+						<p id="new__user__message">Default Password is '1234'. New User Should Change Password After First Login!
+						</p>
+
+
+						<button type="submit" class="btn work--btn">Create User Account</button>
 					</form>
 				</div>
 			</div>
 		</main>
+
+
 	</div>
 	<footer class="grid__footer">
 		<div class="footer__copyright"> &copy; Banka&trade; 2019 </div>

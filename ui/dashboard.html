@@ -1,126 +1,129 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<meta http-equiv="X-UA-Compatible" content="ie=edge">
-		<meta name="description" content="A light-weight core banking application">
-		<meta name="keywords" content="banking app, light weight bank app, powerful bank application">
-		<link rel="stylesheet" href="./css/style.css">
-		<title>Dashboard | Banka</title>
-	</head>
-	<body>
-		<header class="main__header sticky__header">
-			<div class="dash-container">
 
-				<button class="x-btn">
-						<div id="bar1"></div>
-						<div id="bar2"></div>
-						<div id="bar3"></div>
-				</button>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta name="description" content="A light-weight core banking application">
+  <meta name="keywords" content="banking app, light weight bank app, powerful bank application">
+  <link rel="stylesheet" href="./css/style.css">
+  <title>Dashboard | Banka</title>
+</head>
 
-				<div id="branding">
-						<h1 ><a href="./index.html">Banka</a></h1>
-				</div>
-			
-				
-			</div>
-		</header>
+<body>
+  <header class="main__header sticky__header">
+    <div class="dash-container">
 
-    <div class="grid-container">
+      <button class="x-btn">
+        <div id="bar1"></div>
+        <div id="bar2"></div>
+        <div id="bar3"></div>
+      </button>
 
-			<aside class="sidenav" >
-				<div class="sidenav__profile">
-					<div class="user__avatar"></div>
-					<div class="user__title">Ayodeji A</div>
-				</div>
+      <div id="branding">
+        <h1><a href="./index.html">Banka</a></h1>
+      </div>
 
 
-				<ul class="sidenav__list">
-				  <li class="sidenav__item"><a href="./transactions.html">Transactions</a></li>
-					<li class="sidenav__item"><a href="#">Logout</a></li>
-			
-				</ul>
-			</aside>
-			
-			<main class="main">
-			
-						<div class="main__cards">
-              <div class="card">
-                <div class="card__header">
-                  <h3>Account Infomation</h3>
-                </div>
-                <div class="card__info">
-                    <div class="user__avatar"></div>
-                    <span> Account Name</span>              
-                      <div id="user__info"class="acct__name">Ayodeji  Afolabi
-                      </div>
-                      <span> Account Number</span>              
-                      <div id="user__info" class="acct__numb"> 0053637642
-                      </div>
-                      <span> Account Type</span>              
-                      <div id="user__info" class="acct__type"> Savings
-                      </div>
-                      <span> Created On</span>              
-                      <div id="user__info" class="acct__date"> 28 February, 2019
-                      </div>
-                </div>
-                <div class="card__footer">
-                 
-                    <Span> Enable Email Notifications: <input type="checkbox" class="email"></span>
-                </div>
-            </div>
-            <div class="card">
-              <div class="card__header">
-                <h3>Main Balance</h3>
-              </div>
-              <div class="card__info">
-                <div class="balance">&#8358; 58,000.54</div>
-              </div>
+    </div>
+  </header>
+
+  <div class="grid-container">
+
+    <aside class="sidenav">
+      <div class="sidenav__profile">
+        <div class="user__avatar"></div>
+        <div class="user__title">Ayodeji A</div>
+      </div>
+
+
+      <ul class="sidenav__list">
+        <li class="sidenav__item"><a href="./transactions.html">Transactions</a></li>
+        <li class="sidenav__item"><a href="#">Logout</a></li>
+
+      </ul>
+    </aside>
+
+    <main class="main">
+
+      <div class="main__cards">
+        <div class="card">
+          <div class="card__header">
+            <h3>Account Infomation</h3>
           </div>
-            <div class="card">
-                <div class="card__header">
-                    <h3>Recent Transactions</h3>
-                  </div>
-                  <div class="card__info" id="table__mobile-adj">
-                    <table class="table">
-                      <tr class="table__head">
-                        <th class="row__date">Date</th>
-                        <th class="row__narrative" id="row__monile-adj">Narrative</th>
-                        <th class="row__amount"> NGN </th>
-                      </tr>
-                      <tr class="table__row">
-                          <td class="transac_date"> 31 Apr., 2019 </td>
-                          <td class="transac_details" > Cash Deposit //Lagos Branch </td>
-                          <td class="transac_amount" id="credit_amt">5000</td>
-                      </tr>
-                      <tr class="table__row">
-                          <td class="transac_date">13 Mar., 2018</td>
-                          <td class="transac_details" >Caash Deposit //Lagos_Branch</td>
-                          <td class="transac_amount" id="credit_amt">5000</td>
-                      </tr>
-                      <tr class="table__row">
-                          <td class="transac_date">12 Mar., 2018</td>
-                          <td class="transac_details" >Cash Withdrawal //Lagos_Branch</td>
-                          <td class="transac_amount" id="debit_amt">500</td>
-                      </tr>
-                      <tr class="table__row">
-                          <td class="transac_date">11 Jan., 2018</td>
-                          <td class="transac_details" >Cash Withdrawal //Lagos_Branch</td>
-                          <td class="transac_amount" id="debit_amt">1000</td>
-                      </tr>
-                    </table>
-                    <div id="view__all"><a href="./transactions.html" >View All</a></div>
-                  </div>
-              </div>
-			</main>
-			
-      
-		</div>
-		<footer class="grid__footer">
-				<div class="footer__copyright"> &copy; Banka&trade; 2019 </div>
-			</footer>
-		
-		<script type="text/javascript" src="js/main.js"></script>
-	</body>
+          <div class="card__info">
+            <div class="user__avatar"></div>
+            <span> Account Name</span>
+            <div id="user__info" class="acct__name">Ayodeji Afolabi
+            </div>
+            <span> Account Number</span>
+            <div id="user__info" class="acct__numb"> 0053637642
+            </div>
+            <span> Account Type</span>
+            <div id="user__info" class="acct__type"> Savings
+            </div>
+            <span> Created On</span>
+            <div id="user__info" class="acct__date"> 28 February, 2019
+            </div>
+          </div>
+          <div class="card__footer">
+
+            <Span> Enable Email Notifications: <input type="checkbox" class="email"></span>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card__header">
+            <h3>Main Balance</h3>
+          </div>
+          <div class="card__info">
+            <div class="balance">&#8358; 58,000.54</div>
+          </div>
+        </div>
+        <div class="card">
+          <div class="card__header">
+            <h3>Recent Transactions</h3>
+          </div>
+          <div class="card__info" id="table__mobile-adj">
+            <table class="table">
+              <tr class="table__head">
+                <th class="row__date">Date</th>
+                <th class="row__narrative" id="row__monile-adj">Narrative</th>
+                <th class="row__amount"> NGN </th>
+              </tr>
+              <tr class="table__row">
+                <td class="transac_date"> 31 Apr., 2019 </td>
+                <td class="transac_details"> Cash Deposit //Lagos Branch </td>
+                <td class="transac_amount" id="credit_amt">5000</td>
+              </tr>
+              <tr class="table__row">
+                <td class="transac_date">13 Mar., 2018</td>
+                <td class="transac_details">Caash Deposit //Lagos_Branch</td>
+                <td class="transac_amount" id="credit_amt">5000</td>
+              </tr>
+              <tr class="table__row">
+                <td class="transac_date">12 Mar., 2018</td>
+                <td class="transac_details">Cash Withdrawal //Lagos_Branch</td>
+                <td class="transac_amount" id="debit_amt">500</td>
+              </tr>
+              <tr class="table__row">
+                <td class="transac_date">11 Jan., 2018</td>
+                <td class="transac_details">Cash Withdrawal //Lagos_Branch</td>
+                <td class="transac_amount" id="debit_amt">1000</td>
+              </tr>
+            </table>
+            <div id="view__all"><a href="./transactions.html">View All</a></div>
+          </div>
+        </div>
+    </main>
+
+
+  </div>
+  <footer class="grid__footer">
+    <div class="footer__copyright"> &copy; Banka&trade; 2019 </div>
+  </footer>
+
+  <script type="text/javascript" src="js/main.js"></script>
+</body>
+
 </html>
