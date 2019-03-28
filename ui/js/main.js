@@ -90,7 +90,8 @@ const getTransactionDetails = () => {
 
 const workBtn = document.querySelector('.work--btn')
 if (workBtn) {
-	workBtn.addEventListener('click', () => {
+	workBtn.addEventListener('click', (event) => {
+		event.preventDefault();
 		const loadEr = (button, callback) => {
 			button.disabled = true
 			button.classList.add('loading');
