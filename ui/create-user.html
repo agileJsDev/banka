@@ -46,10 +46,11 @@
 
 
 			<ul class="sidenav__list">
-				<li class="sidenav__item" id="account__type">Admin A/C</li>
-				<li class="sidenav__item"><a href="#">Bank Accounts</a></li>
-				<li class="sidenav__item"><a href="./users.html">Users</a></li>
-				<li class="sidenav__item"><a href="#">Logout</a></li>
+					<li class="sidenav__item" id="account__type">Admin/Staff A/C</li>
+					<li class="sidenav__item"><a href="./bank-accounts.html">Bank Accounts</a></li>
+					<li class="sidenav__item"><a href="./account-update.html">Debit/Credit Account</a></li>
+					<li class="sidenav__item"><a href="./users.html">Users</a></li>
+					<li class="sidenav__item"><a href="#">Logout</a></li>
 
 			</ul>
 		</aside>
@@ -60,7 +61,7 @@
 					<h3>Create Staff/Admin Account</h3>
 				</div>
 				<div id="create__user-form">
-					<form method="GET" class="form" class="account__update">
+					<form method="GET" class="form" id="create__user__form">
 						<input type="email" placeholder="User Eamil Address" name="email" required>
 						<input type="text" placeholder="User Fisrt Name" name="firstname" required>
 						<input type="text" placeholder=" User Last Name" name="lastname" required>
@@ -73,7 +74,7 @@
 						</p>
 
 
-						<button type="submit" class="btn work--btn">Create User Account</button>
+						<button type="submit" class="btn">Create User Account</button>
 					</form>
 				</div>
 			</div>
