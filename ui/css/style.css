@@ -84,7 +84,7 @@ main {
 }
 
 .nav a,
-.mobile__top-nav a {
+.mobile__top-nav a, .card__footer a{
   font-size: 17px;
   color: #ffffff;
   text-decoration: none;
@@ -106,7 +106,7 @@ main {
   animation-duration: 0.1s;
 }
 
-.nav a:hover {
+.nav a:hover, .card__footer a:hover {
   background-color: #000000;
   border-radius: 6px;
 }

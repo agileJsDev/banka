@@ -2,6 +2,7 @@ const loginForm = document.querySelector("#login__form");
 const registerForm = document.querySelector('#register__form');
 const bankAccountForm = document.querySelector('#bank__account__form');
 const userAccountForm = document.querySelector('#create__user__form');
+const resetPasswordForm = document.querySelector('#reset__password');
 const formButton = document.querySelector(".form .btn");
 const xBtn = document.querySelector(".x-btn");
 const mobileMenu = document.querySelector(".mobile__top-nav");
@@ -116,7 +117,9 @@ const deleteBankAccount = () => {
 getTransactionDetails();
 if (registerForm) registerForm.addEventListener('submit', signInSample);
 if (loginForm) loginForm.addEventListener('submit', signInSample);
+if (bankAccountForm) bankAccountForm.addEventListener('submit', signInSample);
 if (deleteAccount) deleteAccount.addEventListener('click', deleteBankAccount);
+if (resetPasswordForm) resetPasswordForm.addEventListener('submit', signInSample);
 if (passwordDOM) {
 	passwordDOM.oninput = confirmPassword;
 	comfirmPasswordDom.oninput = confirmPassword;
