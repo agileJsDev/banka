@@ -1,9 +1,15 @@
+const loginForm = document.querySelector("#login__form");
+const registerForm = document.querySelector('#register__form');
+const bankAccountForm = document.querySelector('#bank__account__form');
+const userAccountForm = document.querySelector('#create__user__form');
+const formButton = document.querySelector(".form .btn");
 const xBtn = document.querySelector(".x-btn");
 const mobileMenu = document.querySelector(".mobile__top-nav");
 const passwordDOM = document.querySelector("#password");
 const comfirmPasswordDom = document.querySelector("#confirm_password");
 const grid = document.querySelector(".grid-container");
 const divi = document.querySelector(".divi");
+const deleteAccount = document.querySelector('.delete__account')
 
 const createNode = (element, content) => {
 	const el = document.createElement(element);
@@ -12,6 +18,30 @@ const createNode = (element, content) => {
 };
 
 const appendTo = (parent, child) => parent.appendChild(child);
+
+const modal = (parentDiv) => {
+	const dialog = document.querySelector(".dialog");
+	const close = document.querySelector(".close");
+	dialog.classList.add("hidden");
+	const arry = [close, dialog];
+	arry.forEach(dom => {
+		dom.addEventListener("click", () => {
+			dialog.classList.remove("hidden");
+			while (parentDiv.firstChild) {
+				parentDiv.removeChild(parentDiv.firstChild);
+			}
+		});
+	});
+}
+
+const toast = (className, msg) => {
+	const divToast = createNode('div', msg);
+	divToast.className = className;
+	document.body.appendChild(divToast)
+	setTimeout(() => document.body.removeChild(divToast), 4000)
+}
+const toastSuccess = 'toast__success';
+const toastFail = 'toast__fail';
 
 /* Mobile Menu Functionality*/
 xBtn.addEventListener("click", () => {
@@ -34,35 +64,6 @@ const confirmPassword = () => {
 		comfirmPasswordDom.setCustomValidity("Passwords don't match.");
 	}
 };
-if (passwordDOM) {
-	passwordDOM.oninput = confirmPassword;
-	comfirmPasswordDom.oninput = confirmPassword;
-}
-
-class Dialog {
-	modal(parentDiv) {
-		const dialog = document.querySelector(".dialog");
-		const close = document.querySelector(".close");
-
-		dialog.classList.add("hidden");
-		const arry = [close, dialog];
-		arry.forEach(dom => {
-			dom.addEventListener("click", () => {
-				dialog.classList.remove("hidden");
-				while (parentDiv.firstChild) {
-					parentDiv.removeChild(parentDiv.firstChild);
-				}
-			});
-		});
-	}
-
-	toast(className, msg) {
-		const divToast = createNode('div', msg);
-		divToast.className = className;
-		document.body.appendChild(divToast)
-		setTimeout(() => document.body.removeChild(divToast), 5000)
-	}
-}
 
 const getTransactionDetails = () => {
 	const viewDetailsBtnDOM = document.querySelectorAll(".view__btn");
@@ -82,35 +83,45 @@ const getTransactionDetails = () => {
 			appendTo(parentNode, para);
 			appendTo(parentNode, amountTag);
 			divi.appendChild(parentNode);
-			const dialog = new Dialog();
-			dialog.modal(divi);
+			modal(divi);
 		});
 	});
 };
 
-const workBtn = document.querySelector('.work--btn')
-if (workBtn) {
-	workBtn.addEventListener('click', (event) => {
-		event.preventDefault();
-		const loadEr = (button, callback) => {
-			button.disabled = true
-			button.classList.add('loading');
-			setTimeout(() => {
-				button.disabled = false
-				button.classList.remove('loading')
-				callback()
-			}, 3000);
-		};
+// const workBtn = document.querySelector('.work--btn')
+const signInSample = (e) => {
+	e.preventDefault();
+	const loadR = (button, callback) => {
+		button.disabled = true
+		button.classList.add('loading');
+		setTimeout(() => {
+			button.disabled = false
+			button.classList.remove('loading')
+			callback()
+		}, 3000);
+	};
 
-		loadEr(workBtn, () => {
-			const to = new Dialog();
-			to.toast('toast__success', `Success Dialog. Simply giving a feedback to user.`)
-		})
+	loadR(formButton, () => {
+		toast(toastSuccess, `Success Dialog. Simply giving a feedback to user.`)
 	})
 };
 
+const deleteBankAccount = () => {
+	const res = prompt('Are you sure you want this account deleted? Enter your password to confirm: ');
+	if (res) toast(toastSuccess, `Success Dialog. Simply giving feedback to user.`);
+	if (!res) toast(toastFail, `Failed Dialog. Simply giving feedback to user.`)
+}
+
 
 getTransactionDetails();
+if (registerForm) registerForm.addEventListener('submit', signInSample);
+if (loginForm) loginForm.addEventListener('submit', signInSample);
+if (deleteAccount) deleteAccount.addEventListener('click', deleteBankAccount);
+if (passwordDOM) {
+	passwordDOM.oninput = confirmPassword;
+	comfirmPasswordDom.oninput = confirmPassword;
+}
+
 
 
 

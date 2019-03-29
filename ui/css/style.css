@@ -27,14 +27,14 @@ main {
   height: 50px;
   border-radius: 10px;
   border: none;
-  background-color: #53181a;
+  background-color: #383A47;
   color: #ffffff;
   font-weight: 700;
   font-size: 17px;
 }
 
 .btn:hover {
-  background-color: #9f4632;
+  background-color: #000000;
   cursor: pointer;
 }
 
@@ -58,7 +58,7 @@ main {
 /* Header Style */
 
 .main__header {
-  background: #9f4632;
+  background: #383A47;
   color: #ffffff;
   padding: 10px 0;
   min-height: 50px;
@@ -92,7 +92,7 @@ main {
 }
 
 .active {
-  background-color: #53181a;
+  background-color: #000000;
   font-weight: bold;
   border-radius: 6px;
 }
@@ -100,14 +100,14 @@ main {
 .dropdown__active .sidenav {
   display: block;
   position: fixed;
-  top: 64px;
+  top: 62px;
   width: 100%;
   animation-name: slide;
   animation-duration: 0.1s;
 }
 
 .nav a:hover {
-  background-color: #53181a;
+  background-color: #000000;
   border-radius: 6px;
 }
 
@@ -181,7 +181,7 @@ main {
   content: "";
   height: 3px;
   width: 10%;
-  background: #7a2326;
+  background: #000000;
   display: block;
   margin: 10px auto 0;
 }
@@ -222,8 +222,8 @@ main {
 
 /* Mobile menu Style  --Start*/
 .x-btn {
-  background-color: #9f4632;
-  border: 1px #ffffff solid;
+  background-color: #383A47;
+  border: 0.2px #ffffff solid;
   float: right;
   display: none;
 }
@@ -231,7 +231,7 @@ main {
 .x-btn div {
   width: 35px;
   height: 5px;
-  background-color: #53181a;
+  background-color: #000000;
   margin: 6px 0;
   transition: 0.2s;
 }
@@ -263,6 +263,8 @@ main {
 
 /* Mobile menu Style  --end*/
 
+
+
 /* Mobile Top Nav Style */
 .mobile__top-nav {
   border-top: 1px #fff solid;
@@ -282,7 +284,7 @@ main {
 }
 
 .mobile__top-nav a:hover {
-  background-color: #53181a;
+  background-color: #000000;
 }
 
 /* FORM */
@@ -646,7 +648,7 @@ button[type="submit"] {
 
 
 
-.view_details button {
+.view_details button, .go__to__account__page button {
   width: 100%;
   background: #53181a;
   outline: none;
@@ -657,7 +659,7 @@ button[type="submit"] {
   color: #fff;
 }
 
-.view_details button:hover {
+.view_details button:hover, .go__to__account__page button:hover {
   background-color: #9f4632;
   cursor: pointer;
   box-shadow: 0 4px 8px 0 rgba(48, 45, 45, 0.4);
@@ -725,10 +727,18 @@ input[type="number"]::-webkit-outer-spin-button {
   background: #9f4632;
 }
 
+/* Individual Bank Account Page Style */
+.view_details a {
+  border-radius: 3px;
+  padding: 5px;
+  cursor: pointer;
+  color: #fff;
+}
 
-
-
-
+.card__footer.delete__account {
+  background: rgb(187, 9, 9);
+  cursor: pointer
+}
 
 
 
@@ -957,6 +967,10 @@ body .hidden {
   .table__head th {
     width: 100%;
     text-align: center
+  }
+
+  .card:nth-child(3) {
+    height: 1%;
   }
 }
 
