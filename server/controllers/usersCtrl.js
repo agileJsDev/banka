@@ -29,6 +29,35 @@ class UsersCtrl {
     }
   }
 
+  static async logIn(req, res, next) {
+    try {
+      const data = req.body;
+
+      const user = await _.cloneDeep(userModel.findEmail(data.email));
+      if (!user) {
+        return res.status(404).json({
+          status: res.statusCode,
+          error: 'No Associated Account with this Email'
+        });
+      }
+      const isPasswordValid = await bcrypt.compare(data.password, user.password);
+      if (!isPasswordValid) {
+        return res.status(401).json({
+          status: res.statusCode,
+          error: 'Invalid Email or Password'
+        });
+      }
+
+      user.token = jwt.sign({ id: user.id, type: user.type, isAdmin: user.isAdmin }, config.get('jwtPrivateKey'));
+      return res.status(200).json({
+        status: res.statusCode,
+        data: _.pick(user, ['token', 'id', 'firstName', 'lastName', 'email'])
+      });
+    } catch (err) {
+      return next(err);
+    }
+  }
+
   static getUsers(req, res) {
     const users = userModel.findAll();
     return res.status(200).send(users);

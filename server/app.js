@@ -1,13 +1,9 @@
-import config from 'config';
 import express from 'express';
 import router from './routes';
 import errorHandler from './helpers/error';
+import config from './startup/config';
 
-// Configuration
-if (!config.get('jwtPrivateKey')) {
-  console.error('FATAL ERROR: jwtPrivateKey is not defined');
-  process.exit(1);
-}
+config();
 
 const app = express();
 app.use(express.json());
