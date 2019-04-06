@@ -1,5 +1,3 @@
-import config from 'config';
-import jwt from 'jsonwebtoken';
 import _ from 'lodash';
 import bcrypt from 'bcrypt';
 import userModel from '../models/users';
@@ -18,12 +16,11 @@ class UsersCtrl {
       }
       data.password = await bcrypt.hash(data.password, 10);
       const user = _.cloneDeep(userModel.create(data));
-      user.token = jwt.sign({ id: user.id, type: user.type, isAdmin: user.isAdmin }, config.get('jwtPrivateKey'));
-      return res.status(201).header('x-auth-token', user.token)
-        .json({
-          status: res.statusCode,
-          data: _.pick(user, ['token', 'id', 'firstName', 'lastName', 'email', 'type', 'createdDate'])
-        });
+      user.token = userModel.generateAuthToken(user);
+      return res.status(201).json({
+        status: res.statusCode,
+        data: _.pick(user, ['token', 'id', 'firstName', 'lastName', 'email', 'type', 'createdDate'])
+      });
     } catch (err) {
       return next(err);
     }
@@ -48,7 +45,7 @@ class UsersCtrl {
         });
       }
 
-      user.token = jwt.sign({ id: user.id, type: user.type, isAdmin: user.isAdmin }, config.get('jwtPrivateKey'));
+      user.token = userModel.generateAuthToken(user);
       return res.status(200).json({
         status: res.statusCode,
         data: _.pick(user, ['token', 'id', 'firstName', 'lastName', 'email'])
