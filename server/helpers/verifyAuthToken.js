@@ -1,8 +1,8 @@
 import jwt from 'jsonwebtoken';
 import config from 'config';
 
-const auth = (req, res, next) => {
-  const token = req.header('x-auth-token');
+const checkAuthToken = (req, res, next) => {
+  let token = req.headers['x-access-token'] || req.headers.authorization;
   if (!token) {
     res.status(401).json({
       status: res.statusCode,
@@ -11,6 +11,7 @@ const auth = (req, res, next) => {
     return;
   }
   try {
+    if (token.startsWith('Bearer ')) token = token.slice(7, token.length);
     const decoded = jwt.verify(token, config.get('jwtPrivateKey'));
     req.user = decoded;
     next();
@@ -22,4 +23,4 @@ const auth = (req, res, next) => {
   }
 };
 
-export default auth;
+export default checkAuthToken;

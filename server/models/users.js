@@ -1,5 +1,7 @@
 import uuid from 'uuid';
 import moment from 'moment';
+import config from 'config';
+import jwt from 'jsonwebtoken';
 
 class Users {
   constructor() {
@@ -40,6 +42,14 @@ class Users {
     this.users[index].token = data.token;
     this.users[index].modifiedDate = moment.now();
     return this.users[index];
+  }
+
+  generateAuthToken(user) {
+    this.token = jwt.sign(
+      { id: user.id, type: user.type, isAdmin: user.isAdmin },
+      config.get('jwtPrivateKey')
+    );
+    return this.token;
   }
 }
 
