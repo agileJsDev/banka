@@ -3,6 +3,7 @@ import config from 'config';
 
 const checkAuthToken = (req, res, next) => {
   let token = req.headers['x-access-token'] || req.headers.authorization;
+
   if (!token) {
     res.status(401).json({
       status: res.statusCode,

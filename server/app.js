@@ -1,7 +1,7 @@
 import express from 'express';
-import router from './server/routes';
-import errorHandler from './server/helpers/error';
-import config from './server/startup/config';
+import router from './routes';
+import errorHandler from './helpers/error';
+import config from './startup/config';
 
 config();
 
