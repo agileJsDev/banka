@@ -3,8 +3,4 @@ language: node_js
 node_js:
   - "stable"
 
-before_script:
-  - export banka_jwtPrivateKey=test
-
-
 script: npm test
