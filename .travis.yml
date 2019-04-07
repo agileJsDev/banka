@@ -4,7 +4,7 @@ node_js:
   - "stable"
 
 before_script:
-  - process.env.banka_jwtPrivateKey=test
+  - export banka_jwtPrivateKey=test
 
 
 script: npm test
