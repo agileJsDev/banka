@@ -19,7 +19,7 @@ describe('Log In Route', () => {
         expect(res.body.data).to.have.property('email').eql(inputs.validLoginInputs.email);
       });
 
-      it('should throw an error 404 for invalid email address', async () => {
+      it('should throw an error 404 for not registered email address', async () => {
         const res = await chai.request(app).post('/api/v1/auth/signin').send(inputs.invalidLoginEmail);
         expect(res).to.have.status(404);
         expect(res.body).to.have.property('error').to.deep.equal('No Associated Account with this Email');
