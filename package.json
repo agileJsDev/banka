@@ -5,7 +5,8 @@
   "main": "app.js",
   "scripts": {
     "dev": "nodemon --exec babel-node --presets babel-preset-env ./server/app.js",
-    "test": "mocha --require babel-register tests/*.spec.js --exit"
+    "test": "mocha --require babel-register tests/*.spec.js --exit",
+    "coverage": "nyc npm test && nyc report --reporter=text-lcov | coveralls"
   },
   "keywords": [],
   "author": "Ayodeji Afolabi",
@@ -26,10 +27,12 @@
     "babel-preset-env": "^1.7.0",
     "chai": "^4.2.0",
     "chai-http": "^4.2.1",
+    "coveralls": "^3.0.3",
     "eslint": "^5.16.0",
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-plugin-import": "^2.16.0",
     "mocha": "^6.0.2",
-    "nodemon": "^1.18.10"
+    "nodemon": "^1.18.10",
+    "nyc": "^13.3.0"
   }
 }
