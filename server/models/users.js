@@ -1,4 +1,4 @@
-import uuid from 'uuid';
+// import uuid from 'uuid';
 import moment from 'moment';
 import config from 'config';
 import jwt from 'jsonwebtoken';
@@ -10,7 +10,7 @@ class Users {
 
   create(data) {
     const user = {
-      id: uuid.v4(),
+      id: (this.users.length + 1),
       email: data.email,
       firstName: data.firstName,
       lastName: data.lastName,
