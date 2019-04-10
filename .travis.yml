@@ -3,5 +3,5 @@ language: node_js
 node_js:
   - "stable"
 
-after_success: 
+script: 
   - nyc npm test && nyc report --reporter=text-lcov | coveralls

@@ -15,7 +15,7 @@ class UsersCtrl {
         });
       }
       data.password = await bcrypt.hash(data.password, 10);
-      const user = _.cloneDeep(userModel.create(data));
+      const user = await _.cloneDeep(userModel.create(data));
       user.token = userModel.generateAuthToken(user);
       return res.status(201).json({
         status: res.statusCode,
