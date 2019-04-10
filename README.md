@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.com/Xwebyna/banka.svg?branch=development)](https://travis-ci.com/Xwebyna/banka) 
+[![Build Status](https://api.travis-ci.org/Xwebyna/banka.svg?branch=development)](https://api.travis-ci.org/Xwebyna/banka) 
 
 [![Coverage Status](https://coveralls.io/repos/github/Xwebyna/banka/badge.svg?branch=development)](https://coveralls.io/github/Xwebyna/banka?branch=development) 
 
