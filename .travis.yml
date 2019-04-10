@@ -3,5 +3,11 @@ language: node_js
 node_js:
   - "stable"
 
+services:
+  - postgresql
+
 script: 
-  - nyc npm test && nyc report --reporter=text-lcov | coveralls
+  - npm test
+
+  after_success:
+    - npm run coverage
