@@ -2,6 +2,7 @@
   "presets": ["env"],
 
   "plugins": [
-    ["transform-runtime", {"regenerator": true}]
+    ["transform-runtime", {"regenerator": true}],
+    ["transform-object-rest-spread"]
   ]
 }

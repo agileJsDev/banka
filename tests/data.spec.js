@@ -3,7 +3,8 @@ const inputs = {
     email: 'xwebyna@gmail.com',
     firstName: 'Ayodeji',
     lastName: 'Afolabi',
-    password: 'banka'
+    password: 'banka',
+    confirmPassword: 'banka'
   },
   validLoginInputs: {
     email: 'xwebyna@gmail.com',

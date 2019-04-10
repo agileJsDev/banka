@@ -1,7 +1,11 @@
 language: node_js
 
 node_js:
-  - "stable"
+  - "node"
 
-after_success: 
+cache:
+  directories:
+    - "node_modules"
+
+after_success:
   - nyc npm test && nyc report --reporter=text-lcov | coveralls
