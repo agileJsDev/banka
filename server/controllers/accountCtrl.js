@@ -37,26 +37,20 @@ class AccountCtrl {
       if (account) {
         if (account.status === data.status) {
           return res.status(409).json({
-            status: res.statusCode,
-            error: `Account is already in ${data.status}`
+            status: res.statusCode, error: `Account is already in ${data.status}`
           });
         }
       } else {
         return res.status(404).json({
-          status: res.statusCode,
-          error: 'Account does not exist'
+          status: res.statusCode, error: 'Account does not exist'
         });
       }
 
-      const {
-        accountNumber,
-        status,
-        updatedOn
-      } = await _.cloneDeep(accountModel.updateStatus(req.params.accountNumber, data.status));
+      const { accountNumber, status, updatedOn } = await
+      _.cloneDeep(accountModel.updateStatus(req.params.accountNumber, data.status));
 
       return res.status(200).json({
-        status: res.statusCode,
-        data: { accountNumber, status, updatedOn }
+        status: res.statusCode, data: { accountNumber, status, updatedOn }
       });
     } catch (err) {
       return next(err);
