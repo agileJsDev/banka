@@ -3,9 +3,10 @@ import chaiHttp from 'chai-http';
 import app from '../server/app';
 import inputs from './data.spec';
 import userModel from '../server/models/users';
-// import accountModel from '../server/models/accounts';
 
 chai.use(chaiHttp);
+
+let token = '';
 
 describe('Createa Bank Account Route', () => {
   describe('POST /api/v1/accounts', () => {
@@ -23,7 +24,7 @@ describe('Createa Bank Account Route', () => {
       });
 
       it('should return a 201 status code if user successfully creates an account', async () => {
-        const token = userModel.generateAuthToken(
+        token = userModel.generateAuthToken(
           { id: 1, type: 'client', isAdmin: false }
         );
         const res = await chai.request(app).post('/api/v1/accounts').set('Authorization', token).send({ type: 'savings' });
@@ -36,9 +37,6 @@ describe('Createa Bank Account Route', () => {
       });
 
       it('should respond with error message if user has already registered a bank account', async () => {
-        const token = userModel.generateAuthToken(
-          { id: 1, type: 'client', isAdmin: false }
-        );
         const res = await chai.request(app).post('/api/v1/accounts').set('Authorization', token).send({ type: 'savings' });
         expect(res).to.have.status(409);
         expect(res.body).to.have.property('error');
