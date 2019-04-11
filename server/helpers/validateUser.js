@@ -15,12 +15,16 @@ const password = Joi.string()
   .required()
   .strict();
 const type = Joi.string()
-  .max(5)
+  .valid('staff')
   .optional();
 const confirmPassword = Joi.any()
   .valid(Joi.ref('password'))
   .required().options({ language: { any: { allowOnly: 'must match password' } } });
+const status = Joi.string()
+  .valid('active', 'dormant')
+  .required();
 
+// Schema for Sign Up
 const signUpScheama = {
   firstName: name,
   lastName: name,
@@ -30,14 +34,23 @@ const signUpScheama = {
   confirmPassword
 };
 
+// Schema for Login
 const logInSchema = {
   email,
   password
 };
 
+// Schema for Bank Account Registration [TYPE = Account Type]
 const accountRegSchema = {
   type: name
 };
+
+// Schema for Account Status Update
+const updateStatusSchema = {
+  status
+};
+
+// Input Validation Function
 const validate = (schema) => {
   const validateInput = (req, res, next) => {
     const { error } = Joi.validate(req.body, schema);
@@ -55,5 +68,6 @@ const validate = (schema) => {
 export default {
   signUp: validate(signUpScheama),
   logIn: validate(logInSchema),
-  accountReg: validate(accountRegSchema)
+  accountReg: validate(accountRegSchema),
+  updateStatus: validate(updateStatusSchema)
 };

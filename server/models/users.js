@@ -36,6 +36,10 @@ class Users {
     return this.users;
   }
 
+  deleteUsers() {
+    this.users = [];
+  }
+
   updatePsw(id, data) {
     const user = this.findOne(id);
     const index = this.users.indexOf(user);

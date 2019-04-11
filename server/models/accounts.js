@@ -15,18 +15,29 @@ class Accounts {
       type: accountType,
       status: 'active',
       balance: parseFloat(0),
-      updatedOn: moment.now()
+      updatedOn: moment.now(),
     };
     this.accounts.push(account);
     return account;
   }
 
-  findAccount(id) {
+  findAccountById(id) {
     return this.accounts.find(acct => acct.owner === id);
+  }
+
+  findAccountByNo(accountNumber) {
+    return this.accounts.find(acct => acct.accountNumber === Number(accountNumber));
   }
 
   getAllAcct() {
     return this.accounts;
+  }
+
+  updateStatus(accountNumber, newStatus) {
+    const account = this.accounts.find(acct => acct.accountNumber === Number(accountNumber));
+    account.status = newStatus;
+    account.updatedOn = moment.now();
+    return account;
   }
 }
 
