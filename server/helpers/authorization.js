@@ -7,8 +7,7 @@ const permission = (role) => {
     if (req.user.type === 'staff' && role.isAdmin === undefined) return next();
 
     return res.status(403).json({
-      status: res.statusCode,
-      error: 'Unauthorized'
+      status: res.statusCode, error: 'Unauthorized'
     });
   };
   return authorization;
