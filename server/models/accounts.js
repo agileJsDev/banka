@@ -29,6 +29,11 @@ class Accounts {
     return this.accounts.find(acct => acct.accountNumber === Number(accountNumber));
   }
 
+  delete(accountDetails) {
+    const index = this.accounts.indexOf(accountDetails);
+    this.accounts.splice(index, 1);
+  }
+
   getAllAcct() {
     return this.accounts;
   }

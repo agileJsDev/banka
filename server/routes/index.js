@@ -12,6 +12,7 @@ router.post('/auth/signin', validate.logIn, userCtrl.logIn);
 router.post('/accounts', validate.accountReg, verifyAuthToken, accountCtrl.create);
 
 router.patch('/account/:accountNumber', validate.updateStatus, verifyAuthToken, authorize.staff, accountCtrl.updateStatus);
+router.delete('/accounts/:accountNumber', verifyAuthToken, authorize.staff, accountCtrl.deleteAccount);
 
 router.get('/users', userCtrl.getUsers);
 router.get('/accounts', accountCtrl.getAllAcct);

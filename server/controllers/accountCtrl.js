@@ -57,6 +57,22 @@ class AccountCtrl {
     }
   }
 
+  static async deleteAccount(req, res, next) {
+    try {
+      const account = await _
+        .cloneDeep(accountModel.findAccountByNo(req.params.accountNumber));
+      if (account) {
+        await accountModel.delete(account);
+        return res.status(200).json({ status: res.statusCode, message: 'Account successfully deleted' });
+      }
+      return res.status(404).json({
+        status: res.statusCode, error: 'Account does not exist'
+      });
+    } catch (err) {
+      return next(err);
+    }
+  }
+
   static async getAllAcct(req, res) {
     const allAccounts = accountModel.getAllAcct();
     res.status(200).send(allAccounts);
