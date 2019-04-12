@@ -51,6 +51,13 @@ class Accounts {
     account.updatedOn = moment.now();
     return account.balance;
   }
+
+  credit(accountNumber, amount) {
+    const account = this.findAccountByNo(accountNumber);
+    account.balance = Number((parseFloat(account.balance) + Number(amount)).toFixed(2));
+    account.updatedOn = moment.now();
+    return account.balance;
+  }
 }
 
 export default new Accounts();

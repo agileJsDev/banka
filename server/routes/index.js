@@ -19,5 +19,7 @@ router.get('/accounts', accountCtrl.getAllAcct);
 
 router.post('/transactions/:accountNumber/debit', validate.updateAccount, verifyAuthToken, authorize.cashier, transaction.debit);
 
+router.post('/transactions/:accountNumber/credit', validate.updateAccount, verifyAuthToken, authorize.cashier, transaction.credit);
+
 
 export default router;
