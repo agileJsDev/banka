@@ -21,5 +21,7 @@ router.post('/transactions/:accountNumber/debit', validate.updateAccount, verify
 
 router.post('/transactions/:accountNumber/credit', validate.updateAccount, verifyAuthToken, authorize.cashier, transaction.credit);
 
+router.patch('/auth/reset', validate.updatePsw, verifyAuthToken, userCtrl.resetPassword);
+
 
 export default router;

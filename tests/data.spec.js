@@ -25,6 +25,21 @@ const inputs = {
   invalidLoginEmail: {
     email: 'xwebynaxwebyna@gmail.com',
     password: 'banka'
+  },
+  pswResetValid: {
+    password: 'banka',
+    newPassword: 'andela',
+    confirmNewPassword: 'andela'
+  },
+  pswResetInValid: {
+    password: 'banker',
+    newPassword: 'andela',
+    confirmNewPassword: 'andela'
+  },
+  pswResetInValid2: {
+    password: 'banka',
+    newPassword: 'andela',
+    confirmNewPassword: 'andeler'
   }
 };
 

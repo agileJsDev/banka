@@ -59,6 +59,24 @@ class UsersCtrl {
     const users = userModel.findAll();
     return res.status(200).send(users);
   }
+
+  static async resetPassword(req, res) {
+    const user = await _.cloneDeep(userModel.findOne(req.user.id));
+    if (!user) {
+      return res.status(404).json({ status: res.statusCode, error: 'No User Found' });
+    }
+    const data = req.body;
+    const isPasswordValid = await bcrypt.compare(data.password, user.password);
+    if (!isPasswordValid) {
+      return res.status(401).json({
+        status: res.statusCode,
+        error: 'Invalid Password. Make sure password matches the current one'
+      });
+    }
+    const newPassword = await bcrypt.hash(data.newPassword, 10);
+    await userModel.updatePsw(req.user.id, newPassword);
+    return res.status(200).json({ status: res.statusCode, message: 'Password changed successfully' });
+  }
 }
 
 export default UsersCtrl;

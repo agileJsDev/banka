@@ -38,10 +38,7 @@ class Users {
 
   updatePsw(id, data) {
     const user = this.findOne(id);
-    const index = this.users.indexOf(user);
-    this.users[index].token = data.token;
-    this.users[index].modifiedDate = moment.now();
-    return this.users[index];
+    user.password = data;
   }
 
   generateAuthToken(user) {

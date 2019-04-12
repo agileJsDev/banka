@@ -2,6 +2,7 @@ import chai, { expect } from 'chai';
 import chaiHttp from 'chai-http';
 import app from '../server/app';
 import userModel from '../server/models/users';
+import inputs from './data.spec';
 
 chai.use(chaiHttp);
 
@@ -116,6 +117,60 @@ describe('Staff(Cashier) should be able to credit bank account', () => {
         expect(res.body.data).to.have.property('cashier');
         expect(res.body.data).to.have.property('transactionType').to.deep.equal('credit');
         expect(res.body.data).to.have.property('acccountBalance').to.deep.equal(2000);
+      });
+    });
+  });
+});
+
+
+// Password Resset Test
+
+describe('Users shoiuld be able to reset passwpord', () => {
+  describe('PATCH /api/v1/reset', () => {
+    describe('When the user tries to change account password', () => {
+      let user2Token;
+      before(async () => {
+        user2Token = userModel.generateAuthToken(
+          { id: 2, type: 'client', isAdmin: false }
+        );
+      });
+
+      it('should throw an error 404 if user is not found', async () => {
+        const res = await chai.request(app).patch('/api/v1/auth/reset').set('Authorization', user2Token).send(inputs.pswResetValid);
+        expect(res).to.have.status(404);
+        expect(res.body).to.have.property('error').to.deep.equal('No User Found');
+      });
+
+      it('should return an error 401 for invalid current password', async () => {
+        const res = await chai.request(app).patch('/api/v1/auth/reset').set('Authorization', userToken).send(inputs.pswResetInValid);
+        expect(res).to.have.status(401);
+        expect(res.body).to.have.property('error').to.deep.equal('Invalid Password. Make sure password matches the current one');
+      });
+
+      it('should return an error 400 if confirm password does not mathc the new password', async () => {
+        const res = await chai.request(app).patch('/api/v1/auth/reset').set('Authorization', userToken).send(inputs.pswResetInValid2);
+        expect(res).to.have.status(400);
+        expect(res.body).to.have.property('error');
+      });
+
+
+      it('should return 200 status code if password is succeefully changed', async () => {
+        const res = await chai.request(app).patch('/api/v1/auth/reset').set('Authorization', userToken).send(inputs.pswResetValid);
+        expect(res).to.have.status(200);
+        expect(res.body).to.have.property('message').to.deep.equal('Password changed successfully');
+      });
+
+      it('to confrim password change, User tries log in', async () => {
+        const res = await chai.request(app).post('/api/v1/auth/signin').send({
+          email: inputs.validLoginInputs.email,
+          password: inputs.pswResetValid.newPassword
+        });
+        expect(res).to.have.status(200);
+        expect(res.body.data).to.have.property('token');
+        expect(res.body.data).to.have.property('id');
+        expect(res.body.data).to.have.property('firstName').eql(inputs.validSignupInputs.firstName);
+        expect(res.body.data).to.have.property('lastName').eql(inputs.validSignupInputs.lastName);
+        expect(res.body.data).to.have.property('email').eql(inputs.validLoginInputs.email);
       });
     });
   });
