@@ -56,7 +56,7 @@ describe('Staff(Cashier) should be able to debit bank account', () => {
         expect(res.body.data).to.have.property('accountNumber');
         expect(res.body.data).to.have.property('amount');
         expect(res.body.data).to.have.property('cashier');
-        expect(res.body.data).to.have.property('transactionType');
+        expect(res.body.data).to.have.property('transactionType').to.deep.equal('debit');
         expect(res.body.data).to.have.property('acccountBalance').to.deep.equal(300);
       });
 
@@ -114,7 +114,7 @@ describe('Staff(Cashier) should be able to credit bank account', () => {
         expect(res.body.data).to.have.property('accountNumber');
         expect(res.body.data).to.have.property('amount');
         expect(res.body.data).to.have.property('cashier');
-        expect(res.body.data).to.have.property('transactionType');
+        expect(res.body.data).to.have.property('transactionType').to.deep.equal('credit');
         expect(res.body.data).to.have.property('acccountBalance').to.deep.equal(2000);
       });
     });
