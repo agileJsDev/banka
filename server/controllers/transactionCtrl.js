@@ -6,7 +6,6 @@ class transactionsCtrl {
     try {
       const cashier = req.user.id;
       const account = accountModel.findAccountByNo(req.params.accountNumber);
-
       if (!account) {
         return res.status(404).json({
           status: res.statusCode, error: 'Account does not exist'
@@ -20,7 +19,6 @@ class transactionsCtrl {
           error: 'Balance not sufficient for debit transaction'
         });
       }
-
       const newBalance = await accountModel.debit(account.accountNumber, amount);
       const data = {
         type: 'debit', oldBalance, amount, newBalance, accountNumber: account.accountNumber, cashier
