@@ -26,16 +26,6 @@ const status = Joi.string()
 const amount = Joi.number()
   .required();
 
-const newPassword = Joi.string()
-  .min(5)
-  .max(20)
-  .required()
-  .strict();
-const confirmNewPassword = Joi.any()
-  .valid(Joi.ref('newPassword'))
-  .required().options({ language: { any: { allowOnly: 'must match new password' } } });
-
-
 // Schema for Sign Up
 const signUpScheama = {
   firstName: name,
@@ -70,8 +60,14 @@ const debitCreditSchema = {
 // Update password Schema
 const updatePswSchema = {
   password,
-  newPassword,
-  confirmNewPassword
+  newPassword: Joi.string()
+    .min(5)
+    .max(20)
+    .required()
+    .strict(),
+  confirmNewPassword: Joi.any()
+    .valid(Joi.ref('newPassword'))
+    .required().options({ language: { any: { allowOnly: 'must match new password' } } })
 };
 
 // Input Validation Function
