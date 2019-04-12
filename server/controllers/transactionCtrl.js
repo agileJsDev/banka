@@ -19,27 +19,14 @@ class transactionsCtrl {
           error: 'Balance not sufficient for debit transaction'
         });
       }
+      const type = 'debit';
       const newBalance = await accountModel.debit(account.accountNumber, amount);
-      const data = {
-        type: 'debit', oldBalance, amount, newBalance, accountNumber: account.accountNumber, cashier
-      };
-      const transactionDetail = tModel.create(data);
-      return res.status(201).json({
-        status: res.statusCode,
-        data: {
-          transactionId: transactionDetail.id,
-          accountNumber: transactionDetail.accountNumber,
-          amount: transactionDetail.amount,
-          cashier: transactionDetail.cashier,
-          transactionType: transactionDetail.type,
-          acccountBalance: transactionDetail.newBalance,
-          date: transactionDetail.createdOn
-        }
-      });
+      return transactionsCtrl.response(oldBalance, amount, newBalance, account, cashier, res, type);
     } catch (err) {
       return next(err);
     }
   }
+
 
   static async credit(req, res, next) {
     try {
@@ -53,26 +40,31 @@ class transactionsCtrl {
 
       const oldBalance = account.balance;
       const amount = Number(req.body.amount);
+      const type = 'credit';
       const newBalance = await accountModel.credit(account.accountNumber, amount);
-      const data = {
-        type: 'credit', oldBalance, amount, newBalance, accountNumber: account.accountNumber, cashier
-      };
-      const transactionDetail = tModel.create(data);
-      return res.status(201).json({
-        status: res.statusCode,
-        data: {
-          transactionId: transactionDetail.id,
-          accountNumber: transactionDetail.accountNumber,
-          amount: transactionDetail.amount,
-          cashier: transactionDetail.cashier,
-          transactionType: transactionDetail.type,
-          acccountBalance: transactionDetail.newBalance,
-          date: transactionDetail.createdOn
-        }
-      });
+      return transactionsCtrl.response(oldBalance, amount, newBalance, account, cashier, res, type);
     } catch (err) {
       return next(err);
     }
+  }
+
+  static response(oldBalance, amount, newBalance, account, cashier, res, type) {
+    const data = {
+      type, oldBalance, amount, newBalance, accountNumber: account.accountNumber, cashier
+    };
+    const transactionDetail = tModel.create(data);
+    return res.status(201).json({
+      status: res.statusCode,
+      data: {
+        transactionId: transactionDetail.id,
+        accountNumber: transactionDetail.accountNumber,
+        amount: transactionDetail.amount,
+        cashier: transactionDetail.cashier,
+        transactionType: transactionDetail.type,
+        acccountBalance: transactionDetail.newBalance,
+        date: transactionDetail.createdOn
+      }
+    });
   }
 }
 
