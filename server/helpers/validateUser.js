@@ -23,6 +23,9 @@ const confirmPassword = Joi.any()
 const status = Joi.string()
   .valid('active', 'dormant')
   .required();
+const amount = Joi.number()
+  .required();
+
 
 // Schema for Sign Up
 const signUpScheama = {
@@ -50,6 +53,11 @@ const updateStatusSchema = {
   status
 };
 
+// Schema to debit/credit account
+const debitCreditSchema = {
+  amount
+};
+
 // Input Validation Function
 const validate = (schema) => {
   const validateInput = (req, res, next) => {
@@ -69,5 +77,6 @@ export default {
   signUp: validate(signUpScheama),
   logIn: validate(logInSchema),
   accountReg: validate(accountRegSchema),
-  updateStatus: validate(updateStatusSchema)
+  updateStatus: validate(updateStatusSchema),
+  updateAccount: validate(debitCreditSchema)
 };
