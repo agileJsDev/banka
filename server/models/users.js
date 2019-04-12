@@ -36,10 +36,6 @@ class Users {
     return this.users;
   }
 
-  deleteUsers() {
-    this.users = [];
-  }
-
   updatePsw(id, data) {
     const user = this.findOne(id);
     const index = this.users.indexOf(user);
@@ -51,7 +47,7 @@ class Users {
   generateAuthToken(user) {
     this.token = jwt.sign(
       { id: user.id, type: user.type, isAdmin: user.isAdmin },
-      config.get('jwtPrivateKey')
+      config.get('jwtPrivateKey'), { expiresIn: '1h' }
     );
     return this.token;
   }
