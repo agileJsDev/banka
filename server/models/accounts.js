@@ -14,7 +14,7 @@ class Accounts {
       owner: user.id,
       type: accountType,
       status: 'active',
-      balance: parseFloat(0),
+      balance: parseFloat(1000),
       updatedOn: moment.now(),
     };
     this.accounts.push(account);
@@ -43,6 +43,13 @@ class Accounts {
     account.status = newStatus;
     account.updatedOn = moment.now();
     return account;
+  }
+
+  debit(accountNumber, amount) {
+    const account = this.findAccountByNo(accountNumber);
+    account.balance = Number((parseFloat(account.balance) - Number(amount)).toFixed(2));
+    account.updatedOn = moment.now();
+    return account.balance;
   }
 }
 
