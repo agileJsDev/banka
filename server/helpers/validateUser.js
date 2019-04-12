@@ -27,10 +27,8 @@ const amount = Joi.number()
   .required();
 
 const newPassword = Joi.string()
-  .min(5)
-  .max(20)
-  .required()
-  .strict();
+  .required();
+
 const confirmNewPassword = Joi.any()
   .valid(Joi.ref('newPassword'))
   .required().options({ language: { any: { allowOnly: 'must match new password' } } });
