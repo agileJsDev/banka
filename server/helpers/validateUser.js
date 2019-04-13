@@ -35,7 +35,7 @@ const confirmNewPassword = Joi.any()
   .valid(Joi.ref('newPassword'))
   .required().options({ language: { any: { allowOnly: 'must match new password' } } });
 
-// Schema for Sign Up
+// Schema during Sign Up
 const signUpScheama = {
   firstName: name,
   lastName: name,
