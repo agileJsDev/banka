@@ -2,6 +2,7 @@ import express from 'express';
 import router from './routes';
 import errorHandler from './helpers/error';
 import config from './utils/config';
+import prod from './utils/prod';
 
 config();
 
@@ -17,7 +18,9 @@ app.get('/', (req, res) => res.status(200).json({
 app.use('/api/v1', router);
 app.use(errorHandler);
 
+prod(app);
+
 const port = process.env.PORT || 9000;
-app.listen(port, console.log('Server running...!!!'));
+app.listen(port, console.log(`Server running on PORT ${port}`));
 
 export default app;
