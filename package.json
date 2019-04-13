@@ -4,17 +4,24 @@
   "description": "Banka is a light-weight core banking application that powers banking operations like account creation, customer deposit and withdrawals.",
   "main": "app.js",
   "scripts": {
+    "start": "npm run build && node ./build/app",
+    "build": "babel -d ./build ./server",
     "dev": "nodemon --exec babel-node --presets babel-preset-env ./server/app.js",
     "test": "mocha --require babel-register tests/*.spec.js --exit",
     "coverage": "nyc npm test && nyc report --reporter=text-lcov | coveralls"
   },
-  "keywords": [],
+  "engines": {
+    "node": "10.15.3"
+  },
+  "keywords": ["banking", "operations", "application", "lightweight"],
   "author": "Ayodeji Afolabi",
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^3.0.5",
+    "compression": "^1.7.4",
     "config": "^3.0.1",
     "express": "^4.16.4",
+    "helmet": "^3.16.0",
     "joi": "^14.3.1",
     "jsonwebtoken": "^8.5.1",
     "loadash": "^1.0.0",

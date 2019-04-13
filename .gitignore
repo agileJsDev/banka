@@ -4,3 +4,8 @@ node_modules
 # Coverage File
 .coveralls.yml
 .nyc_output
+
+# Build
+build
+
+Coverage
