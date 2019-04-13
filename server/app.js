@@ -9,6 +9,7 @@ config();
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+prod(app);
 
 app.get('/', (req, res) => res.status(200).json({
   status: res.statusCode,
@@ -17,8 +18,6 @@ app.get('/', (req, res) => res.status(200).json({
 
 app.use('/api/v1', router);
 app.use(errorHandler);
-
-prod(app);
 
 const port = process.env.PORT || 9000;
 app.listen(port, console.log(`Server running on PORT ${port}`));
