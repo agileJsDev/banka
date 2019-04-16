@@ -7,7 +7,7 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <meta name="description" content="A light-weight core banking application">
   <meta name="keywords" content="banking app, light weight bank app, powerful bank application">
-  <link rel="stylesheet" href="./css/style.css">
+  <link rel="stylesheet" href="../css/style.css">
   <title>View Bank Account | Banka</title>
 </head>
 
@@ -39,12 +39,10 @@
 
 
       <ul class="sidenav__list">
-        <li class="sidenav__item" id="account__type">Admin/Staff A/C</li>
-        <li class="sidenav__item"><a href="./bank-accounts.html">Bank Accounts</a></li>
-        <li class="sidenav__item"><a href="./account-update.html">Debit/Credit Account</a></li>
-        <li class="sidenav__item"><a href="./users.html">Users</a></li>
-        <li class="sidenav__item"><a href="#">Logout</a></li>
-      </ul>
+        <li class="sidenav__item"><a href="./dashboard.html">Dashboard</a></li>
+        <li class="sidenav__item" id="goBack"><a>Back</a></li>
+        <li class="sidenav__item" id="logout"><a>Logout</a></li>
+    </ul>
     </aside>
 
     <main class="main">
@@ -114,7 +112,7 @@
                 <td class="transac_amount" id="debit_amt">1000</td>
               </tr>
             </table>
-            <div id="view__all"><a href="./transactions.html">View All</a></div>
+            <div id="view__all"><a href="./view-user-transactions.html">View All</a></div>
           </div>
         </div>
     </main>
@@ -125,7 +123,7 @@
     <div class="footer__copyright"> &copy; Banka&trade; 2019 </div>
   </footer>
 
-  <script type="text/javascript" src="js/main.js"></script>
+  <script type="text/javascript" src="../js/main.js"></script>
 </body>
 
 </html>

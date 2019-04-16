@@ -22,6 +22,10 @@ main {
   overflow: hidden;
 }
 
+header .max_width {
+  width: 98%;
+}
+
 .btn {
   width: 200px;
   height: 50px;
