@@ -95,6 +95,19 @@ class AccountCtrl {
       return next(err);
     }
   }
+
+  static async getUserAccounts(req, res, next) {
+    try {
+      const { id } = await _.cloneDeep(userModel.findEmail(req.params.email));
+      const account = await _.cloneDeep(accountModel.findAccountsById(id));
+      return res.status(200).json({
+        status: res.statusCode,
+        accounts: account
+      });
+    } catch (err) {
+      return next(err);
+    }
+  }
 }
 
 

@@ -1,4 +1,5 @@
 import moment from 'moment';
+import _ from 'lodash';
 import genAccountNo from '../utils/genAccountNo';
 // import transactions from './transactions';
 
@@ -20,6 +21,10 @@ class Accounts {
     };
     this.accounts.push(account);
     return account;
+  }
+
+  findAccountsById(id) {
+    return this.accounts.filter(acct => acct.owner === id).map(acct => _.omit(acct, ['id', 'owner', 'updatedOn']));
   }
 
   findAccountById(id) {
