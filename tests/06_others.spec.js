@@ -256,3 +256,30 @@ describe('Get Route', () => {
     });
   });
 });
+
+
+// Admin/Staff can View List of accounts of a specific user
+describe('Get Route', () => {
+  describe('GET /api/v1/user/<email-address>/accounts', () => {
+    describe('Admin/Staff can view list of accounts owned by a user', () => {
+      it('should respond with error 401 - unauthorized - if token is invalid or expired', async () => {
+        const res = await chai.request(app).get(`/api/v1/user/${resp.body.data.email}/accounts`).set('Authorization', 'eyJhbGciOiJIUzI1NiIsIkpXVCJ9.kcvIkS9ACezPO2DgAi-XvEikLy9ZA2y0kWiQ');
+        expect(res).to.have.status(401);
+        expect(res.body).to.have.property('error').to.deep.equal('Invalid Token');
+      });
+
+      it('should send unauthorized message if unathorized user tries to get list of accounts', async () => {
+        const res = await chai.request(app).get(`/api/v1/user/${resp.body.data.email}/accounts`).set('Authorization', userToken);
+        expect(res).to.have.status(403);
+        expect(res.body).to.have.property('error').to.deep.equal('Unauthorized');
+      });
+
+      it('should respond with 200 status code if request by the admin/staff for user account is successful', async () => {
+        const res = await chai.request(app).get(`/api/v1/user/${resp.body.data.email}/accounts`).set('Authorization', adminToken);
+        expect(res).to.have.status(200);
+        expect(res.body).to.have.property('accounts');
+        expect(res.body.accounts).to.be.an('array');
+      });
+    });
+  });
+});
