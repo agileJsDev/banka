@@ -66,7 +66,7 @@ class transactionsCtrl {
       }
     });
   }
-
+  
   static async getUserTransactions(req, res, next) {
     try {
       const userTransactions = await tModel.getUserTransactions(req.params.accountNumber);
