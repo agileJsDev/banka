@@ -16,12 +16,15 @@ router.delete('/accounts/:accountNumber', verifyAuthToken, authorize.staff, acco
 router.get('/users', userCtrl.getUsers);
 router.get('/accounts', accountCtrl.getAllAcct);
 
-
 router.post('/transactions/:accountNumber/debit', validate.updateAccount, verifyAuthToken, authorize.cashier, transaction.debit);
 
 router.post('/transactions/:accountNumber/credit', validate.updateAccount, verifyAuthToken, authorize.cashier, transaction.credit);
 
 router.patch('/auth/reset', validate.updatePsw, verifyAuthToken, userCtrl.resetPassword);
+
+
+// working
+router.get('/accounts/:accountNumber/transactions', verifyAuthToken, transaction.getUserTransactions);
 
 
 export default router;
