@@ -73,11 +73,6 @@ class AccountCtrl {
     }
   }
 
-  static async getAllAcct(req, res) {
-    const allAccounts = accountModel.getAllAcct();
-    res.status(200).send(allAccounts);
-  }
-
   static async getAccountDetails(req, res, next) {
     try {
       const account = await _.cloneDeep(accountModel.findAccountByNo(req.params.accountNumber));
@@ -103,6 +98,18 @@ class AccountCtrl {
       return res.status(200).json({
         status: res.statusCode,
         accounts: account
+      });
+    } catch (err) {
+      return next(err);
+    }
+  }
+
+  static async getAllAcct(req, res, next) {
+    try {
+      const allAccounts = accountModel.getAllAcct();
+      return res.status(200).json({
+        status: res.statusCode,
+        data: allAccounts
       });
     } catch (err) {
       return next(err);
