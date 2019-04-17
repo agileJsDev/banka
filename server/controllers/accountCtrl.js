@@ -77,6 +77,24 @@ class AccountCtrl {
     const allAccounts = accountModel.getAllAcct();
     res.status(200).send(allAccounts);
   }
+
+  static async getAccountDetails(req, res, next) {
+    try {
+      const account = await _.cloneDeep(accountModel.findAccountByNo(req.params.accountNumber));
+      if (!account) {
+        return res.status(404).json({
+          status: res.statusCode, error: 'Account does not exist'
+        });
+      }
+      account.ownerEmail = userModel.findOne(account.owner).email;
+      return res.status(200).json({
+        status: res.statusCode,
+        data: _.omit(account, ['id', 'owner', 'updatedOn'])
+      });
+    } catch (err) {
+      return next(err);
+    }
+  }
 }
 
 
