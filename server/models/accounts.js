@@ -1,7 +1,7 @@
 import moment from 'moment';
 import _ from 'lodash';
 import genAccountNo from '../utils/genAccountNo';
-// import transactions from './transactions';
+import userModel from './users';
 
 class Accounts {
   constructor() {
@@ -41,7 +41,13 @@ class Accounts {
   }
 
   getAllAcct() {
-    return this.accounts;
+    const accounts = this.accounts.map((acct) => {
+      const account = _.cloneDeep(acct);
+      const { email } = userModel.findOne(account.owner);
+      account.ownerEmail = email;
+      return _.omit(account, ['id', 'owner', 'updatedOn']);
+    });
+    return accounts;
   }
 
   updateStatus(accountNumber, newStatus) {

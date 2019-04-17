@@ -15,8 +15,6 @@ router.post('/accounts', validate.accountReg, verifyAuthToken, accountController
 router.patch('/account/:accountNumber', validate.updateStatus, verifyAuthToken, authorize.staff, accountController.updateStatus);
 router.delete('/accounts/:accountNumber', verifyAuthToken, authorize.staff, accountController.deleteAccount);
 router.get('/users', userCtrl.getUsers);
-router.get('/accounts', accountController.getAllAcct);
-
 router.post('/transactions/:accountNumber/debit', validate.updateAccount, verifyAuthToken, authorize.cashier, transaction.debit);
 
 router.post('/transactions/:accountNumber/credit', validate.updateAccount, verifyAuthToken, authorize.cashier, transaction.credit);
@@ -27,10 +25,9 @@ router.patch('/auth/reset', validate.updatePsw, verifyAuthToken, userCtrl.resetP
 // working
 router.get('/accounts/:accountNumber/transactions', verifyAuthToken, transaction.getUserTransactions);
 router.get('/transactions/:transactionId', verifyAuthToken, transaction.getSingleTransaction);
-
 router.get('/accounts/:accountNumber', verifyAuthToken, accountController.getAccountDetails);
-
 router.get('/user/:email/accounts', verifyAuthToken, authorize.staff, accountController.getUserAccounts);
-
+router.get('/accounts', verifyAuthToken, authorize.staff, accountController.getAllAcct);
+//
 
 export default router;
