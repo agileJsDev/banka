@@ -1,5 +1,7 @@
+import _ from 'lodash';
 import accountModel from '../models/accounts';
 import tModel from '../models/transactions';
+
 
 class transactionsCtrl {
   static async debit(req, res, next) {
@@ -56,7 +58,7 @@ class transactionsCtrl {
     return res.status(201).json({
       status: res.statusCode,
       data: {
-        transactionId: transactionDetail.id,
+        transactionId: transactionDetail.transactionId,
         accountNumber: transactionDetail.accountNumber,
         amount: transactionDetail.amount,
         cashier: transactionDetail.cashier,
@@ -66,13 +68,31 @@ class transactionsCtrl {
       }
     });
   }
-  
+
   static async getUserTransactions(req, res, next) {
     try {
       const userTransactions = await tModel.getUserTransactions(req.params.accountNumber);
       return res.status(200).json({
         status: res.statusCode,
         data: userTransactions
+      });
+    } catch (err) {
+      return next(err);
+    }
+  }
+
+  static async getSingleTransaction(req, res, next) {
+    try {
+      const transation = tModel.findByID(req.params.transactionId);
+      if (!transation) {
+        return res.status(404).json({
+          status: res.statusCode, error: 'Not Found'
+        });
+      }
+
+      return res.status(200).json({
+        status: res.statusCode,
+        data: _.omit(transation, ['cashier'])
       });
     } catch (err) {
       return next(err);

@@ -8,7 +8,7 @@ class Transactions {
 
   create(data) {
     const transaction = {
-      id: this.transactions.length + 1,
+      transactionId: this.transactions.length + 1,
       createdOn: moment.now(),
       type: data.type,
       accountNumber: data.accountNumber,
@@ -24,8 +24,13 @@ class Transactions {
   getUserTransactions(accountNumber) {
     const userTransactions = this.transactions
       .filter(transaction => transaction.accountNumber === Number(accountNumber))
-      .map(transaction => _.omit(transaction, ['cashier']));
+      .map(transaction => _.omit(transaction, ['cashier'])); // Exclude cashier from the object
     return userTransactions;
+  }
+
+  findByID(id) {
+    const specificTransaction = this.transactions.find(transaction => transaction.transactionId === Number(id));
+    return specificTransaction;
   }
 }
 
