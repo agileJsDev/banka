@@ -117,8 +117,14 @@ header .max__width {
 
 /* Showcase Board */
 #board h1 {
-  margin-top: 120px;
+  letter-spacing: 12px;
+  margin: 120px 0 0 0;
   font-size: 50px;
+}
+
+#board .btn {
+  margin: 40px 0 20px 0;
+  background-color: #b65d15
 }
 
 #board p {
@@ -188,17 +194,6 @@ header .max__width {
   background: #000000;
   display: block;
   margin: 10px auto 0;
-}
-
-/* Homepage create account now style */
-.flex-horiz {
-  display: flex;
-  justify-content: center;
-  margin-top: 40px;
-}
-
-.flex-horiz h1 {
-  margin-right: 20px;
 }
 
 /* footer */
@@ -753,36 +748,6 @@ input[type="number"]::-webkit-outer-spin-button {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 /* Taost message Style */
 .toast__success,
 .toast__fail {
@@ -894,16 +859,11 @@ body .hidden {
   }
 
   #board h1 {
-    margin-top: 80px;
+    margin-top: 80px
   }
 
   .box {
     width: 100%;
-  }
-
-  .flex-horiz {
-    text-align: center;
-    display: block;
   }
 
   .footer {
