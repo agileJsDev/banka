@@ -225,3 +225,34 @@ describe('Users should be able to view specific Account Transactions', () => {
     });
   });
 });
+
+
+// View Account Details Endpoint Test
+describe('Get Route', () => {
+  describe('GET /api/v1/accounts/<account-number>', () => {
+    describe('When users tries to view his/her account details', () => {
+      it('should respond with error 401 - unauthorized - if token is invalid or expired', async () => {
+        const res = await chai.request(app).get(`/api/v1/accounts/${resp.body.data.accountNumber}`).set('Authorization', 'eyJhbGciOiJIUzI1NiIsIkpXVCJ9.kcvIkS9ACezPO2DgAi-XvEikLy9ZA2y0kWiQ');
+        expect(res).to.have.status(401);
+        expect(res.body).to.have.property('error').to.deep.equal('Invalid Token');
+      });
+
+      it('should respond with error 404 - Not Found - if account does not exist', async () => {
+        const res = await chai.request(app).get('/api/v1/accounts/123456789').set('Authorization', userToken);
+        expect(res).to.have.status(404);
+        expect(res.body).to.have.property('error').to.deep.equal('Account does not exist');
+      });
+
+
+      it('should respond with 200 status code if request for account details is successful', async () => {
+        const res = await chai.request(app).get(`/api/v1/accounts/${resp.body.data.accountNumber}`).set('Authorization', userToken);
+        expect(res).to.have.status(200);
+        expect(res.body).to.have.property('data');
+        expect(res.body.data).to.have.property('ownerEmail');
+        expect(res.body.data).to.have.property('type');
+        expect(res.body.data).to.have.property('accountNumber');
+        expect(res.body.data).to.have.property('balance');
+      });
+    });
+  });
+});

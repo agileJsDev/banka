@@ -72,6 +72,11 @@ class transactionsCtrl {
   static async getUserTransactions(req, res, next) {
     try {
       const userTransactions = await tModel.getUserTransactions(req.params.accountNumber);
+      if (userTransactions.length === 0) {
+        return res.status(404).json({
+          status: res.statusCode, error: 'No transaction found for the account'
+        });
+      }
       return res.status(200).json({
         status: res.statusCode,
         data: userTransactions
