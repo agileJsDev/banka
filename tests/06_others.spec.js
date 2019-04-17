@@ -178,7 +178,7 @@ describe('Users shoiuld be able to reset passwpord', () => {
 
 
 /* View User Transactions History */
-describe('Users shoiuld be able to view Transactions Histrty', () => {
+describe('Users should be able to view Transactions Histrty', () => {
   describe('GET /accounts/<account-number>/transactions', () => {
     describe('When users tries to view account transaction history', () => {
       it('should respond with error 401 - unauthorized - if token is invalid or expired', async () => {
@@ -192,6 +192,35 @@ describe('Users shoiuld be able to view Transactions Histrty', () => {
         expect(res).to.have.status(200);
         expect(res.body).to.have.property('data');
         expect(res.body.data).to.be.an('array');
+      });
+    });
+  });
+});
+
+// Get specific transacation by Id test
+describe('Users should be able to view specific Account Transactions', () => {
+  describe('GET /transactions/<id>', () => {
+    describe('When users tries to view a specific account transaction', () => {
+      it('should respond with error 401 - unauthorized - if token is invalid or expired', async () => {
+        const res = await chai.request(app).get('/api/v1/transactions/1').set('Authorization', 'eyJhbGciOiJIUzI1NiIsIkpXVCJ9.kcvIkS9ACezPO2DgAi-XvEikLy9ZA2y0kWiQ');
+        expect(res).to.have.status(401);
+        expect(res.body).to.have.property('error').to.deep.equal('Invalid Token');
+      });
+
+      it('should respond with error 404 - Not Found - id not found', async () => {
+        const res = await chai.request(app).get('/api/v1/transactions/10000').set('Authorization', userToken);
+        expect(res).to.have.status(404);
+        expect(res.body).to.have.property('error').to.deep.equal('Not Found');
+      });
+
+
+      it('should respond with 200 status code if request for specific transaction is successful', async () => {
+        const res = await chai.request(app).get('/api/v1/transactions/2').set('Authorization', userToken);
+        expect(res).to.have.status(200);
+        expect(res.body).to.have.property('data');
+        expect(res.body.data).to.have.property('transactionId');
+        expect(res.body.data).to.have.property('type');
+        expect(res.body.data).to.have.property('newBalance');
       });
     });
   });

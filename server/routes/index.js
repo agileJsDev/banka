@@ -6,6 +6,7 @@ import verifyAuthToken from '../helpers/verifyAuthToken';
 import authorize from '../helpers/authorization';
 import transaction from '../controllers/transactionCtrl';
 
+
 const router = express.Router();
 
 router.post('/auth/signup', validate.signUp, userCtrl.signUp);
@@ -25,6 +26,7 @@ router.patch('/auth/reset', validate.updatePsw, verifyAuthToken, userCtrl.resetP
 
 // working
 router.get('/accounts/:accountNumber/transactions', verifyAuthToken, transaction.getUserTransactions);
+router.get('/transactions/:transactionId', verifyAuthToken, transaction.getSingleTransaction);
 
 
 export default router;
