@@ -1,5 +1,6 @@
 import moment from 'moment';
 import genAccountNo from '../utils/genAccountNo';
+// import transactions from './transactions';
 
 class Accounts {
   constructor() {

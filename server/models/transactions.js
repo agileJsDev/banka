@@ -1,4 +1,5 @@
 import moment from 'moment';
+import _ from 'lodash';
 
 class Transactions {
   constructor() {
@@ -18,6 +19,13 @@ class Transactions {
     };
     this.transactions.push(transaction);
     return transaction;
+  }
+
+  getUserTransactions(accountNumber) {
+    const userTransactions = this.transactions
+      .filter(transaction => transaction.accountNumber === Number(accountNumber))
+      .map(transaction => _.omit(transaction, ['cashier']));
+    return userTransactions;
   }
 }
 

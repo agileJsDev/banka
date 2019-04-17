@@ -66,6 +66,18 @@ class transactionsCtrl {
       }
     });
   }
+
+  static async getUserTransactions(req, res, next) {
+    try {
+      const userTransactions = await tModel.getUserTransactions(req.params.accountNumber);
+      return res.status(200).json({
+        status: res.statusCode,
+        data: userTransactions
+      });
+    } catch (err) {
+      return next(err);
+    }
+  }
 }
 
 export default transactionsCtrl;

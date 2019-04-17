@@ -175,3 +175,24 @@ describe('Users shoiuld be able to reset passwpord', () => {
     });
   });
 });
+
+
+/* View User Transactions History */
+describe('Users shoiuld be able to view Transactions Histrty', () => {
+  describe('GET /accounts/<account-number>/transactions', () => {
+    describe('When users tries to view account transaction history', () => {
+      it('should respond with error 401 - unauthorized - if token is invalid or expired', async () => {
+        const res = await chai.request(app).get(`/api/v1/accounts/${resp.body.data.accountNumber}/transactions`).set('Authorization', 'eyJhbGciOiJIUzI1NiIsIkpXVCJ9.kcvIkS9ACezPO2DgAi-XvEikLy9ZA2y0kWiQ');
+        expect(res).to.have.status(401);
+        expect(res.body).to.have.property('error').to.deep.equal('Invalid Token');
+      });
+
+      it('should respond with 200 status code and list of transaction if successful', async () => {
+        const res = await chai.request(app).get(`/api/v1/accounts/${resp.body.data.accountNumber}/transactions`).set('Authorization', userToken);
+        expect(res).to.have.status(200);
+        expect(res.body).to.have.property('data');
+        expect(res.body.data).to.be.an('array');
+      });
+    });
+  });
+});
