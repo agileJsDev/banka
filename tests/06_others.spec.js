@@ -316,6 +316,11 @@ describe('Get Route', () => {
         expect(res.body).to.have.property('error').to.deep.equal('Invalid Token');
       });
 
+      it('should send unauthorized message if unathorized user tries to get list of accounts', async () => {
+        const res = await chai.request(app).get('/api/v1/accounts?status=active').set('Authorization', userToken);
+        expect(res).to.have.status(403);
+        expect(res.body).to.have.property('error').to.deep.equal('Unauthorized');
+      });
 
       it('should respond with 200 status code if request is successful', async () => {
         const res = await chai.request(app).get('/api/v1/accounts?status=active').set('Authorization', adminToken);

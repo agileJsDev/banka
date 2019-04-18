@@ -104,7 +104,7 @@ class AccountController {
     }
   }
 
-  static async getAllAcct(req, res, next) {
+  static async getAllAccounts(req, res, next) {
     try {
       const allAccounts = accountModel.getAllAcct();
       const { status } = req.query;

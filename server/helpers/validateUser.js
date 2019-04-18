@@ -68,7 +68,7 @@ const debitCreditSchema = {
 };
 
 // Update password Schema
-const updatePswSchema = {
+const updatePasswordSchema = {
   password,
   newPassword,
   confirmNewPassword
@@ -95,5 +95,5 @@ export default {
   accountReg: validate(accountRegSchema),
   updateStatus: validate(updateStatusSchema),
   updateAccount: validate(debitCreditSchema),
-  updatePsw: validate(updatePswSchema)
+  updatePassword: validate(updatePasswordSchema)
 };

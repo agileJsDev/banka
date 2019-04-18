@@ -504,7 +504,8 @@ button[type="submit"] {
   height: 180px;
 }
 .card:nth-child(3) {
-  height: 280px;
+  /* height: 280px; */
+  background-color: #d6d6d6
 }
 
 .card__header,
@@ -567,10 +568,16 @@ button[type="submit"] {
 
 /* Table Style */
 .table {
-  table-layout: fixed;
+  /* table-layout: fixed; */
   width: 100%;
   white-space: nowrap;
+  height: 250px;
 }
+.card .border {
+  border: 1px solid
+}
+
+
 
 .table td {
   white-space: nowrap;
@@ -943,6 +950,7 @@ body .hidden {
   .card:nth-child(3) {
     height: 1%;
   }
+  
 }
 
 @media screen and (max-width: 1024px) and (min-width: 769px) {
