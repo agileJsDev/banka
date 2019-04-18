@@ -1,5 +1,5 @@
 import express from 'express';
-import userCtrl from '../controllers/userController';
+import userController from '../controllers/userController';
 import accountController from '../controllers/accountController';
 import validate from '../helpers/validateUser';
 import verifyAuthToken from '../helpers/verifyAuthToken';
@@ -9,25 +9,21 @@ import transaction from '../controllers/transactionController';
 
 const router = express.Router();
 
-router.post('/auth/signup', validate.signUp, userCtrl.signUp);
-router.post('/auth/signin', validate.logIn, userCtrl.logIn);
+router.post('/auth/signup', validate.signUp, userController.signUp);
+router.post('/auth/signin', validate.logIn, userController.logIn);
 router.post('/accounts', validate.accountReg, verifyAuthToken, accountController.create);
-router.patch('/account/:accountNumber', validate.updateStatus, verifyAuthToken, authorize.staff, accountController.updateStatus);
-router.delete('/accounts/:accountNumber', verifyAuthToken, authorize.staff, accountController.deleteAccount);
-router.get('/users', userCtrl.getUsers);
+router.route('/account/:accountNumber')
+  .delete(verifyAuthToken, authorize.staff, accountController.deleteAccount)
+  .patch(validate.updateStatus, verifyAuthToken, authorize.staff, accountController.updateStatus);
+router.get('/users', userController.getUsers);
 router.post('/transactions/:accountNumber/debit', validate.updateAccount, verifyAuthToken, authorize.cashier, transaction.debit);
-
 router.post('/transactions/:accountNumber/credit', validate.updateAccount, verifyAuthToken, authorize.cashier, transaction.credit);
-
-router.patch('/auth/reset', validate.updatePsw, verifyAuthToken, userCtrl.resetPassword);
-
-
-// working
+router.patch('/auth/reset', validate.updatePassword, verifyAuthToken, userController.resetPassword);
 router.get('/accounts/:accountNumber/transactions', verifyAuthToken, transaction.getUserTransactions);
 router.get('/transactions/:transactionId', verifyAuthToken, transaction.getSingleTransaction);
 router.get('/accounts/:accountNumber', verifyAuthToken, accountController.getAccountDetails);
 router.get('/user/:email/accounts', verifyAuthToken, authorize.staff, accountController.getUserAccounts);
-router.get('/accounts', verifyAuthToken, authorize.staff, accountController.getAllAcct);
+router.get('/accounts', verifyAuthToken, authorize.staff, accountController.getAllAccounts);
 //
 
 export default router;
