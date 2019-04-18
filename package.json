@@ -5,7 +5,6 @@
   "main": "app.js",
   "scripts": {
     "start": "node ./build/app.js",
-
     "build": "rm -rf build && babel server -d build",
     "dev": "nodemon --exec babel-node --presets babel-preset-env ./server/app.js",
     "test": "mocha --require babel-register tests/*.spec.js --exit",
