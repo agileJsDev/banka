@@ -3,7 +3,7 @@ import accountModel from '../models/accounts';
 import tModel from '../models/transactions';
 
 
-class transactionsCtrl {
+class TransactionsController {
   static async debit(req, res, next) {
     try {
       const cashier = req.user.id;
@@ -23,7 +23,8 @@ class transactionsCtrl {
       }
       const type = 'debit';
       const newBalance = await accountModel.debit(account.accountNumber, amount);
-      return transactionsCtrl.response(oldBalance, amount, newBalance, account, cashier, res, type);
+      return TransactionsController
+        .response(oldBalance, amount, newBalance, account, cashier, res, type);
     } catch (err) {
       return next(err);
     }
@@ -44,7 +45,8 @@ class transactionsCtrl {
       const amount = Number(req.body.amount);
       const type = 'credit';
       const newBalance = await accountModel.credit(account.accountNumber, amount);
-      return transactionsCtrl.response(oldBalance, amount, newBalance, account, cashier, res, type);
+      return TransactionsController
+        .response(oldBalance, amount, newBalance, account, cashier, res, type);
     } catch (err) {
       return next(err);
     }
@@ -105,4 +107,4 @@ class transactionsCtrl {
   }
 }
 
-export default transactionsCtrl;
+export default TransactionsController;

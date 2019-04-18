@@ -305,3 +305,25 @@ describe('Get Route', () => {
     });
   });
 });
+
+// Test for list of active or dormant accounts
+describe('Get Route', () => {
+  describe('GET /api/v1/accounts?status=active', () => {
+    describe('Admin/Staff can view list of all bank accounts according to status', () => {
+      it('should respond with error 401 - unauthorized - if token is invalid or expired', async () => {
+        const res = await chai.request(app).get('/api/v1/accounts?status=active').set('Authorization', 'eyJhbGciOiJIUzI1NiIsIkpXVCJ9.kcvIkS9ACezPO2DgAi-XvEikLy9ZA2y0kWiQ');
+        expect(res).to.have.status(401);
+        expect(res.body).to.have.property('error').to.deep.equal('Invalid Token');
+      });
+
+
+      it('should respond with 200 status code if request is successful', async () => {
+        const res = await chai.request(app).get('/api/v1/accounts?status=active').set('Authorization', adminToken);
+        expect(res).to.have.status(200);
+        expect(res.body).to.have.property('data');
+        expect(res.body.data).to.be.an('array');
+        expect(res.body.data[0]).to.have.property('status').to.deep.equal('active');
+      });
+    });
+  });
+});

@@ -2,7 +2,7 @@ import _ from 'lodash';
 import userModel from '../models/users';
 import accountModel from '../models/accounts';
 
-class AccountCtrl {
+class AccountController {
   static async create(req, res, next) {
     try {
       const accountExists = accountModel.findAccountById(req.user.id);
@@ -107,6 +107,14 @@ class AccountCtrl {
   static async getAllAcct(req, res, next) {
     try {
       const allAccounts = accountModel.getAllAcct();
+      const { status } = req.query;
+
+      if (status === 'active' || status === 'dormant') {
+        return res.status(200).json({
+          status: res.statusCode,
+          data: accountModel.status(status)
+        });
+      }
       return res.status(200).json({
         status: res.statusCode,
         data: allAccounts
@@ -118,4 +126,4 @@ class AccountCtrl {
 }
 
 
-export default AccountCtrl;
+export default AccountController;
