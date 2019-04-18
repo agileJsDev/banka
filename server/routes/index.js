@@ -1,10 +1,10 @@
 import express from 'express';
-import userCtrl from '../controllers/userCtrl';
-import accountController from '../controllers/accountCtrl';
+import userCtrl from '../controllers/userController';
+import accountController from '../controllers/accountController';
 import validate from '../helpers/validateUser';
 import verifyAuthToken from '../helpers/verifyAuthToken';
 import authorize from '../helpers/authorization';
-import transaction from '../controllers/transactionCtrl';
+import transaction from '../controllers/transactionController';
 
 
 const router = express.Router();

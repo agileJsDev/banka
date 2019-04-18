@@ -2,7 +2,7 @@ import _ from 'lodash';
 import bcrypt from 'bcrypt';
 import userModel from '../models/users';
 
-class UsersCtrl {
+class UsersController {
   static async signUp(req, res, next) {
     try {
       const data = req.body;
@@ -79,4 +79,4 @@ class UsersCtrl {
   }
 }
 
-export default UsersCtrl;
+export default UsersController;

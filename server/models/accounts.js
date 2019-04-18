@@ -70,6 +70,16 @@ class Accounts {
     account.updatedOn = moment.now();
     return account.balance;
   }
+
+  status(status) {
+    const account = this.getAllAcct();
+    return account.filter(acct => acct.status === status);
+  }
+
+  // domant() {
+  //   const account = this.getAllAcct();
+  //   return account.filter(acct => acct.status === 'dormant');
+  // }
 }
 
 export default new Accounts();
