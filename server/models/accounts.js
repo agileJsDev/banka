@@ -1,85 +1,85 @@
-import moment from 'moment';
 import _ from 'lodash';
+import moment from 'moment';
 import genAccountNo from '../utils/genAccountNo';
+import { pool } from '../db';
 import userModel from './users';
 
 class Accounts {
-  constructor() {
-    this.accounts = [];
+  static async create(accountType, userId) {
+    const { rows } = await pool.query(`INSERT INTO 
+    accounts( type, owner, accountNumber)
+    VALUES ($1, $2, $3)
+    RETURNING *`,
+    [accountType, userId, genAccountNo()]);
+    return rows[0];
   }
 
-  create(accountType, user) {
-    const account = {
-      id: (this.accounts.length + 1),
-      accountNumber: genAccountNo(),
-      createdOn: moment.now(),
-      owner: user.id,
-      type: accountType,
-      status: 'active',
-      balance: parseFloat(1000),
-      updatedOn: moment.now(),
-    };
-    this.accounts.push(account);
-    return account;
+  static async findAccountByUserId(userId) {
+    const data = await pool.query(`
+      SELECT * FROM accounts WHERE owner = $1
+    `, [userId]);
+    if (data.rowCount < 1) return false;
+    return data.rows[0];
   }
 
-  findAccountsById(id) {
-    return this.accounts.filter(acct => acct.owner === id).map(acct => _.omit(acct, ['id', 'owner', 'updatedOn']));
+  static async findUserAccounts(userId) {
+    const { rows } = await pool.query('SELECT * FROM accounts WHERE owner = $1', [userId]);
+    return rows.map(acct => _.omit(acct, ['id', 'owner', 'modifieddate']));
   }
 
-  findAccountById(id) {
-    return this.accounts.find(acct => acct.owner === id);
+  static async findAccountByNo(accountnumber) {
+    const data = await pool.query('SELECT * FROM accounts WHERE accountnumber = $1', [accountnumber]);
+    if (data.rowCount < 1) return false;
+    return data.rows[0];
   }
 
-  findAccountByNo(accountNumber) {
-    return this.accounts.find(acct => acct.accountNumber === Number(accountNumber));
+  static async delete(accountnumber) {
+    await pool.query('DELETE FROM accounts WHERE accountnumber = $1', [accountnumber]);
   }
 
-  delete(accountDetails) {
-    const index = this.accounts.indexOf(accountDetails);
-    this.accounts.splice(index, 1);
-  }
-
-  getAllAcct() {
-    const accounts = this.accounts.map((acct) => {
-      const account = _.cloneDeep(acct);
-      const { email } = userModel.findOne(account.owner);
+  static async getAllAccounts() {
+    const { rows } = await pool.query('SELECT * FROM accounts');
+    const accounts = rows.map(async (acc) => {
+      const account = acc;
+      const { email } = await userModel.findUserById(account.owner);
       account.ownerEmail = email;
-      return _.omit(account, ['id', 'owner', 'updatedOn']);
+      return _.omit(account, ['id', 'owner', 'modifieddate']);
     });
-    return accounts;
+    const promise = await Promise.all(accounts);
+    return promise;
   }
 
-  updateStatus(accountNumber, newStatus) {
-    const account = this.accounts.find(acct => acct.accountNumber === Number(accountNumber));
-    account.status = newStatus;
-    account.updatedOn = moment.now();
-    return account;
+  static async updateAccountStatus(accountNumber, newStatus) {
+    const { rows } = await pool
+      .query('UPDATE accounts SET status = $1, modifieddate = $2 WHERE accountnumber = $3 RETURNING *',
+        [newStatus, moment.utc(), accountNumber]);
+    return rows[0];
   }
 
-  debit(accountNumber, amount) {
-    const account = this.findAccountByNo(accountNumber);
-    account.balance = Number((parseFloat(account.balance) - Number(amount)).toFixed(2));
-    account.updatedOn = moment.now();
-    return account.balance;
+  static async debit(accountNumber, amount) {
+    const account = await Accounts.findAccountByNo(accountNumber);
+    const balance = Number((parseFloat(account.balance) - Number(amount)).toFixed(2));
+    const { rows } = await pool
+      .query('UPDATE accounts SET balance = $1, modifieddate = $2 WHERE accountnumber = $3 RETURNING *',
+        [balance, moment.utc(), accountNumber]);
+    return rows[0].balance;
   }
 
-  credit(accountNumber, amount) {
-    const account = this.findAccountByNo(accountNumber);
-    account.balance = Number((parseFloat(account.balance) + Number(amount)).toFixed(2));
-    account.updatedOn = moment.now();
-    return account.balance;
+  static async credit(accountNumber, amount) {
+    const account = await Accounts.findAccountByNo(accountNumber);
+    const balance = Number((parseFloat(account.balance) + Number(amount)).toFixed(2));
+    const { rows } = await pool
+      .query('UPDATE accounts SET balance = $1, modifieddate = $2 WHERE accountnumber = $3 RETURNING *',
+        [balance, moment.utc(), accountNumber]);
+    return rows[0].balance;
   }
 
-  status(status) {
-    const account = this.getAllAcct();
-    return account.filter(acct => acct.status === status);
+  static async status(status) {
+    const accounts = await Accounts.getAllAccounts();
+    const filteredAccounts = accounts.filter(account => account.status === status);
+    if (filteredAccounts.length === 0) return false;
+    return filteredAccounts;
   }
-
-  // domant() {
-  //   const account = this.getAllAcct();
-  //   return account.filter(acct => acct.status === 'dormant');
-  // }
 }
 
-export default new Accounts();
+export default Accounts;

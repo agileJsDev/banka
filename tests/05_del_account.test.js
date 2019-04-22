@@ -7,8 +7,12 @@ import accountModel from '../server/models/accounts';
 chai.use(chaiHttp);
 
 // Cache Token
-let adminToken = '';
-let userToken = '';
+const adminToken = userModel.generateAuthToken(
+  { id: 2, type: 'staff', isAdmin: false }
+);
+const userToken = userModel.generateAuthToken(
+  { id: 1, type: 'client', isAdmin: false }
+);
 
 // Cache Account
 let account = '';
@@ -17,13 +21,7 @@ describe('Admin/Staff should be able to delete bank account', () => {
   describe('DELETE /api/v1/account/<account_number>', () => {
     describe('When Admin/Staff decides to delete an account', () => {
       before(async () => {
-        adminToken = userModel.generateAuthToken(
-          { id: 1, type: 'staff', isAdmin: true }
-        );
-        userToken = userModel.generateAuthToken(
-          { id: 1, type: 'client', isAdmin: false }
-        );
-        account = accountModel.getAllAcct();
+        account = await accountModel.getAllAccounts();
       });
 
       // Throw error 403 if unauthorized user tries to delete user bank account
@@ -48,10 +46,12 @@ describe('Admin/Staff should be able to delete bank account', () => {
       });
 
       // Get 200 Ok status if account  is successfully deleted
-      it('should respond with an OK status code 200 if account is successfully deleted', async () => {
-        const res = await chai.request(app).delete(`/api/v1/account/${account[0].accountNumber}`).set('Authorization', adminToken);
-        expect(res).to.have.status(200);
-        expect(res.body).to.have.property('message').to.deep.equal('Account successfully deleted');
+      it('should respond with an OK status code 200 if account is successfully deleted', (done) => {
+        chai.request(app).delete(`/api/v1/account/${account[0].accountnumber}`).set('Authorization', adminToken).end((err, res) => {
+          expect(res).to.have.status(200);
+          expect(res.body).to.have.property('message').to.deep.equal('Account successfully deleted');
+          done();
+        });
       });
     });
   });

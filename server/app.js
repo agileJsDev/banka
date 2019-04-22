@@ -3,8 +3,10 @@ import router from './routes';
 import errorHandler from './helpers/error';
 import config from './utils/config';
 import prod from './utils/prod';
+import { dbTableSetup } from './db';
 
 config();
+dbTableSetup();
 
 const app = express();
 app.use(express.json());
@@ -13,7 +15,7 @@ prod(app);
 
 app.get('/', (req, res) => res.status(200).json({
   status: res.statusCode,
-  data: 'Welcome to Banka Default'
+  data: 'Welcome to the Very First Endpoint on Banka'
 }));
 
 app.use('/api/v1', router);

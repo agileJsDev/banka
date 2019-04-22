@@ -24,6 +24,5 @@ router.get('/transactions/:transactionId', verifyAuthToken, transaction.getSingl
 router.get('/accounts/:accountNumber', verifyAuthToken, accountController.getAccountDetails);
 router.get('/user/:email/accounts', verifyAuthToken, authorize.staff, accountController.getUserAccounts);
 router.get('/accounts', verifyAuthToken, authorize.staff, accountController.getAllAccounts);
-//
 
 export default router;

@@ -23,7 +23,7 @@ describe('Admin/Staff should be able to Activate and Deactivate Bank Account', (
         userToken = userModel.generateAuthToken(
           { id: 1, type: 'client', isAdmin: false }
         );
-        account = accountModel.getAllAcct();
+        account = await accountModel.getAllAccounts();
       });
 
       // Throw error 403 if unauthorized user tries to update a bank account
@@ -42,16 +42,16 @@ describe('Admin/Staff should be able to Activate and Deactivate Bank Account', (
 
       // Throw error message if account status is same as the new status (default status = active)
       it('should throw an error with status code 409 if account has already been activated or deactivated', async () => {
-        const res = await chai.request(app).patch(`/api/v1/account/${account[0].accountNumber}`).set('Authorization', adminToken).send({ status: 'active' });
+        const res = await chai.request(app).patch(`/api/v1/account/${account[0].accountnumber}`).set('Authorization', adminToken).send({ status: 'active' });
         expect(res).to.have.status(409);
         expect(res.body).to.have.property('error');
       });
 
       // Get 200 Ok status if account status is successfully updated
       it('should respond with an OK status code if account is successfully activated or deactivated', async () => {
-        const res = await chai.request(app).patch(`/api/v1/account/${account[0].accountNumber}`).set('Authorization', adminToken).send({ status: 'dormant' });
+        const res = await chai.request(app).patch(`/api/v1/account/${account[0].accountnumber}`).set('Authorization', adminToken).send({ status: 'dormant' });
         expect(res).to.have.status(200);
-        expect(res.body.data).to.have.property('accountNumber');
+        expect(res.body.data).to.have.property('accountnumber');
         expect(res.body.data).to.have.property('status').to.deep.equal('dormant');
       });
     });

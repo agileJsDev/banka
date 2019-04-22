@@ -1,7 +1,7 @@
 import chai, { expect } from 'chai';
 import chaiHttp from 'chai-http';
 import app from '../server/app';
-import inputs from './data.spec';
+import inputs from './mockdata.test';
 
 chai.use(chaiHttp);
 
@@ -13,18 +13,19 @@ describe('Signup Route', () => {
           expect(res).to.have.status(201);
           expect(res.body.data).to.have.property('token');
           expect(res.body.data).to.have.property('id');
-          expect(res.body.data).to.have.property('firstName').eql(inputs.validSignupInputs.firstName);
-          expect(res.body.data).to.have.property('lastName').eql(inputs.validSignupInputs.lastName);
+          expect(res.body.data).to.have.property('firstname').eql(inputs.validSignupInputs.firstName);
+          expect(res.body.data).to.have.property('lastname').eql(inputs.validSignupInputs.lastName);
           expect(res.body.data).to.have.property('email').eql(inputs.validSignupInputs.email);
-          expect(res.body.data).to.have.property('createdDate');
+          expect(res.body.data).to.have.property('createddate');
           done();
         });
       });
 
       it('should return an error message and 409 if user already exists', async () => {
-        const res = await chai.request(app).post('/api/v1/auth/signup').send(inputs.validSignupInputs);
-        expect(res).to.have.status(409);
-        expect(res.body).to.have.property('error').to.be.a('string');
+        chai.request(app).post('/api/v1/auth/signup').send(inputs.validSignupInputs).end((err, res) => {
+          expect(res).to.have.status(409);
+          expect(res.body).to.have.property('error').to.be.a('string');
+        });
       });
 
       it('should return an error message and status code 400 when email address is invalid', async () => {

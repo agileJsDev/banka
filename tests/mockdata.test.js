@@ -40,7 +40,17 @@ const inputs = {
     password: 'banka',
     newPassword: 'andela',
     confirmNewPassword: 'andeler'
+  },
+
+  admin2SignupInputs: {
+    email: 'xwebynaxwebyna@gmail.com',
+    firstName: 'Ayodeji',
+    lastName: 'Afolabi',
+    password: 'banka',
+    confirmPassword: 'banka',
+    type: 'staff'
   }
+
 };
 
 export default inputs;

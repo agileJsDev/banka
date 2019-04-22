@@ -1,7 +1,7 @@
 import chai, { expect } from 'chai';
 import chaiHttp from 'chai-http';
 import app from '../server/app';
-import inputs from './data.spec';
+import inputs from './mockdata.test';
 import userModel from '../server/models/users';
 
 chai.use(chaiHttp);
@@ -29,10 +29,10 @@ describe('Createa Bank Account Route', () => {
         );
         const res = await chai.request(app).post('/api/v1/accounts').set('Authorization', token).send({ type: 'savings' });
         expect(res).to.have.status(201);
-        expect(res.body.data).to.have.property('accountNumber');
+        expect(res.body.data).to.have.property('accountnumber');
         expect(res.body.data).to.have.property('type');
-        expect(res.body.data).to.have.property('firstName').eql(inputs.validSignupInputs.firstName);
-        expect(res.body.data).to.have.property('lastName').eql(inputs.validSignupInputs.lastName);
+        expect(res.body.data).to.have.property('firstname').eql(inputs.validSignupInputs.firstName);
+        expect(res.body.data).to.have.property('lastname').eql(inputs.validSignupInputs.lastName);
         expect(res.body.data).to.have.property('email').eql(inputs.validLoginInputs.email);
       });
 

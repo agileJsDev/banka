@@ -1,53 +1,51 @@
-// import uuid from 'uuid';
-import moment from 'moment';
 import config from 'config';
 import jwt from 'jsonwebtoken';
+import { pool } from '../db';
 
 class Users {
-  constructor() {
-    this.users = [];
+  static async create(inputData) {
+    const { rows } = await pool.query(`INSERT INTO 
+    users(email, firstName, lastName,password, type)
+    VALUES ($1, $2, $3, $4, $5)
+    RETURNING *`,
+    [inputData.email, inputData.firstName, inputData.lastName, inputData.password, inputData.type || 'client']);
+    return rows[0];
   }
 
-  create(data) {
-    const user = {
-      id: (this.users.length + 1),
-      email: data.email,
-      firstName: data.firstName,
-      lastName: data.lastName,
-      password: data.password,
-      type: data.type || 'client',
-      isAdmin: false,
-      createdDate: moment.now(),
-      modifiedDate: moment.now()
-    };
-    this.users.push(user);
-    return user;
+  static async findEmail(email) {
+    const data = await pool.query('SELECT * FROM users WHERE email = $1', [email]);
+    if (data.rowCount < 1) {
+      return false;
+    }
+    return data.rows[0];
   }
 
-  findEmail(email) {
-    return this.users.find(user => user.email === email);
+  static async findAll() {
+    const { rows } = await pool.query('SELECT * FROM users');
+    return rows;
   }
 
-  findOne(id) {
-    return this.users.find(user => user.id === id);
+  static async findUserById(id) {
+    const data = await pool.query('SELECT * FROM users WHERE id = $1', [id]);
+    if (data.rowCount < 1) {
+      return false;
+    }
+    return data.rows[0];
   }
 
-  findAll() {
-    return this.users;
+  static async resetPassword(id, password) {
+    const data = await pool.query('UPDATE users SET password = $1 WHERE id = $2', [password, id]);
+    return data;
   }
 
-  updatePsw(id, data) {
-    const user = this.findOne(id);
-    user.password = data;
-  }
 
-  generateAuthToken(user) {
-    this.token = jwt.sign(
-      { id: user.id, type: user.type, isAdmin: user.isAdmin },
+  static generateAuthToken(user) {
+    const token = jwt.sign(
+      { id: user.id, type: user.type, isAdmin: user.isadmin },
       config.get('jwtPrivateKey'), { expiresIn: '1h' }
     );
-    return this.token;
+    return token;
   }
 }
 
-export default new Users();
+export default Users;
