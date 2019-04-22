@@ -1,7 +1,7 @@
 import chai, { expect } from 'chai';
 import chaiHttp from 'chai-http';
 import app from '../server/app';
-import inputs from './data.spec';
+import inputs from './mockdata.test';
 
 chai.use(chaiHttp);
 
@@ -14,8 +14,8 @@ describe('Log In Route', () => {
         expect(res).to.have.status(200);
         expect(res.body.data).to.have.property('token');
         expect(res.body.data).to.have.property('id');
-        expect(res.body.data).to.have.property('firstName').eql(inputs.validSignupInputs.firstName);
-        expect(res.body.data).to.have.property('lastName').eql(inputs.validSignupInputs.lastName);
+        expect(res.body.data).to.have.property('firstname').eql(inputs.validSignupInputs.firstName);
+        expect(res.body.data).to.have.property('lastname').eql(inputs.validSignupInputs.lastName);
         expect(res.body.data).to.have.property('email').eql(inputs.validLoginInputs.email);
       });
 

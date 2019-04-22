@@ -17,6 +17,9 @@ const password = Joi.string()
 const type = Joi.string()
   .valid('staff')
   .optional();
+const accountType = Joi.string()
+  .valid('savings', 'current')
+  .required();
 const confirmPassword = Joi.any()
   .valid(Joi.ref('password'))
   .required().options({ language: { any: { allowOnly: 'must match password' } } });
@@ -54,7 +57,7 @@ const logInSchema = {
 
 // Schema for Bank Account Registration [TYPE = Account Type]
 const accountRegSchema = {
-  type: name
+  type: accountType
 };
 
 // Schema for Account Status Update

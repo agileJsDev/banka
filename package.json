@@ -7,13 +7,18 @@
     "start": "node ./build/app.js",
     "build": "rm -rf build && babel server -d build",
     "dev": "nodemon --exec babel-node --presets babel-preset-env ./server/app.js",
-    "test": "mocha --require babel-register tests/*.spec.js --exit",
+    "test": "mocha --require babel-register tests/*.test.js --exit",
     "coverage": "nyc npm test && nyc report --reporter=text-lcov | coveralls"
   },
   "engines": {
     "node": "10.15.3"
   },
-  "keywords": ["banking", "operations", "application", "lightweight"],
+  "keywords": [
+    "banking",
+    "operations",
+    "application",
+    "lightweight"
+  ],
   "author": "Ayodeji Afolabi",
   "license": "ISC",
   "dependencies": {
@@ -26,7 +31,7 @@
     "jsonwebtoken": "^8.5.1",
     "loadash": "^1.0.0",
     "moment": "^2.24.0",
-    "uuid": "^3.3.2"
+    "pg": "^7.10.0"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",

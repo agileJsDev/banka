@@ -2,11 +2,11 @@
 
 [![Build Status](https://travis-ci.com/Xwebyna/banka.svg?branch=development)](https://travis-ci.com/Xwebyna/banka) [![Coverage Status](https://coveralls.io/repos/github/Xwebyna/banka/badge.svg?branch=development)](https://coveralls.io/github/Xwebyna/banka?branch=development) [![Maintainability](https://api.codeclimate.com/v1/badges/cc41be350a7b19176b94/maintainability)](https://codeclimate.com/github/Xwebyna/banka/maintainability)
 
-### banka
+# Banka
 Banka is a light-weight core banking application that powers banking operations like account creation, customer deposit and withdrawals. 
 
 #### **Homepage** - [Banka](https://this-banka.herokuapp.com/)
-#### **Documentation** - [Api Documentation](https://this.banka.herokuapp.com/api-docs)
+#### **Documentation** - [Api Documentation](https://this-banka.herokuapp.com/api-docs)
 
 ## Technology and Tools Stack
 > - Uses `HTML` as the markup language for site structure and `CSS` for styling.
@@ -17,12 +17,12 @@ Banka is a light-weight core banking application that powers banking operations 
 
 ## Features of banka
 
-##Users
+#### Users
 > - Users can signup for an account and login.
 > - Users can create bank account
 > - Users can view transaction history
 
-##Admins/Staff
+#### Admins/Staff
 >- Admin/Staff can credit/debit users' accounts.
 >- Admin/Staff can deactivate/delete users' bank accounts.
 >- Admin/Staff can view list of bank accounts.
@@ -30,7 +30,7 @@ Banka is a light-weight core banking application that powers banking operations 
 
 ## Installation Steps
 
->- Clone repo to your machine
+>- Clone repository to your machine
 
 ```
 git clone https://github.com/Xwebyna/banka.git
@@ -45,19 +45,20 @@ npm install
 >- Start development server
 ```
 npm run dev
+```
 
 
 >- Start production server
 
 ```
 npm run build
-npm run start
+npm start
 ```
 
 ## Testing
 
 ```
-npm run test
+npm test
 ```
 
 ## License
