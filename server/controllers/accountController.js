@@ -3,6 +3,16 @@ import userModel from '../models/users';
 import accountModel from '../models/accounts';
 
 class AccountController {
+  /**
+   *
+   *
+   * @static
+   * @param {object} req
+   * @param {object} res
+   * @param {*} next
+   * @returns New User Account Created
+   * @memberof AccountController
+   */
   static async create(req, res, next) {
     try {
       const account = await accountModel.findAccountByUserId(req.user.id);
@@ -114,32 +124,24 @@ class AccountController {
     try {
       const allAccounts = await accountModel.getAllAccounts();
       if (allAccounts.length === 0) {
-        return res.status(404).json({
-          status: res.statusCode, error: 'Not Found'
-        });
+        return res.status(404).json({ status: res.statusCode, error: 'Not Found' });
       }
       const { status } = req.query;
-      if (status === 'active' || status === 'dormant') {
-        const accounts = await accountModel.status(status);
-        if (!accounts) {
-          return res.status(404).json({
-            status: res.statusCode, error: 'Not Found'
-          });
-        }
-        return res.status(200).json({
-          status: res.statusCode,
-          data: accounts
-        });
-      }
-      return res.status(200).json({
-        status: res.statusCode,
-        data: allAccounts
-      });
+      // Send accounts based on status from query
+      AccountController.filterAccounts(status, res);
+      return res.status(200).json({ status: res.statusCode, data: allAccounts });
     } catch (err) {
       return next(err);
     }
   }
-}
 
+  static async filterAccounts(status, res) {
+    if (status === 'active' || status === 'dormant') {
+      const accounts = await accountModel.status(status);
+      if (!accounts) return res.status(404).json({ status: res.statusCode, error: 'Not Found' });
+      return res.status(200).json({ status: res.statusCode, data: accounts });
+    }
+  }
+}
 
 export default AccountController;

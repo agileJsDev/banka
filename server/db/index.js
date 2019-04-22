@@ -54,6 +54,3 @@ const dbTableSetup = () => pool.query(`${usersTable} ${accountsTable} ${transact
 console.log(`Connected to ${connectionString}`);
 
 export { pool, dbTableSetup };
-
-
-// DROP TABLE IF EXISTS transactions;
