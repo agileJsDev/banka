@@ -54,21 +54,31 @@ describe('Staff(Cashier) should be able to debit bank account', () => {
       });
 
       // Get 201 status code if account is successfully debited
-      it('should respond with a status code 201 if account is successfully debited', async () => {
-        const res = await chai.request(app).post(`/api/v1/transactions/${resp.body.data.accountnumber}/debit`).set('Authorization', adminToken).send({ amount: '700' });
-        expect(res).to.have.status(201);
-        expect(res.body.data).to.have.property('transactionId');
-        expect(res.body.data).to.have.property('accountNumber');
-        expect(res.body.data).to.have.property('amount');
-        expect(res.body.data).to.have.property('cashier');
-        expect(res.body.data).to.have.property('transactionType').to.deep.equal('debit');
-        expect(res.body.data).to.have.property('acccountBalance').to.deep.equal(300);
+      it('should respond with a status code 201 if account is successfully debited', (done) => {
+        chai.request(app)
+          .post(`/api/v1/transactions/${resp.body.data.accountnumber}/debit`)
+          .set('Authorization', adminToken).send({ amount: '700' })
+          .end((err, res) => {
+            expect(res).to.have.status(201);
+            expect(res.body.data).to.have.property('transactionId');
+            expect(res.body.data).to.have.property('accountNumber');
+            expect(res.body.data).to.have.property('amount');
+            expect(res.body.data).to.have.property('cashier');
+            expect(res.body.data).to.have.property('transactionType').to.deep.equal('debit');
+            expect(res.body.data).to.have.property('acccountBalance').to.deep.equal(300);
+            done();
+          });
       });
 
-      it('should respond with a status code 400 if balance is not enough for debit transaction', async () => {
-        const res = await chai.request(app).post(`/api/v1/transactions/${resp.body.data.accountnumber}/debit`).set('Authorization', adminToken).send({ amount: '700' });
-        expect(res).to.have.status(400);
-        expect(res.body).to.have.property('error').to.deep.equal('Balance not sufficient for debit transaction');
+      it('should respond with a status code 400 if balance is not enough for debit transaction', (done) => {
+        chai.request(app).post(`/api/v1/transactions/${resp.body.data.accountnumber}/debit`)
+          .set('Authorization', adminToken)
+          .send({ amount: '700' })
+          .end((err, res) => {
+            expect(res).to.have.status(400);
+            expect(res.body).to.have.property('error').to.deep.equal('Balance not sufficient for debit transaction');
+            done();
+          });
       });
     });
   });
@@ -128,7 +138,7 @@ describe('Users shoiuld be able to reset passwpord', () => {
   describe('PATCH /api/v1/reset', () => {
     describe('When the user tries to change account password', () => {
       let user2Token;
-      before(async () => {
+      before(() => {
         user2Token = userModel.generateAuthToken(
           { id: 3, type: 'client', isAdmin: false }
         );
@@ -216,13 +226,15 @@ describe('Users should be able to view specific Account Transactions', () => {
       });
 
 
-      it('should respond with 200 status code if request for specific transaction is successful', async () => {
-        const res = await chai.request(app).get('/api/v1/transactions/1').set('Authorization', userToken);
-        expect(res).to.have.status(200);
-        expect(res.body).to.have.property('data');
-        expect(res.body.data).to.have.property('transactionid');
-        expect(res.body.data).to.have.property('type');
-        expect(res.body.data).to.have.property('newbalance');
+      it('should respond with 200 status code if request for specific transaction is successful', (done) => {
+        chai.request(app).get('/api/v1/transactions/1').set('Authorization', userToken).end((err, res) => {
+          expect(res).to.have.status(200);
+          expect(res.body).to.have.property('data');
+          expect(res.body.data).to.have.property('transactionid');
+          expect(res.body.data).to.have.property('type');
+          expect(res.body.data).to.have.property('newbalance');
+          done();
+        });
       });
     });
   });

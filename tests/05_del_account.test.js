@@ -46,12 +46,10 @@ describe('Admin/Staff should be able to delete bank account', () => {
       });
 
       // Get 200 Ok status if account  is successfully deleted
-      it('should respond with an OK status code 200 if account is successfully deleted', (done) => {
-        chai.request(app).delete(`/api/v1/account/${account[0].accountnumber}`).set('Authorization', adminToken).end((err, res) => {
-          expect(res).to.have.status(200);
-          expect(res.body).to.have.property('message').to.deep.equal('Account successfully deleted');
-          done();
-        });
+      it('should respond with an OK status code 200 if account is successfully deleted', async () => {
+        const res = await chai.request(app).delete(`/api/v1/account/${account[0].accountnumber}`).set('Authorization', adminToken);
+        expect(res).to.have.status(200);
+        expect(res.body).to.have.property('message').to.deep.equal('Account successfully deleted');
       });
     });
   });
