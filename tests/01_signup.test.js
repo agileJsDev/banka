@@ -21,23 +21,28 @@ describe('Signup Route', () => {
         });
       });
 
-      it('should return an error message and 409 if user already exists', async () => {
+      it('should return an error message and 409 if user already exists', (done) => {
         chai.request(app).post('/api/v1/auth/signup').send(inputs.validSignupInputs).end((err, res) => {
           expect(res).to.have.status(409);
           expect(res.body).to.have.property('error').to.be.a('string');
+          done();
         });
       });
 
-      it('should return an error message and status code 400 when email address is invalid', async () => {
-        const res = await chai.request(app).post('/api/v1/auth/signup').send({ email: 'bankagmail.com' });
-        expect(res).to.have.status(400);
-        expect(res.body).to.have.property('error').to.be.a('string');
+      it('should return an error message and status code 400 when email address is invalid', (done) => {
+        chai.request(app).post('/api/v1/auth/signup').send({ email: 'bankagmail.com' }).end((err, res) => {
+          expect(res).to.have.status(400);
+          expect(res.body).to.have.property('error').to.be.a('string');
+          done();
+        });
       });
 
-      it('should return an error message and status code 400 when name is not given', async () => {
-        const res = await chai.request(app).post('/api/v1/auth/signup').send(inputs.validLoginInputs);
-        expect(res).to.have.status(400);
-        expect(res.body).to.have.property('error').to.be.a('string');
+      it('should return an error message and status code 400 when name is not given', (done) => {
+        chai.request(app).post('/api/v1/auth/signup').send(inputs.validLoginInputs).end((err, res) => {
+          expect(res).to.have.status(400);
+          expect(res.body).to.have.property('error').to.be.a('string');
+          done();
+        });
       });
     });
   });
