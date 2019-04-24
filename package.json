@@ -31,7 +31,9 @@
     "jsonwebtoken": "^8.5.1",
     "loadash": "^1.0.0",
     "moment": "^2.24.0",
-    "pg": "^7.10.0"
+    "pg": "^7.10.0",
+    "swagger-ui-express": "^4.0.2",
+    "yamljs": "^0.3.0"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",

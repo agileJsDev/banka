@@ -1,0 +1,277 @@
+swagger: "2.0"
+info:
+  description: 'Banka is a light-weight core banking application that powers banking operations like account creation, customer deposit and withdrawals.'
+  version: "1.0.0"
+  title: "Banka Application API"
+host: "this-banka.herokuapp.com"
+basePath: "/api/v1"
+tags:
+- name: 'users'
+  description: 'Operations to be carried out oin the users'
+- name: 'accounts'
+  description: 'Operations to be carried out on the accounts'
+- name: 'transactions'
+  description: 'Operations to be carried out on transactions'
+schemes: 
+  - "https"
+  - "http"
+paths:
+  /auth/signup:
+    post:
+      tags:
+      - "users"
+      summary: "Handles the creation of new user account"
+      description: "This endpoint creates a new user and persist input data to the database"
+      consumes:
+      - "application/json"
+      produces: 
+      - "application/json"
+      parameters:
+      - in: "body"
+      - name: "body"
+      - description: "This is the request body object containing users' signup information"
+      - required: true
+        schema: 
+          $ref: "#definitions/UserSignupRequest"
+      responses:
+        201:
+          description: "User has been successfully resgistered"
+        400:
+          description: "Bad Request"
+        409: 
+          description: "Email has been used by another user"
+        500: 
+          description: "Internal Server Error"
+  
+  /auth/signin:
+    post:
+      tags:
+      - "users"
+      summary: "Handles users' sign in into the application"
+      description: "This endpoint sign in users afer authentications"
+      consumes:
+      - "application/json"
+      produces: 
+      - "application/json"
+      parameters:
+      - in: "body"
+      - name: "body"
+      - description: "This is the request body object containing users' sign in information"
+      - required: true
+        schema: 
+          $ref: "#definitions/UserLoginRequest"
+      responses:
+        200:
+          description: "General Success"
+        400:
+          description: "Bad Request"
+        401:
+          description: 'User has entered incorrect details'
+        404: 
+          description: "User not found in the database"
+        500: 
+          description: "Internal Server Error"
+          
+  /accounts:
+    post:
+      tags:
+      - "accounts"
+      summary: "Handles users' bank acccount creation"
+      description: "This endpoint creates users' bank accounts"
+      consumes:
+      - "application/json"
+      produces: 
+      - "application/json"
+      parameters:
+      - in: "body"
+      - name: "body"
+      - description: "This is the request body object containing account type information"
+      - required: true
+        schema: 
+          $ref: "#definitions/createAccountRequest"
+      responses:
+        201:
+          description: "Returns created entity"
+        500: 
+          description: "Internal Server Error"
+          
+  /account/{accountNumber}:
+    patch:
+      tags:
+      - "accounts"
+      summary: "Handles Account Status Update"
+      description: "This endpoint updates users' bank accounts status. This can only be done by an admin"
+      consumes:
+      - "application/json"
+      produces: 
+      - "application/json"
+      parameters:
+      - name: "accountNumber"
+        in: "path"
+        type: "string"
+        required: true
+      - description: "String to return"
+        schema: 
+          $ref: "#definitions/updateaccount"
+      responses:
+        200:
+          description: "General Success"
+        404: 
+          description: "Account not found in the database"
+        409: 
+          description: "Account status is same as new status"
+        500:
+         description: "Internal Server Error"
+ 
+    delete:
+      tags:
+      - "accounts"
+      summary: "Handles Specific Account Deletion"
+      description: "This endpoint deletes a specific bank account. This can only be done by an admin"
+      produces: 
+      - "application/json"
+      parameters:
+      - in: "path"
+        name: "accountNumber"
+        type: "integer"
+        required: true
+      - description: "Account number to return"
+        schema: 
+          $ref: "#definitions/deleteaccount"
+      responses:
+      200:
+        description: "General Success"
+      404: 
+        description: "Acccount number not found in the database"
+      500:
+        description: "Internal Server Error"
+        
+  /transactions/{accountNumber}/debit:
+    post:
+      tags:
+      - "transactions"
+      summary: "Debit Bank Account"
+      description: "This endpoint Perform debit transaction on a specific account"
+      consumes:
+      - "application/json"
+      produces: 
+      - "application/json"
+      parameters:
+      - in: "path"
+        name: "accountNumber"
+        type: "integer"
+        required: true
+      - description: "Account number to return"
+        schema: 
+          $ref: "#definitions/debitaccount"
+      responses:
+        201:
+          description: "Account has been successfully debited"
+        400: 
+          description: "Balance not sufficient"
+        404: 
+          description: "Account not found in the database"
+        500:
+          description: "Internal server error"
+        
+  /transactions/{accountNumber}/credit:
+    post:
+      tags:
+      - "transactions"
+      summary: "Credit Bank Account"
+      description: "This endpoint Performs credit transaction on a specific account"
+      consumes:
+      - "application/json"
+      produces: 
+      - "application/json"
+      parameters:
+      - in: "path"
+        name: "accountNumber"
+        type: "integer"
+        required: true
+      - description: "Account number to return"
+        schema: 
+          $ref: "#definitions/creditaccount"
+      responses:
+        201:
+          description: "Account has been successfully credited"
+        400: 
+          description: "Balance not sufficient"
+        404: 
+          description: "Account not found in the database"
+        500:
+          description: "Internal server error"
+  
+  /accounts/{accountNumber}/transactions:
+    get:
+      tags: 
+      - "accounts"
+      summary: "View Accounts Transaction History"
+      description: "Returns transaction history of an account"
+      consumes:
+      - "application/json"
+      produces: 
+      - "application/json"
+      parameters:
+      - in: "path"
+        name: "accountNumber"
+        type: "integer"
+        required: true
+      - description: "Account number to return"
+        schema: 
+          $ref: "#definitions/viewTransaction"
+      responses:
+        200:
+          description: "successful operation"
+        404: 
+          description: "No transaction found for the account"
+        500:
+          description: "Internal Server Error"
+    
+  /transactions/{transactionId}:
+    get:
+      tags:
+      - "transactions"
+      summary: "View Specific Transactions"
+      description: "Returns specific transaction details by id"
+      produces: 
+      - "application/json"
+      parameters:
+      - in: "path"
+        name: "transactionId"
+        type: "integer"
+        required: true
+      - description: "transactionId to return"
+        schema: 
+          $ref: "#definitions/viewTransactionById"
+      responses:
+        200:
+          description: "successful operation"
+        404: 
+          description: "No transaction found for the given id"
+        500:
+          description:  "Internal Server Error"
+
+/user/{emailAddress}/accounts:
+  get:
+    tags:
+    - "users"
+    summary: "View all accounts owned by a specific user (client)"
+    description: "Returns all users' accounts"
+    produces: 
+    - "application/json"
+    parameters:
+    - in: "path"
+      name: "emailAddress"
+      type: "string"
+      required: true
+    - description: "Email Address to return"
+      schema: 
+        $ref: "#definitions/viewAccountsByEmail"
+    responses:
+      200:
+        description: "successful operation"
+      404: 
+        description: "No accounts found for the email address"
+      500:
+        description:  "Internal Server Error"
