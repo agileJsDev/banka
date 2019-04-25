@@ -21,7 +21,7 @@ app.get('/', (req, res) => res.status(200).json({
 app.use('/api/v1', router);
 app.use(errorHandler);
 
-const port = process.env.PORT || 9000;
+const port = process.env.PORT || 8000;
 app.listen(port, console.log(`Server running on PORT ${port}`));
 
 export default app;

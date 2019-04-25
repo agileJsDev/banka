@@ -8,11 +8,9 @@ import inputs from './mockdata.test';
 chai.use(chaiHttp);
 
 // Cache Token
-const getToken = async () => {
-  const res = await chai.request(app).post('/api/v1/auth/signup').send(inputs.admin2SignupInputs);
-  return (res.body.data.token);
-};
-let adminToken = '';
+const adminToken = userModel.generateAuthToken(
+  { id: 6, type: 'staff', isadmin: false }
+);
 let userToken = '';
 
 // Cache Response
@@ -24,7 +22,6 @@ describe('Staff(Cashier) should be able to debit bank account', () => {
   describe('POST /api/v1/transactions/<account_number>/debit', () => {
     describe("When Staff(Cashier) wants to debit a user's bank account", () => {
       before(async () => {
-        adminToken = await getToken();
         userToken = userModel.generateAuthToken(
           { id: 1, type: 'client', isAdmin: false }
         );
@@ -341,6 +338,49 @@ describe('Get Route', () => {
         expect(res.body).to.have.property('data');
         expect(res.body.data).to.be.an('array');
         expect(res.body.data[0]).to.have.property('status').to.deep.equal('active');
+      });
+    });
+  });
+});
+
+
+describe('POST Route', () => {
+  describe('POST /api/v1/createrole', () => {
+    describe('Admin can create another admin user account', () => {
+      it('should respond with error 403 - unauthorized - if user is not authorised', async () => {
+        const res = await chai.request(app).post('/api/v1/createrole').set('Authorization', userToken).send({
+          email: 'banka2@gmail.com',
+          firstName: 'Markee',
+          lastName: 'Dembele',
+          role: '1'
+        });
+        expect(res).to.have.status(403);
+      });
+
+      it('should respond with status 201 when another admin is successfully created  ', async () => {
+        const superAdminToken = userModel.generateAuthToken(
+          { id: 6, type: 'staff', isadmin: true }
+        );
+        const res = await chai.request(app).post('/api/v1/createrole').set('Authorization', superAdminToken).send({
+          email: 'banka2@gmail.com',
+          firstName: 'Markee',
+          lastName: 'Dembele',
+          role: '1'
+        });
+        expect(res).to.have.status(201);
+      });
+
+      it('should respond with status 201 when another staff is successfully created  ', async () => {
+        const superAdminToken = userModel.generateAuthToken(
+          { id: 6, type: 'staff', isadmin: true }
+        );
+        const res = await chai.request(app).post('/api/v1/createrole').set('Authorization', superAdminToken).send({
+          email: 'banka22@gmail.com',
+          firstName: 'Markee',
+          lastName: 'Dembele',
+          role: '0'
+        });
+        expect(res).to.have.status(201);
       });
     });
   });

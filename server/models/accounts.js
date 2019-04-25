@@ -23,8 +23,9 @@ class Accounts {
   }
 
   static async findUserAccounts(userId) {
-    const { rows } = await pool.query('SELECT * FROM accounts WHERE owner = $1', [userId]);
-    return rows.map(acct => _.omit(acct, ['id', 'owner', 'modifieddate']));
+    const data = await pool.query('SELECT * FROM accounts WHERE owner = $1', [userId]);
+    if (data.rowCount < 1) return false;
+    return data.rows.map(acct => _.omit(acct, ['id', 'owner', 'modifieddate']));
   }
 
   static async findAccountByNo(accountnumber) {
