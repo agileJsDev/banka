@@ -14,9 +14,11 @@ const password = Joi.string()
   .max(20)
   .required()
   .strict();
-const type = Joi.string()
-  .valid('staff')
-  .optional();
+
+const role = Joi.string()
+  .valid('0', '1')
+  .required();
+
 const accountType = Joi.string()
   .valid('savings', 'current')
   .required();
@@ -45,7 +47,6 @@ const signUpScheama = {
   lastName: name,
   email,
   password,
-  type,
   confirmPassword
 };
 
@@ -53,6 +54,14 @@ const signUpScheama = {
 const logInSchema = {
   email,
   password
+};
+
+// Admin/Staff Create Account Schema
+const AdminStaffSchema = {
+  firstName: name,
+  lastName: name,
+  email,
+  role
 };
 
 // Schema for Bank Account Registration [TYPE = Account Type]
@@ -98,5 +107,6 @@ export default {
   accountReg: validate(accountRegSchema),
   updateStatus: validate(updateStatusSchema),
   updateAccount: validate(debitCreditSchema),
-  updatePassword: validate(updatePasswordSchema)
+  updatePassword: validate(updatePasswordSchema),
+  createAdminStaff: validate(AdminStaffSchema)
 };

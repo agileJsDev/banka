@@ -34,7 +34,7 @@ class UsersController {
       if (!user) {
         return res.status(404).json({
           status: res.statusCode,
-          error: 'No Associated Account with this Email'
+          error: 'Invalid Email or Password'
         });
       }
       const isPasswordValid = await bcrypt.compare(data.password, user.password);
@@ -77,6 +77,27 @@ class UsersController {
       const newPassword = await bcrypt.hash(data.newPassword, 10);
       await userModel.resetPassword(req.user.id, newPassword);
       return res.status(200).json({ status: res.statusCode, message: 'Password changed successfully' });
+    } catch (err) {
+      return next(err);
+    }
+  }
+
+  static async createAdminUser(req, res, next) {
+    try {
+      const data = req.body;
+      const email = await userModel.findEmail(data.email);
+      if (email) {
+        return res.status(409).json({
+          status: res.statusCode,
+          error: 'Email has been used'
+        });
+      }
+      data.password = await bcrypt.hash('banka', 10);
+      const adminUser = await userModel.createAdminUser(data);
+      return res.status(201).json({
+        status: res.statusCode,
+        data: _.omit(adminUser, ['modifieddate', 'password', 'id'])
+      });
     } catch (err) {
       return next(err);
     }

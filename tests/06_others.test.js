@@ -8,11 +8,9 @@ import inputs from './mockdata.test';
 chai.use(chaiHttp);
 
 // Cache Token
-const getToken = async () => {
-  const res = await chai.request(app).post('/api/v1/auth/signup').send(inputs.admin2SignupInputs);
-  return (res.body.data.token);
-};
-let adminToken = '';
+const adminToken = userModel.generateAuthToken(
+  { id: 6, type: 'staff', isadmin: false }
+);
 let userToken = '';
 
 // Cache Response
@@ -24,7 +22,6 @@ describe('Staff(Cashier) should be able to debit bank account', () => {
   describe('POST /api/v1/transactions/<account_number>/debit', () => {
     describe("When Staff(Cashier) wants to debit a user's bank account", () => {
       before(async () => {
-        adminToken = await getToken();
         userToken = userModel.generateAuthToken(
           { id: 1, type: 'client', isAdmin: false }
         );
