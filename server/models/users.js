@@ -19,6 +19,7 @@ class Users {
     } else if (role === 0) {
       role = false;
     }
+    
     const { rows } = await pool.query(`INSERT INTO 
     users(email, firstName, lastName, password, type, isAdmin)
     VALUES ($1, $2, $3, $4, $5, $6)
