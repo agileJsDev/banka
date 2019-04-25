@@ -15,7 +15,15 @@ class AccountController {
    */
   static async create(req, res, next) {
     try {
+      const account = await accountModel.findAccountByUserId(req.user.id);
+      if (account) {
+        return res.status(409).json({
+          status: res.statusCode,
+          error: 'An account is associated with the user'
+        });
+      }
       const user = await userModel.findUserById(req.user.id);
+
       const { firstname, lastname, email } = user;
       const {
         accountnumber, type, balance, createddate
@@ -120,34 +128,18 @@ class AccountController {
       }
       const { status } = req.query;
       // Send accounts based on status from query
-      if (status === 'active' || status === 'dormant') {
-        const accounts = await accountModel.status(status);
-        if (!accounts) return res.status(404).json({ status: res.statusCode, error: 'Not Found' });
-        return res.status(200).json({ status: res.statusCode, data: accounts });
-      }
+      AccountController.filterAccounts(status, res);
       return res.status(200).json({ status: res.statusCode, data: allAccounts });
     } catch (err) {
       return next(err);
     }
   }
 
-  static async getMyAccounts(req, res, next) {
-    try {
-      const { id } = req.user;
-      const account = await accountModel.findUserAccounts(id);
-      if (account) {
-        if (account) {
-          return res.status(200).json({
-            status: res.statusCode,
-            accounts: account
-          });
-        }
-      }
-      return res.status(404).json({
-        status: res.statusCode, message: 'You have not created an account'
-      });
-    } catch (err) {
-      next(err);
+  static async filterAccounts(status, res) {
+    if (status === 'active' || status === 'dormant') {
+      const accounts = await accountModel.status(status);
+      if (!accounts) return res.status(404).json({ status: res.statusCode, error: 'Not Found' });
+      return res.status(200).json({ status: res.statusCode, data: accounts });
     }
   }
 }

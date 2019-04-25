@@ -22,7 +22,7 @@ describe('Log In Route', () => {
       it('should throw an error 404 for not registered email address', async () => {
         const res = await chai.request(app).post('/api/v1/auth/signin').send(inputs.invalidLoginEmail);
         expect(res).to.have.status(404);
-        expect(res.body).to.have.property('error').to.deep.equal('Invalid Email or Password');
+        expect(res.body).to.have.property('error').to.deep.equal('No Associated Account with this Email');
       });
 
       it('should return an error 401 for invalid password credential', async () => {
