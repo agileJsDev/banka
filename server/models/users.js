@@ -12,6 +12,22 @@ class Users {
     return rows[0];
   }
 
+  static async createAdminUser(data) {
+    let { role } = data;
+    if (role === 1) {
+      role = true;
+    } else if (role === 0) {
+      role = false;
+    }
+    
+    const { rows } = await pool.query(`INSERT INTO 
+    users(email, firstName, lastName, password, type, isAdmin)
+    VALUES ($1, $2, $3, $4, $5, $6)
+    RETURNING *`,
+    [data.email, data.firstName, data.lastName, data.password, 'staff', role]);
+    return rows[0];
+  }
+
   static async findEmail(email) {
     const data = await pool.query('SELECT * FROM users WHERE email = $1', [email]);
     if (data.rowCount < 1) {

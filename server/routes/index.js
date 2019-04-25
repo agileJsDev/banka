@@ -34,4 +34,8 @@ router.get('/accounts/:accountNumber', verifyAuthToken, accountController.getAcc
 // Development Route
 router.get('/users', userController.getUsers);
 
+// User Views All Accounts
+router.get('/myaccounts', verifyAuthToken, accountController.getMyAccounts);
+router.post('/createrole', validate.createAdminStaff, verifyAuthToken, authorize.admin, userController.createAdminUser);
+
 export default router;
