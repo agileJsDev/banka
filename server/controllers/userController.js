@@ -68,7 +68,7 @@ class UsersController {
       user.token = userModel.generateAuthToken(user);
       return res.status(200).json({
         status: res.statusCode,
-        data: _.pick(user, ['token', 'id', 'firstname', 'lastname', 'email'])
+        data: _.pick(user, ['token', 'id', 'firstname', 'lastname', 'email', 'type'])
       });
     } catch (err) {
       return next(err);
@@ -107,12 +107,17 @@ class UsersController {
     }
   }
 
-  // Devlopment Method
-  static async getUsers(req, res) {
-    const users = await userModel.findAll();
-    return res.status(200).send(users);
-  }
-  
+
+  /**
+   *
+   * @description Create Admin User
+   * @static
+   * @param {*} req
+   * @param {*} res
+   * @param {*} next
+   * @returns
+   * @memberof UsersController
+   */
   static async createAdminUser(req, res, next) {
     try {
       const data = req.body;
@@ -132,6 +137,12 @@ class UsersController {
     } catch (err) {
       return next(err);
     }
+  }
+
+  // Devlopment Method
+  static async getUsers(req, res) {
+    const users = await userModel.findAll();
+    return res.status(200).send(users);
   }
 }
 

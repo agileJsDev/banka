@@ -12,13 +12,16 @@ const router = express.Router();
 router.post('/auth/signup', validate.signUp, userController.signUp);
 router.post('/auth/signin', validate.logIn, userController.logIn);
 router.post('/accounts', validate.accountReg, verifyAuthToken, accountController.create);
+router.get('/myaccounts', verifyAuthToken, accountController.getMyAccounts);
 
-// All Staff
+
+// Admin/Staff
+router.get('/user/:email/accounts', verifyAuthToken, authorize.staff, accountController.getUserAccounts);
+router.get('/accounts', verifyAuthToken, authorize.staff, accountController.getAllAccounts);
 router.route('/account/:accountNumber')
   .delete(verifyAuthToken, authorize.staff, accountController.deleteAccount)
   .patch(validate.updateStatus, verifyAuthToken, authorize.staff, accountController.updateStatus);
-router.get('/user/:email/accounts', verifyAuthToken, authorize.staff, accountController.getUserAccounts);
-router.get('/accounts', verifyAuthToken, authorize.staff, accountController.getAllAccounts);
+
 
 // Only Cashier
 router.post('/transactions/:accountNumber/debit', validate.updateAccount, verifyAuthToken, authorize.cashier, transaction.debit);
@@ -30,12 +33,10 @@ router.get('/accounts/:accountNumber/transactions', verifyAuthToken, transaction
 router.get('/transactions/:transactionId', verifyAuthToken, transaction.getSingleTransaction);
 router.get('/accounts/:accountNumber', verifyAuthToken, accountController.getAccountDetails);
 
+// Only Admin
+router.post('/createrole', validate.createAdminStaff, verifyAuthToken, authorize.admin, userController.createAdminUser);
 
 // Development Route
 router.get('/users', userController.getUsers);
-
-// User Views All Accounts
-router.get('/myaccounts', verifyAuthToken, accountController.getMyAccounts);
-router.post('/createrole', validate.createAdminStaff, verifyAuthToken, authorize.admin, userController.createAdminUser);
 
 export default router;

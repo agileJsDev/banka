@@ -25,7 +25,7 @@ describe('Createa Bank Account Route', () => {
 
       it('should return a 201 status code if user successfully creates an account', async () => {
         token = userModel.generateAuthToken(
-          { id: 1, type: 'client', isAdmin: false }
+          { id: 2, type: 'client', isAdmin: false }
         );
         const res = await chai.request(app).post('/api/v1/accounts').set('Authorization', token).send({ type: 'savings' });
         expect(res).to.have.status(201);
@@ -54,7 +54,6 @@ describe('GET api/v1/myaccounts', () => {
   describe('Users Can View All Thier Account', () => {
     describe('When a Registered and authenticated user tries to view his/her accounts', () => {
       it('should return status 200 and list of accounts owned by owner', async () => {
-    
         const res = await chai.request(app).get('/api/v1/myaccounts').set('Authorization', token);
         expect(res).to.have.status(200);
       });

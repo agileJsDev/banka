@@ -51,7 +51,7 @@ class AccountController {
       if (account) {
         if (account.status === data.status) {
           return res.status(409).json({
-            status: res.statusCode, error: `Account is already in ${data.status}`
+            status: res.statusCode, error: `Account is already ${data.status}`
           });
         }
       } else {
@@ -145,7 +145,7 @@ class AccountController {
       if (account) {
         return res.status(200).json({
           status: res.statusCode,
-          accounts: [_.omit(account, ['id', 'owner', 'modifieddate'])]
+          accounts: account
         });
       }
       return res.status(404).json({
@@ -186,6 +186,17 @@ class AccountController {
     }
   }
 
+
+  /**
+   *
+   * @description get list of specific user's account
+   * @static
+   * @param {*} req
+   * @param {*} res
+   * @param {*} next
+   * @returns
+   * @memberof AccountController
+   */
   static async getMyAccounts(req, res, next) {
     try {
       const { id } = req.user;

@@ -5,6 +5,13 @@ import inputs from './mockdata.test';
 
 chai.use(chaiHttp);
 
+describe('Default API Route', () => {
+  it('should return 200 HTTP success code when pointed to the default route', async () => {
+    const res = await chai.request(app).get('/');
+    expect(res).to.have.status(200);
+  });
+});
+
 describe('Signup Route', () => {
   describe('POST /api/v1/auth/signup', () => {
     describe('When the user tries to signup an account on the application', () => {
