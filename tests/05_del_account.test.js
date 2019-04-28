@@ -8,10 +8,10 @@ chai.use(chaiHttp);
 
 // Cache Token
 const adminToken = userModel.generateAuthToken(
-  { id: 2, type: 'staff', isAdmin: false }
+  { id: 2, type: 'staff', isadmin: false }
 );
 const userToken = userModel.generateAuthToken(
-  { id: 1, type: 'client', isAdmin: false }
+  { id: 1, type: 'client', isadmin: false }
 );
 
 // Cache Account

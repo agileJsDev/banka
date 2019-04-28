@@ -3,6 +3,16 @@ import bcrypt from 'bcrypt';
 import userModel from '../models/users';
 
 class UsersController {
+  /**
+   *
+   * @description Create user account when provided inputs are valid
+   * @static
+   * @param {object} req
+   * @param {object} res
+   * @param {function} next
+   * @returns token, id, firstname, lastname, type, created date of user account
+   * @memberof UsersController
+   */
   static async signUp(req, res, next) {
     try {
       const data = req.body;
@@ -26,6 +36,16 @@ class UsersController {
     }
   }
 
+  /**
+   *
+   * @description Login users given the provided credentials are correct
+   * @static
+   * @param {object} req
+   * @param {object} res
+   * @param {function} next
+   * @returns User id, firstname, lastname, and token
+   * @memberof UsersController
+   */
   static async logIn(req, res, next) {
     try {
       const data = req.body;
@@ -48,18 +68,23 @@ class UsersController {
       user.token = userModel.generateAuthToken(user);
       return res.status(200).json({
         status: res.statusCode,
-        data: _.pick(user, ['token', 'id', 'firstname', 'lastname', 'email'])
+        data: _.pick(user, ['token', 'id', 'firstname', 'lastname', 'email', 'type'])
       });
     } catch (err) {
       return next(err);
     }
   }
 
-  static async getUsers(req, res) {
-    const users = await userModel.findAll();
-    return res.status(200).send(users);
-  }
-
+  /**
+   *
+   * @description Password Reset API
+   * @static
+   * @param {object} req
+   * @param {object} res
+   * @param {function} next
+   * @returns
+   * @memberof UsersController
+   */
   static async resetPassword(req, res, next) {
     try {
       const user = await userModel.findUserById(req.user.id);
@@ -82,6 +107,17 @@ class UsersController {
     }
   }
 
+
+  /**
+   *
+   * @description Create Admin User
+   * @static
+   * @param {*} req
+   * @param {*} res
+   * @param {*} next
+   * @returns
+   * @memberof UsersController
+   */
   static async createAdminUser(req, res, next) {
     try {
       const data = req.body;
@@ -101,6 +137,12 @@ class UsersController {
     } catch (err) {
       return next(err);
     }
+  }
+
+  // Devlopment Method
+  static async getUsers(req, res) {
+    const users = await userModel.findAll();
+    return res.status(200).send(users);
   }
 }
 

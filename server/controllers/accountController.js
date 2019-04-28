@@ -5,12 +5,12 @@ import accountModel from '../models/accounts';
 class AccountController {
   /**
    *
-   *
+   * @description Create Bank Account
    * @static
    * @param {object} req
    * @param {object} res
    * @param {*} next
-   * @returns New User Account Created
+   * @returns User's account number, firstname, lastname, email, account type, opening balance and creation date
    * @memberof AccountController
    */
   static async create(req, res, next) {
@@ -32,6 +32,17 @@ class AccountController {
     }
   }
 
+
+  /**
+   *
+   * @description Update bank account status
+   * @static
+   * @param {object} req
+   * @param {object} res
+   * @param {function} next
+   * @returns Account number, the new updated status and modified date
+   * @memberof AccountController
+   */
   static async updateStatus(req, res, next) {
     try {
       const data = req.body;
@@ -40,7 +51,7 @@ class AccountController {
       if (account) {
         if (account.status === data.status) {
           return res.status(409).json({
-            status: res.statusCode, error: `Account is already in ${data.status}`
+            status: res.statusCode, error: `Account is already ${data.status}`
           });
         }
       } else {
@@ -60,6 +71,17 @@ class AccountController {
     }
   }
 
+
+  /**
+   *
+   * @description Delete a spcific bank account
+   * @static
+   * @param {object} req
+   * @param {object} res
+   * @param {function} next
+   * @returns A success message
+   * @memberof AccountController
+   */
   static async deleteAccount(req, res, next) {
     try {
       const account = await accountModel.findAccountByNo(req.params.accountNumber);
@@ -75,6 +97,17 @@ class AccountController {
     }
   }
 
+
+  /**
+   *
+   * @description Get User's Specific Bank Account Details
+   * @static
+   * @param {object} req
+   * @param {object} res
+   * @param {function} next
+   * @returns User Bank Account Details
+   * @memberof AccountController
+   */
   static async getAccountDetails(req, res, next) {
     try {
       const account = await accountModel.findAccountByNo(req.params.accountNumber);
@@ -94,6 +127,17 @@ class AccountController {
     }
   }
 
+
+  /**
+   *
+   * @description Get all accounts owned by a specific user (client)
+   * @static
+   * @param {object} req
+   * @param {object} res
+   * @param {function} next
+   * @returns List of User's bank Account
+   * @memberof AccountController
+   */
   static async getUserAccounts(req, res, next) {
     try {
       const { id } = await userModel.findEmail(req.params.email);
@@ -101,7 +145,7 @@ class AccountController {
       if (account) {
         return res.status(200).json({
           status: res.statusCode,
-          accounts: [_.omit(account, ['id', 'owner', 'modifieddate'])]
+          accounts: account
         });
       }
       return res.status(404).json({
@@ -112,6 +156,17 @@ class AccountController {
     }
   }
 
+
+  /**
+   *
+   * @description Get a list of all bank accounts or sort by active and dormant
+   * @static
+   * @param {object} req
+   * @param {object} res
+   * @param {function} next
+   * @returns List of all bank accounts
+   * @memberof AccountController
+   */
   static async getAllAccounts(req, res, next) {
     try {
       const allAccounts = await accountModel.getAllAccounts();
@@ -131,6 +186,17 @@ class AccountController {
     }
   }
 
+
+  /**
+   *
+   * @description get list of specific user's account
+   * @static
+   * @param {*} req
+   * @param {*} res
+   * @param {*} next
+   * @returns
+   * @memberof AccountController
+   */
   static async getMyAccounts(req, res, next) {
     try {
       const { id } = req.user;

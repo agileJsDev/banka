@@ -19,7 +19,7 @@ class Accounts {
       SELECT * FROM accounts WHERE owner = $1
     `, [userId]);
     if (data.rowCount < 1) return false;
-    return data.rows[0];
+    return data.rows.map(acct => _.omit(acct, ['id', 'owner']));
   }
 
   static async findUserAccounts(userId) {

@@ -23,7 +23,7 @@ describe('Staff(Cashier) should be able to debit bank account', () => {
     describe("When Staff(Cashier) wants to debit a user's bank account", () => {
       before(async () => {
         userToken = userModel.generateAuthToken(
-          { id: 1, type: 'client', isAdmin: false }
+          { id: 1, type: 'staff', isAdmin: false }
         );
         resp = await chai.request(app).post('/api/v1/accounts').set('Authorization', userToken).send({ type: 'savings' });
       });
@@ -131,13 +131,13 @@ describe('Staff(Cashier) should be able to credit bank account', () => {
 
 
 // Password Resset Test
-describe('Users shoiuld be able to reset passwpord', () => {
+describe('Users should be able to reset passwpord', () => {
   describe('PATCH /api/v1/reset', () => {
     describe('When the user tries to change account password', () => {
       let user2Token;
       before(() => {
         user2Token = userModel.generateAuthToken(
-          { id: 3, type: 'client', isAdmin: false }
+          { id: 9, type: 'client', isAdmin: false }
         );
       });
 
@@ -160,7 +160,7 @@ describe('Users shoiuld be able to reset passwpord', () => {
       });
 
 
-      it('should return 200 status code if password is succeefully changed', (done) => {
+      it('should return 200 status code if password is successfully changed', (done) => {
         chai.request(app).patch('/api/v1/auth/reset').set('Authorization', userToken).send(inputs.pswResetValid)
           .end((err, res) => {
             expect(res).to.have.status(200);
@@ -171,15 +171,15 @@ describe('Users shoiuld be able to reset passwpord', () => {
 
       it('to confrim password change, User tries log in', async () => {
         const res = await chai.request(app).post('/api/v1/auth/signin').send({
-          email: inputs.validLoginInputs.email,
+          email: 'admin@banka.com',
           password: inputs.pswResetValid.newPassword
         });
         expect(res).to.have.status(200);
         expect(res.body.data).to.have.property('token');
         expect(res.body.data).to.have.property('id');
-        expect(res.body.data).to.have.property('firstname').eql(inputs.validSignupInputs.firstName);
-        expect(res.body.data).to.have.property('lastname').eql(inputs.validSignupInputs.lastName);
-        expect(res.body.data).to.have.property('email').eql(inputs.validLoginInputs.email);
+        expect(res.body.data).to.have.property('firstname').eql(inputs.admin2SignupInputs.firstName);
+        expect(res.body.data).to.have.property('lastname');
+        expect(res.body.data).to.have.property('email')
       });
     });
   });
@@ -304,7 +304,6 @@ describe('Get Route', () => {
         expect(res).to.have.status(401);
         expect(res.body).to.have.property('error').to.deep.equal('Invalid Token');
       });
-
 
       it('should respond with 200 status code if request by the admin/staff for all account is successful', async () => {
         const res = await chai.request(app).get('/api/v1/accounts').set('Authorization', adminToken);

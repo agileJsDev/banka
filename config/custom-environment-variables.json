@@ -1,4 +1,4 @@
 {
   "jwtPrivateKey" : "jwt_secretKey",
-  "db": "db_url"
+  "db": "DATABASE_URL"
 }

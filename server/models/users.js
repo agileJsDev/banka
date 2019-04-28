@@ -19,7 +19,7 @@ class Users {
     } else if (role === 0) {
       role = false;
     }
-    
+
     const { rows } = await pool.query(`INSERT INTO 
     users(email, firstName, lastName, password, type, isAdmin)
     VALUES ($1, $2, $3, $4, $5, $6)
@@ -58,7 +58,7 @@ class Users {
   static generateAuthToken(user) {
     const token = jwt.sign(
       { id: user.id, type: user.type, isAdmin: user.isadmin },
-      config.get('jwtPrivateKey'), { expiresIn: '1h' }
+      config.get('jwtPrivateKey'), { expiresIn: '24h' }
     );
     return token;
   }
