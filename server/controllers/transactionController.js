@@ -83,6 +83,18 @@ class TransactionsController {
    */
   static async getSingleTransaction(req, res, next) {
     try {
+      // Check if transcation id is owned by the user
+      if (req.user.type === 'client') {
+        const accounts = await accountModel.findAccountByUserId(req.user.id);
+        const { accountnumber } = await transactionModel.findByID(req.params.transactionId);
+        const found = accounts.find(account => account.accountnumber === accountnumber);
+        if (!found) {
+          return res.status(404).json({
+            status: res.statusCode, error: 'No transaction with the given ID'
+          });
+        }
+      }
+
       const transation = await transactionModel
         .findByID(req.params.transactionId);
       if (!transation) {
@@ -112,6 +124,17 @@ class TransactionsController {
    */
   static async getUserTransactions(req, res, next) {
     try {
+      // Check if accountNumber is owned by the user
+      if (req.user.type === 'client') {
+        const accounts = await accountModel.findAccountByUserId(req.user.id);
+        const found = accounts.find(account => account.accountnumber === Number(req.params.accountNumber));
+        if (!found) {
+          return res.status(404).json({
+            status: res.statusCode, error: 'Not Found'
+          });
+        }
+      }
+
       const userTransactions = await transactionModel
         .getUserTransactions(req.params.accountNumber);
       if (!userTransactions) {

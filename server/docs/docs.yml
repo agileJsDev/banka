@@ -3,7 +3,7 @@ info:
   description: 'Banka is a light-weight core banking application that powers banking operations like account creation, customer deposit and withdrawals.'
   version: "1.0.0"
   title: "Banka Application API"
-host: "localhost:8000"
+host: "this-banka.herokuapp.com"
 basePath: "/api/v1"
 
 
@@ -207,9 +207,12 @@ paths:
       responses:
         200:
           description: "successful operation"
+        401:
+          description: "Authentication Error"
+        404:
           description: "Not Found"
         500:
-          description:  "Internal Server Error"
+          description: "Internal Server Error"
 
 
 # Admin/staff
@@ -384,7 +387,7 @@ paths:
         401:
           description: "Authentication Error"
         400: 
-          description: "Balance not sufficient"
+          description: "Not Allowed"
         404: 
           description: "Account not found in the database"
         500:
@@ -420,7 +423,7 @@ paths:
         401:
           description: "Authentication Error"
         400: 
-          description: "Balance not sufficient"
+          description: "Not Allowed"
         404: 
           description: "Account not found in the database"
         500:
@@ -442,7 +445,7 @@ paths:
       - in: "body"
         name: "body"
         description: "This is the request body object containing admin/staff create role information. In other to create admin/staff, Sign in with  Email: 'admin@banka.com', 
-        Password: 'admin'"
+        Password: 'BankaAdmin2019'  Deafult password for new admin/staff is 'Banka007'" 
         items:
           type: "string"
           enum:
@@ -516,8 +519,8 @@ definitions:
       email: 'user@user.com'
       firstName: "Marky"  
       lastName: "Steve"
-      password: '123456'
-      confirmPassword: '123456'
+      password: 'Banka2019'
+      confirmPassword: 'Banka2019'
 
   UserLoginRequest:
     title: User Login Request
@@ -531,7 +534,7 @@ definitions:
         type: "string"
     example:
       email: 'user@user.com'
-      password: '123456'
+      password: 'Banka2019'
 
   createAccountRequest:
     title: Create Account Request
@@ -601,8 +604,8 @@ definitions:
         description: "New User Password Confirmation"
         type: "string"
     example:
-      password: 'banka'
-      newPassword: 'andela'
-      confirmNewPassword: "andela"
+      password: 'Banka007'
+      newPassword: 'Andela2019'
+      confirmNewPassword: "Andela2019"
 
      

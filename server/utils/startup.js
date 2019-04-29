@@ -10,9 +10,13 @@ const data = {
   role: '1'
 };
 
+
 const startup = async (app) => {
-  data.password = await bcrypt.hash('banka', 10);
-  await userModel.createAdminUser(data);
+  const email = await userModel.findEmail(data.email);
+  if (!email) {
+    data.password = await bcrypt.hash('BankaAdmin2019', 10);
+    await userModel.createAdminUser(data);
+  }
   app.use(helmet());
   app.use(compression());
 };

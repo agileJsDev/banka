@@ -3,8 +3,8 @@ const inputs = {
     email: 'xwebyna@gmail.com',
     firstName: 'Ayodeji',
     lastName: 'Afolabi',
-    password: 'banka',
-    confirmPassword: 'banka'
+    password: 'BankaTest20',
+    confirmPassword: 'BankaTest20'
   },
   adminSignupInputs: {
     email: 'xwebynaADMIN@gmail.com',
@@ -16,30 +16,30 @@ const inputs = {
   },
   validLoginInputs: {
     email: 'xwebyna@gmail.com',
-    password: 'banka'
+    password: 'BankaTest20'
   },
   invalidLoginPsw: {
     email: 'xwebyna@gmail.com',
-    password: 'banka@invalid'
+    password: 'Test20129'
   },
   invalidLoginEmail: {
     email: 'xwebynaxwebyna@gmail.com',
-    password: 'banka'
+    password: 'BankaTest20'
   },
   pswResetValid: {
-    password: 'banka',
-    newPassword: 'andela',
-    confirmNewPassword: 'andela'
+    password: 'BankaAdmin2019',
+    newPassword: 'Andela2019',
+    confirmNewPassword: 'Andela2019'
   },
   pswResetInValid: {
-    password: 'banker',
+    password: 'Admin2019',
     newPassword: 'andela',
     confirmNewPassword: 'andela'
   },
   pswResetInValid2: {
     password: 'banka',
-    newPassword: 'andela',
-    confirmNewPassword: 'andeler'
+    newPassword: 'Andela2019',
+    confirmNewPassword: 'Andela20197'
   },
 
   admin2SignupInputs: {

@@ -251,7 +251,7 @@ describe('Get Route', () => {
       it('should respond with error 404 - Not Found - if account does not exist', async () => {
         const res = await chai.request(app).get('/api/v1/accounts/123456789').set('Authorization', userToken);
         expect(res).to.have.status(404);
-        expect(res.body).to.have.property('error').to.deep.equal('Account does not exist');
+        expect(res.body).to.have.property('error').to.deep.equal('Not Found');
       });
 
       it('should respond with 200 status code if request for account details is successful', async () => {
