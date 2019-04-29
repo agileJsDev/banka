@@ -1,10 +1,18 @@
 import Joi from 'joi';
 
 const name = Joi.string()
+  .trim()
+  .strict()
   .min(5)
   .max(50)
-  .required();
+  .required()
+  .regex(/^[a-zA-Z]+$/)
+  .options({ language: { string: { regex: { base: 'must only contain letters' } } } });
+
+
 const email = Joi.string()
+  .trim()
+  .strict()
   .min(5)
   .max(255)
   .email()
@@ -13,22 +21,35 @@ const password = Joi.string()
   .min(5)
   .max(20)
   .required()
-  .strict();
+  .strict()
+  .regex(/^(?=.*[0-9]+.*)(?=.*[A-Z]+.*)[0-9a-zA-Z]+/)
+  .options({ language: { string: { regex: { base: 'must only contain lowercase and uppercase characters with numbers' } } } });
 
 const role = Joi.string()
   .valid('0', '1')
+  .trim()
   .required();
 
 const accountType = Joi.string()
   .valid('savings', 'current')
+  .trim()
   .required();
+
 const confirmPassword = Joi.any()
   .valid(Joi.ref('password'))
-  .required().options({ language: { any: { allowOnly: 'must match password' } } });
+  .required()
+  .strict()
+  .options({ language: { any: { allowOnly: 'must match password' } } });
+
 const status = Joi.string()
   .valid('active', 'dormant')
+  .trim()
   .required();
+
 const amount = Joi.number()
+  .min(100)
+  .positive()
+  .precision(2)
   .required();
 
 const newPassword = Joi.string()
@@ -36,10 +57,11 @@ const newPassword = Joi.string()
   .max(20)
   .required()
   .strict();
+
 const confirmNewPassword = Joi.any()
   .valid(Joi.ref('newPassword'))
-  .required().options({ language: { any: { allowOnly: 'must match new password' } } });
-
+  .required()
+  .options({ language: { any: { allowOnly: 'must match new password' } } });
 
 // Schema for Sign Up
 const signUpScheama = {
@@ -93,7 +115,7 @@ const validate = (schema) => {
     if (error) {
       return res.status(400).json({
         status: res.statusCode,
-        error: error.details[0].message
+        error: error.details[0].message.replace(/[\\"]+/g, "'")
       });
     }
     return next();

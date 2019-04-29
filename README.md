@@ -6,7 +6,7 @@
 Banka is a light-weight core banking application that powers banking operations like account creation, customer deposit and withdrawals. 
 
 #### **Homepage** - [Banka](https://this-banka.herokuapp.com/)
-#### **Documentation** - [Api Documentation](https://this-banka.herokuapp.com/api-docs)
+#### **Documentation** - [Api Documentation](https://this-banka.herokuapp.com/api-doc)
 
 ## Technology and Tools Stack
 > - Uses `HTML` as the markup language for site structure and `CSS` for styling.

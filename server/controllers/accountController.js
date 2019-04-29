@@ -110,6 +110,19 @@ class AccountController {
    */
   static async getAccountDetails(req, res, next) {
     try {
+      // Check if client has access to the account
+      if (req.user.type === 'client') {
+        // Get All Clients Accounts
+        const userAccounts = await accountModel.findUserAccounts(req.user.id);
+        // Check if account number is user's
+        const account = userAccounts.find(acct => acct.accountnumber === Number(req.params.accountNumber));
+        if (!account) {
+          return res.status(404).json({
+            status: res.statusCode, error: 'Not Found'
+          });
+        }
+      }
+
       const account = await accountModel.findAccountByNo(req.params.accountNumber);
       if (!account) {
         return res.status(404).json({
@@ -126,7 +139,6 @@ class AccountController {
       return next(err);
     }
   }
-
 
   /**
    *
@@ -156,7 +168,6 @@ class AccountController {
     }
   }
 
-
   /**
    *
    * @description Get a list of all bank accounts or sort by active and dormant
@@ -185,7 +196,6 @@ class AccountController {
       return next(err);
     }
   }
-
 
   /**
    *

@@ -105,8 +105,10 @@ const signInSample = (e) => {
   };
 
   loadR(formButton, () => {
-    toast(toastSuccess, 'Success Dialog. Simply giving a feedback to user.');
-    if (loginForm) window.location.replace('./user/home.html');
+    toast(toastSuccess, 'Success Dialog. Simply giving feedback to user.');
+    if (loginForm) window.location.replace('./user/myaccounts.html');
+    if (registerForm) window.location.replace('./user/create-account.html');
+    if (bankAccountForm) window.location.replace('./myaccounts.html');
   });
 };
 

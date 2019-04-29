@@ -128,7 +128,7 @@ class UsersController {
           error: 'Email has been used'
         });
       }
-      data.password = await bcrypt.hash('banka', 10);
+      data.password = await bcrypt.hash('Banka007', 10);
       const adminUser = await userModel.createAdminUser(data);
       return res.status(201).json({
         status: res.statusCode,
