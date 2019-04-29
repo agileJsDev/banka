@@ -24,7 +24,6 @@ tags:
   description: "Operations to be carried out only by the Staff (Cashier)"
 
 schemes: 
-  - "http"
   - "https"
 
 paths:
