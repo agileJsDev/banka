@@ -25,6 +25,7 @@ tags:
 
 schemes: 
   - "https"
+  - "http"
 
 paths:
   /auth/signup:
