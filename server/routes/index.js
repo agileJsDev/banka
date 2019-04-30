@@ -36,7 +36,4 @@ router.get('/accounts/:accountNumber', verifyAuthToken, accountController.getAcc
 // Only Admin
 router.post('/createrole', validate.createAdminStaff, verifyAuthToken, authorize.admin, userController.createAdminUser);
 
-// Development Route
-router.get('/users', userController.getUsers);
-
 export default router;
