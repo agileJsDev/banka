@@ -3,8 +3,7 @@ import Joi from 'joi';
 const name = Joi.string()
   .trim()
   .strict()
-  .min(5)
-  .max(50)
+  .max(15)
   .required()
   .regex(/^[a-zA-Z]+$/)
   .options({ language: { string: { regex: { base: 'must only contain letters' } } } });
@@ -13,10 +12,11 @@ const name = Joi.string()
 const email = Joi.string()
   .trim()
   .strict()
-  .min(5)
+  .min(2)
   .max(255)
   .email()
   .required();
+
 const password = Joi.string()
   .min(5)
   .max(20)
