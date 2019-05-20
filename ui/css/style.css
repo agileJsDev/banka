@@ -59,6 +59,10 @@ header .max__width {
   background: none;
 }
 
+.account__type__name {
+  text-transform: capitalize
+}
+
 /* Header Style */
 
 .main__header {
@@ -368,7 +372,7 @@ button[type="submit"] {
 .grid-container {
   display: grid;
   grid-template-columns: 170px 1fr;
-  grid-template-rows: 1fr;
+  grid-template-rows: auto;
   grid-template-areas:
     "sidenav main"
     "sidenav main"
@@ -531,11 +535,17 @@ button[type="submit"] {
   padding: 0px 1px 20px 1px;
   justify-content: center;
   align-items: center;
-  margin-top: 30px
+  margin-top: 10px
 }
 
 .card .reset__margin {
   margin-top: 0;
+}
+
+#user__name {
+  text-transform: capitalize;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 #user__info {
@@ -570,7 +580,7 @@ button[type="submit"] {
 .table {
   width: 100%;
   white-space: nowrap;
-  height: 250px
+  /* height: 250px */
 }
 .card .border {
   border: 1px solid
@@ -592,7 +602,7 @@ button[type="submit"] {
 .table td,
 .table th {
   text-align: left;
-  padding: 5px 10px;
+  padding: 10px 10px;
 }
 
 #debit_amt {
@@ -623,17 +633,18 @@ button[type="submit"] {
   color: white;
   background: #6e6663;
   padding: 10px;
-  margin: 20px;
+  margin: 10px;
 }
 
 .balance {
-  margin-top: 15px;
+  margin-top: -10px;
   padding: 20px 0 0 0;
   font-weight: bold;
   font-size: 40px;
   font-style: italic;
   color: #13702b;
 }
+
 /* Transaction Page Style */
 .box__section {
   display: flex;
@@ -910,18 +921,18 @@ body .hidden {
     float: none;
   }
 
-  #table__mobile-adj {
+  /* #table__mobile-adj {
     padding: 0 0 20px 0;
     margin-top: 63px
-  }
+  } */
 
  .card  #table__mobile-adj {
-   margin-top: 50px
+   margin-top: 20px
  }
 
- .box__section .table__margin {
+ /* .box__section .table__margin {
    margin-top: 270px
- }
+ } */
  
   .box__section,
   #box__reduced_margin {
