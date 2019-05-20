@@ -5,7 +5,7 @@ const connectionString = config.get('db');
 const pool = new pg.Pool({ connectionString });
 
 // Create Database Tables
-const usersTable = `DROP TABLE IF EXISTS users; DROP TABLE IF EXISTS accounts; DROP TABLE IF EXISTS transactions;
+const usersTable = `DROP TABLE IF EXISTS users;
 CREATE TABLE IF NOT EXISTS users
   (
     id SERIAL PRIMARY KEY,
@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS users
   );
   `;
 
-const accountsTable = `
+const accountsTable = `DROP TABLE IF EXISTS accounts;
   CREATE TABLE IF NOT EXISTS accounts
   (
     id SERIAL PRIMARY KEY,
@@ -34,7 +34,7 @@ const accountsTable = `
   );
   `;
 
-const transactionsTable = `
+const transactionsTable = `DROP TABLE IF EXISTS transactions;
   CREATE TABLE IF NOT EXISTS transactions
   (
     transactionId SERIAL PRIMARY KEY,
