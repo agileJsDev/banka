@@ -14,9 +14,10 @@ const deleteAccount = document.querySelector('.delete__account');
 const logoutBtn = document.querySelector('#logout');
 const goBackBtn = document.querySelector('#goBack');
 
-const createNode = (element, content) => {
+const createNode = (element, content, className) => {
   const el = document.createElement(element);
   el.textContent = content;
+  el.className = className;
   return el;
 };
 
@@ -37,21 +38,20 @@ const modal = (parentDiv) => {
   });
 };
 
+const toastSuccess = 'toast__success';
+const toastFail = 'toast__fail';
 const toast = (className, msg) => {
   const divToast = createNode('div', msg);
   divToast.className = className;
   document.body.appendChild(divToast);
   setTimeout(() => document.body.removeChild(divToast), 4000);
 };
-const toastSuccess = 'toast__success';
-const toastFail = 'toast__fail';
 
 /* Mobile Menu Functionality */
 xBtn.addEventListener('click', () => {
   if (mobileMenu) {
-    mobileMenu.style.display === 'block'
-      ? (mobileMenu.style.display = 'none')
-      : (mobileMenu.style.display = 'block');
+    if (mobileMenu.style.display === 'block') mobileMenu.style.display = 'none';
+    else mobileMenu.style.display = 'block';
   }
   if (grid) {
     grid.classList.toggle('dropdown__active');
@@ -60,7 +60,7 @@ xBtn.addEventListener('click', () => {
 });
 
 /* Front-end Password Confirmation */
-const confirmPassword = () => {
+const passwordConfirm = () => {
   if (passwordDOM.value === comfirmPasswordDom.value) {
     comfirmPasswordDom.setCustomValidity('');
   } else {
@@ -81,7 +81,7 @@ const getTransactionDetails = () => {
       const h1Tag = createNode('h1', detail.date);
       const para = createNode('p', detail.desc);
       const amountTag = createNode('h1', `NGN ${detail.amount}`);
-      const parentNode = createNode('div', '');
+      const parentNode = createNode('div');
       appendTo(parentNode, h1Tag);
       appendTo(parentNode, para);
       appendTo(parentNode, amountTag);
@@ -91,29 +91,10 @@ const getTransactionDetails = () => {
   });
 };
 
-// const workBtn = document.querySelector('.work--btn')
-const signInSample = (e) => {
-  e.preventDefault();
-  const loadR = (button, callback) => {
-    button.disabled = true;
-    button.classList.add('loading');
-    setTimeout(() => {
-      button.disabled = false;
-      button.classList.remove('loading');
-      callback();
-    }, 3000);
-  };
-
-  loadR(formButton, () => {
-    toast(toastSuccess, 'Success Dialog. Simply giving feedback to user.');
-    if (loginForm) window.location.replace('./user/myaccounts.html');
-    if (registerForm) window.location.replace('./user/create-account.html');
-    if (bankAccountForm) window.location.replace('./myaccounts.html');
-  });
-};
-
 const deleteBankAccount = () => {
-  const res = prompt('Are you sure you want this account deleted? Enter your password to confirm: ');
+  const res = prompt(
+    'Are you sure you want this account deleted? Enter your password to confirm: '
+  );
   if (res) toast(toastSuccess, 'Success Dialog. Simply giving feedback to user.');
   if (!res) toast(toastFail, 'Failed Dialog. Simply giving feedback to user.');
 };
@@ -129,17 +110,267 @@ const goBack = () => {
   window.history.back();
 };
 
+// Frontend Implementations
+const btnLoading = () => {
+  formButton.disabled = true;
+  formButton.classList.add('loading');
+};
 
-getTransactionDetails();
-if (registerForm) registerForm.addEventListener('submit', signInSample);
-if (loginForm) loginForm.addEventListener('submit', signInSample);
-if (bankAccountForm) bankAccountForm.addEventListener('submit', signInSample);
+const stopBtnLoading = () => {
+  formButton.disabled = false;
+  formButton.classList.remove('loading');
+};
+
+const request = (endpoint = '', method = 'GET', body = null) => {
+  const apiBase = 'http://localhost:8000/api/v1';
+  const token = localStorage.getItem('token');
+  return fetch(`${apiBase}/${endpoint}`, {
+    mode: 'cors',
+    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+    method,
+    body
+  })
+    .then(res => res.json())
+    .catch(err => err);
+};
+
+// ChecK if user is signed in
+const isLoggedIn = async () => {
+  try {const response = await request('accounts');
+  if (response.error && response.status === 401) {
+    localStorage.clear();
+    window.location.replace('../login.html');
+  }
+  const userFirstName = document.querySelectorAll('.user__name');
+  userFirstName.forEach((userName) => {
+    const user = userName;
+    [user.textContent] = localStorage.getItem('name').split(' ');
+  });} catch (err) {
+
+  }
+};
+
+// Implement Signup Functionality
+const register = async (e) => {
+  try {
+    e.preventDefault();
+    btnLoading();
+    const email = registerForm.elements.email.value;
+    const firstName = registerForm.elements.firstName.value;
+    const lastName = registerForm.elements.lastName.value;
+    const password = registerForm.elements.password.value;
+    const confirmPassword = registerForm.elements.confirmPassword.value;
+    const data = JSON.stringify({
+      email,
+      firstName,
+      lastName,
+      password,
+      confirmPassword
+    });
+    const response = await request('auth/signup', 'POST', data);
+    stopBtnLoading();
+    if (!response.data) throw Error(response.error);
+    localStorage.setItem('token', response.data.token);
+    const { firstname, lastname } = response.data;
+    localStorage.setItem('name', `${firstname} ${lastname}`);
+    toast(toastSuccess, 'User Profile Successfully Created');
+    window.location.replace('./user/create-account.html');
+  } catch (error) {
+    toast(toastFail, error);
+  }
+};
+
+const signIn = async (e) => {
+  try {
+    e.preventDefault();
+    btnLoading();
+    const email = loginForm.elements.email.value;
+    const password = loginForm.elements.password.value;
+    const data = JSON.stringify({ email, password });
+    const response = await request('auth/signin', 'POST', data);
+    stopBtnLoading();
+    if (!response.data) throw Error(response.error);
+    localStorage.setItem('token', response.data.token);
+    const { firstname, lastname } = response.data;
+    localStorage.setItem('name', `${firstname} ${lastname}`);
+    toast(toastSuccess, 'User Logged In');
+    window.location.replace('./user/myaccounts.html');
+  } catch (error) {
+    toast(toastFail, error);
+  }
+};
+
+const createAccount = async (e) => {
+  try {
+    e.preventDefault();
+    btnLoading();
+    const sel = document.querySelector('#select__account');
+    const type = sel.options[sel.selectedIndex].value;
+    const data = JSON.stringify({ type });
+    const response = await request('accounts', 'POST', data);
+    stopBtnLoading();
+    if (!response.data) throw Error(response.error);
+    toast(toastSuccess, `${response.data.type} account created`);
+    window.location.replace('./myaccounts.html');
+  } catch (error) {
+    toast(toastFail, error);
+  }
+};
+
+const myAccounts = async () => {
+  try {
+    isLoggedIn();
+    const response = await request('myaccounts');
+    if (!response.accounts) throw Error(response.message);
+    response.accounts.forEach((account) => {
+      const myAccountsBoxDOM = document.querySelector('.myaccounts');
+      const accountBox = `<div class="box">
+  <br>
+  <br>
+  <h2  id="undertext-line" class="account__type__name">${account.type}</h2>
+  <br>
+  <h2 class="account__number">${account.accountnumber}</h2>
+  <h1>&#8358; ${account.balance}</h1>
+  <a><button class='btn open__account'>Open Account</button></a>
+</div>`;
+      myAccountsBoxDOM.insertAdjacentHTML('afterbegin', accountBox);
+    });
+
+    const openAccountBtn = document.querySelectorAll('.open__account');
+    openAccountBtn.forEach((accountBtn) => {
+      accountBtn.addEventListener('click', () => {
+        const accountDOM = accountBtn.parentElement.parentNode;
+        localStorage.setItem('no', accountDOM.querySelector('.account__number').innerHTML);
+        window.location.replace('./home.html');
+      });
+    });
+  } catch (error) {
+    toast(toastFail, error);
+  }
+};
+
+const transactionsList = [
+  {
+    transactionid: 1,
+    createddate: '2019-05-19T23:58:13.760Z',
+    type: 'credit',
+    accountnumber: 1933763471,
+    amount: 500,
+    oldbalance: 1000,
+    newbalance: 1500
+  },
+  {
+    transactionid: 2,
+    createddate: '2019-05-19T23:58:40.474Z',
+    type: 'credit',
+    accountnumber: 1933763471,
+    amount: 500,
+    oldbalance: 1500,
+    newbalance: 2000
+  },
+  {
+    transactionid: 3,
+    createddate: '2019-05-19T23:58:43.357Z',
+    type: 'credit',
+    accountnumber: 1933763471,
+    amount: 500,
+    oldbalance: 2000,
+    newbalance: 2500
+  },
+  {
+    transactionid: 4,
+    createddate: '2019-05-19T23:58:44.807Z',
+    type: 'credit',
+    accountnumber: 1933763471,
+    amount: 500,
+    oldbalance: 2500,
+    newbalance: 3000
+  },
+  {
+    transactionid: 5,
+    createddate: '2019-05-19T23:59:07.776Z',
+    type: 'debit',
+    accountnumber: 1933763471,
+    amount: 750,
+    oldbalance: 3000,
+    newbalance: 2250
+  }
+];
+
+const accountDetails = async () => {
+  isLoggedIn();
+  const accountNumber = localStorage.getItem('no');
+  const response = await request(`accounts/${accountNumber}`);
+  if (!response.data) throw Error(response.error);
+  const {
+    accountnumber, balance, type, createddate
+  } = response.data;
+  document.querySelector('.account__name').textContent = localStorage.getItem('name');
+  document.querySelector('.acct__number').textContent = accountnumber;
+  document.querySelector('.acct__type').textContent = type;
+  document.querySelector('.acct__date').textContent = new Date(createddate).toDateString();
+  document.querySelector('.balance').appendChild(document.createTextNode(balance));
+
+  // const transactions = await request(`accounts/${accountnumber}/transactions`);
+  // if (!transactions.data) throw Error(transactions.error);
+  // const recentTransactions = transactions.data.slice(0, 4);
+  transactionsList.forEach((transaction) => {
+    const recentTransactionsDOM = `<tr class="table__row">
+    <td class="transac_date">${transaction.createddate}</td>
+    <td class="transac_details">Caash Deposit //Lagos_Branch</td>
+    <td class="transac_amount" id="credit_amt">${transaction.amount}</td>
+  </tr> `;
+    document.querySelector('tbody').insertAdjacentHTML('beforeend', recentTransactionsDOM);
+  });
+};
+
+const transactions = () => {
+  isLoggedIn();
+  transactionsList.forEach((transaction) => {
+    const recentTransactionsDOM = `<tr class="table__row">
+    <td class="transac_date">${transaction.createddate} </td>
+    <td class="transac_details"> Cash Deposit //Lagos Branch </td>
+    <td class="transac_amount" id="credit_amt">${transaction.amount}</td>
+    <td class="view_details"><button class="view__btn">Details</button></td>
+</tr>`;
+    document.querySelector('tbody').insertAdjacentHTML('beforeend', recentTransactionsDOM);
+  });
+  getTransactionDetails();
+};
+
+
+if (registerForm) registerForm.addEventListener('submit', register);
+if (bankAccountForm) bankAccountForm.addEventListener('submit', createAccount);
+if (loginForm) loginForm.addEventListener('submit', signIn);
+
 if (deleteAccount) deleteAccount.addEventListener('click', deleteBankAccount);
 if (resetPasswordForm) resetPasswordForm.addEventListener('submit', signInSample);
 if (userAccountForm) userAccountForm.addEventListener('submit', signInSample);
 if (logoutBtn) logoutBtn.addEventListener('click', logutUser);
 if (goBackBtn) goBackBtn.addEventListener('click', goBack);
 if (passwordDOM) {
-  passwordDOM.oninput = confirmPassword;
-  comfirmPasswordDom.oninput = confirmPassword;
+  passwordDOM.oninput = passwordConfirm;
+  comfirmPasswordDom.oninput = passwordConfirm;
+}
+
+const currentView = window.location.pathname;
+switch (currentView) {
+  case '/C:/Users/Xwebyna/Desktop/banka/ui/user/create-account.html':
+    isLoggedIn();
+    break;
+
+  case '/C:/Users/Xwebyna/Desktop/banka/ui/user/myaccounts.html':
+    myAccounts();
+    break;
+
+  case '/C:/Users/Xwebyna/Desktop/banka/ui/user/home.html':
+    accountDetails();
+    break;
+
+  case '/C:/Users/Xwebyna/Desktop/banka/ui/user/transactions.html':
+    transactions();
+    break;
+
+  default:
+    break;
 }

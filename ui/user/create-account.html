@@ -34,7 +34,7 @@
 		<aside class="sidenav">
 			<div class="sidenav__profile">
 				<div class="user__avatar"></div>
-				<div class="user__title">Ayodeji A</div>
+				<div class="user__name"></div>
 			</div>
 
 
@@ -49,15 +49,15 @@
 				<div class="create__account-box reg__box form-box">
 					<div class="create__account-box__header">
 						<div>
-							<span>Welcome, <strong class="user__title"> Ayodeji A</strong></span>
+							<span>Welcome, <strong class="user__name"></strong></span>
 						</div>
 						<div>
 							<h2><strong> Open Your Bank Account Online</strong></h2>
 						</div>
 					</div>
 					<div>
-						<form method="POST" action="./index.html" class="form" id="bank__account__form">
-							<select required>
+						<form class="form" id="bank__account__form">
+							<select required id = 'select__account'>
 								<option value='' selected disabled>Select Account Type</option>
 								<option value="savings">Savings Account</option>
 								<option value="current">Current Account</option>

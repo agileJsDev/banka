@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "start": "node ./build/app.js",
-    "build": "rm -rf build && babel server -d build",
+    "build": "rm -rf build && babel server -d build && npm start",
     "dev": "nodemon --exec babel-node --presets babel-preset-env ./server/app.js",
     "test": "mocha --require babel-register tests/*.test.js --exit",
     "coverage": "nyc npm test && nyc report --reporter=text-lcov | coveralls"
@@ -26,6 +26,7 @@
     "bcrypt": "^3.0.5",
     "compression": "^1.7.4",
     "config": "^3.0.1",
+    "cors": "^2.8.5",
     "express": "^4.16.4",
     "helmet": "^3.16.0",
     "joi": "^14.3.1",
