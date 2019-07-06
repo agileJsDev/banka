@@ -5,4 +5,10 @@ const errorHandler = (err, req, res, next) => {
   });
 };
 
-export default errorHandler;
+const error404 = (req, res) => res.status(404).json({
+  status: res.statusCode,
+  message: 'Not Found!'
+});
+
+
+export { errorHandler, error404 };

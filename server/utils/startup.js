@@ -10,7 +10,6 @@ const data = {
   role: '1'
 };
 
-
 const startup = async (app) => {
   const email = await userModel.findEmail(data.email);
   if (!email) {
@@ -20,5 +19,6 @@ const startup = async (app) => {
   app.use(helmet());
   app.use(compression());
 };
+
 
 export default startup;

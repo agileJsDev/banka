@@ -136,16 +136,18 @@ const request = (endpoint = '', method = 'GET', body = null) => {
 
 // ChecK if user is signed in
 const isLoggedIn = async () => {
-  try {const response = await request('accounts');
-  if (response.error && response.status === 401) {
-    localStorage.clear();
-    window.location.replace('../login.html');
-  }
-  const userFirstName = document.querySelectorAll('.user__name');
-  userFirstName.forEach((userName) => {
-    const user = userName;
-    [user.textContent] = localStorage.getItem('name').split(' ');
-  });} catch (err) {
+  try {
+    const response = await request('accounts');
+    if (response.error && response.status === 401) {
+      localStorage.clear();
+      window.location.replace('../login.html');
+    }
+    const userFirstName = document.querySelectorAll('.user__name');
+    userFirstName.forEach((userName) => {
+      const user = userName;
+      [user.textContent] = localStorage.getItem('name').split(' ');
+    });
+  } catch (err) {
 
   }
 };
@@ -191,10 +193,11 @@ const signIn = async (e) => {
     stopBtnLoading();
     if (!response.data) throw Error(response.error);
     localStorage.setItem('token', response.data.token);
-    const { firstname, lastname } = response.data;
+    const { firstname, lastname, type } = response.data;
     localStorage.setItem('name', `${firstname} ${lastname}`);
     toast(toastSuccess, 'User Logged In');
-    window.location.replace('./user/myaccounts.html');
+    if (type === 'client') window.location.replace('./user/myaccounts.html');
+    else if (type === 'staff') window.location.replace('./admin/dashboard.html');
   } catch (error) {
     toast(toastFail, error);
   }

@@ -139,11 +139,11 @@ class UsersController {
     }
   }
 
-  // Devlopment Method
+/*   // Devlopment Method
   static async getUsers(req, res) {
     const users = await userModel.findAll();
     return res.status(200).send(users);
-  }
+  } */
 }
 
 export default UsersController;

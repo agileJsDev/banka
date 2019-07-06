@@ -4,8 +4,12 @@ import config from 'config';
 const connectionString = config.get('db');
 const pool = new pg.Pool({ connectionString });
 
+// Drop tables
+const dropTables = 'DROP TABLE IF EXISTS users, accounts, transactions;';
+
+
 // Create Database Tables
-const usersTable = `DROP TABLE IF EXISTS users;
+const usersTable = `
 CREATE TABLE IF NOT EXISTS users
   (
     id SERIAL PRIMARY KEY,
@@ -20,7 +24,7 @@ CREATE TABLE IF NOT EXISTS users
   );
   `;
 
-const accountsTable = `DROP TABLE IF EXISTS accounts;
+const accountsTable = `
   CREATE TABLE IF NOT EXISTS accounts
   (
     id SERIAL PRIMARY KEY,
@@ -34,7 +38,7 @@ const accountsTable = `DROP TABLE IF EXISTS accounts;
   );
   `;
 
-const transactionsTable = `DROP TABLE IF EXISTS transactions;
+const transactionsTable = `
   CREATE TABLE IF NOT EXISTS transactions
   (
     transactionId SERIAL PRIMARY KEY,
@@ -48,7 +52,7 @@ const transactionsTable = `DROP TABLE IF EXISTS transactions;
   );
   `;
 
-const dbTableSetup = () => pool.query(`${usersTable} ${accountsTable} ${transactionsTable}`);
+const dbTableSetup = () => pool.query(`${dropTables} ${usersTable} ${accountsTable} ${transactionsTable}`);
 
 console.log(`Connected to ${connectionString}`);
 
