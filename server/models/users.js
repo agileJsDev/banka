@@ -1,14 +1,22 @@
 import config from 'config';
 import jwt from 'jsonwebtoken';
-import { pool } from '../db';
+import pool from '../db';
 
 class Users {
   static async create(inputData) {
-    const { rows } = await pool.query(`INSERT INTO 
+    const { rows } = await pool.query(
+      `INSERT INTO 
     users(email, firstName, lastName,password, type)
     VALUES ($1, $2, $3, $4, $5)
     RETURNING *`,
-    [inputData.email, inputData.firstName, inputData.lastName, inputData.password, inputData.type || 'client']);
+      [
+        inputData.email,
+        inputData.firstName,
+        inputData.lastName,
+        inputData.password,
+        inputData.type || 'client'
+      ]
+    );
     return rows[0];
   }
 
@@ -20,11 +28,13 @@ class Users {
       role = false;
     }
 
-    const { rows } = await pool.query(`INSERT INTO 
+    const { rows } = await pool.query(
+      `INSERT INTO 
     users(email, firstName, lastName, password, type, isAdmin)
     VALUES ($1, $2, $3, $4, $5, $6)
     RETURNING *`,
-    [data.email, data.firstName, data.lastName, data.password, 'staff', role]);
+      [data.email, data.firstName, data.lastName, data.password, 'staff', role]
+    );
     return rows[0];
   }
 
@@ -54,11 +64,11 @@ class Users {
     return data;
   }
 
-
   static generateAuthToken(user) {
     const token = jwt.sign(
       { id: user.id, type: user.type, isAdmin: user.isadmin },
-      config.get('jwtPrivateKey'), { expiresIn: '24h' }
+      config.get('jwtPrivateKey'),
+      { expiresIn: '24h' }
     );
     return token;
   }

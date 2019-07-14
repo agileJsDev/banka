@@ -8,6 +8,13 @@ import transaction from '../controllers/transactionController';
 
 const router = express.Router();
 
+// Landing API Endpoint
+router.get('/', (req, res) => res.status(200).json({
+  status: res.statusCode,
+  message: 'Welcome to the Banka App Entry Point'
+}));
+
+
 // Users Route
 router.post('/auth/signup', validate.signUp, userController.signUp);
 router.post('/auth/signin', validate.logIn, userController.logIn);

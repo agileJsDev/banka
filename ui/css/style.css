@@ -60,7 +60,7 @@ header .max__width {
 }
 
 .account__type__name {
-  text-transform: capitalize
+  text-transform: capitalize;
 }
 
 /* Header Style */
@@ -92,7 +92,8 @@ header .max__width {
 }
 
 .nav a,
-.mobile__top-nav a, .card__footer a{
+.mobile__top-nav a,
+.card__footer a {
   font-size: 17px;
   color: #ffffff;
   text-decoration: none;
@@ -114,7 +115,8 @@ header .max__width {
   animation-duration: 0.1s;
 }
 
-.nav a:hover, .card__footer a:hover {
+.nav a:hover,
+.card__footer a:hover {
   background-color: #000000;
   border-radius: 6px;
 }
@@ -128,7 +130,7 @@ header .max__width {
 
 #board .btn {
   margin: 40px 0 20px 0;
-  background-color: #b65d15
+  background-color: #b65d15;
 }
 
 #board p {
@@ -225,7 +227,7 @@ header .max__width {
 
 /* Mobile menu Style  --Start*/
 .x-btn {
-  background-color: #383A47;
+  background-color: #383a47;
   border: 0.2px #ffffff solid;
   float: right;
   display: none;
@@ -265,8 +267,6 @@ header .max__width {
 }
 
 /* Mobile menu Style  --end*/
-
-
 
 /* Mobile Top Nav Style */
 .mobile__top-nav {
@@ -422,7 +422,8 @@ button[type="submit"] {
   margin-top: -18px;
 }
 
-.sidenav__item:hover, #active__nav__item {
+.sidenav__item:hover,
+#active__nav__item {
   background-color: #000000;
 }
 
@@ -433,7 +434,8 @@ button[type="submit"] {
   text-decoration: none;
   text-align: center;
 }
-.sidenav__item a:hover, #active__nav__item a {
+.sidenav__item a:hover,
+#active__nav__item a {
   color: #daaa0c;
 }
 
@@ -509,7 +511,7 @@ button[type="submit"] {
 }
 .card:nth-child(3) {
   /* height: 280px; */
-  background-color: #d6d6d6
+  background-color: #d6d6d6;
 }
 
 .card__header,
@@ -535,7 +537,7 @@ button[type="submit"] {
   padding: 0px 1px 20px 1px;
   justify-content: center;
   align-items: center;
-  margin-top: 10px
+  margin-top: 10px;
 }
 
 .card .reset__margin {
@@ -583,10 +585,8 @@ button[type="submit"] {
   /* height: 250px */
 }
 .card .border {
-  border: 1px solid
+  border: 1px solid;
 }
-
-
 
 .table td {
   white-space: nowrap;
@@ -651,7 +651,7 @@ button[type="submit"] {
   flex-direction: column;
   align-items: center;
   margin: 20px;
-  background:rgba(190, 163, 10, 0.13);
+  background: rgba(190, 163, 10, 0.13);
   overflow: hidden;
 }
 
@@ -667,9 +667,8 @@ button[type="submit"] {
   width: 9%;
 }
 
-
-
-.view_details button, .go__to__account__page button {
+.view_details button,
+.go__to__account__page button {
   width: 100%;
   background: #53181a;
   outline: none;
@@ -680,7 +679,8 @@ button[type="submit"] {
   color: #fff;
 }
 
-.view_details button:hover, .go__to__account__page button:hover {
+.view_details button:hover,
+.go__to__account__page button:hover {
   background-color: #9f4632;
   cursor: pointer;
   box-shadow: 0 4px 8px 0 rgba(48, 45, 45, 0.4);
@@ -740,7 +740,7 @@ input[type="number"]::-webkit-outer-spin-button {
   outline: none;
   border-radius: 5px;
   text-transform: uppercase;
-  margin: 3px
+  margin: 3px;
 }
 
 .activate__btn:hover,
@@ -760,10 +760,13 @@ input[type="number"]::-webkit-outer-spin-button {
   padding: 5px 12px;
   background: rgb(187, 9, 9);
   color: #fff;
-  cursor: pointer
+  cursor: pointer;
 }
 
-
+/* Capitalize Account Status */
+.table .row__status {
+  text-transform: capitalize;
+}
 
 /* Taost message Style */
 .toast__success,
@@ -876,7 +879,7 @@ body .hidden {
   }
 
   #board h1 {
-    margin-top: 80px
+    margin-top: 80px;
   }
 
   .box {
@@ -926,24 +929,24 @@ body .hidden {
     margin-top: 63px
   } */
 
- .card  #table__mobile-adj {
-   margin-top: 20px
- }
+  .card #table__mobile-adj {
+    margin-top: 20px;
+  }
 
- /* .box__section .table__margin {
+  /* .box__section .table__margin {
    margin-top: 270px
  } */
- 
+
   .box__section,
   #box__reduced_margin {
     margin: 80px 3px 10px 3px;
   }
- 
+
   .dialog__content {
     margin: 30% auto;
     width: 312px;
     height: 325px;
-    overflow:hidden;
+    overflow: hidden;
     text-overflow: ellipsis;
   }
 
@@ -952,22 +955,22 @@ body .hidden {
     width: 90%;
   }
 
-  .table__head, .table__row{
+  .table__head,
+  .table__row {
     display: flex;
     flex-direction: column;
     margin-top: 10px;
-    align-items: center
+    align-items: center;
   }
-  
+
   .table__head th {
     width: 100%;
-    text-align: center
+    text-align: center;
   }
 
   .card:nth-child(3) {
     height: 1%;
   }
-  
 }
 
 @media screen and (max-width: 1024px) and (min-width: 769px) {

@@ -10,7 +10,7 @@ class AccountController {
    * @param {object} req
    * @param {object} res
    * @param {*} next
-   * @returns User's account number, firstname, lastname, email, account type, opening balance and creation date
+   * @returns User's account number, firstname, lastname, email.....
    * @memberof AccountController
    */
   static async create(req, res, next) {
@@ -19,19 +19,27 @@ class AccountController {
       const { firstname, lastname, email } = user;
       const {
         accountnumber, type, balance, createddate
-      } = await accountModel.create(req.body.type, user.id);
+      } = await accountModel.create(
+        req.body.type,
+        user.id
+      );
 
       return res.status(201).json({
         status: res.statusCode,
         data: {
-          accountnumber, firstname, lastname, email, type, openingbalance: balance, createddate
+          accountnumber,
+          firstname,
+          lastname,
+          email,
+          type,
+          openingbalance: balance,
+          createddate
         }
       });
     } catch (err) {
       return next(err);
     }
   }
-
 
   /**
    *
@@ -51,26 +59,30 @@ class AccountController {
       if (account) {
         if (account.status === data.status) {
           return res.status(409).json({
-            status: res.statusCode, error: `Account is already ${data.status}`
+            status: res.statusCode,
+            error: `Account is already ${data.status}`
           });
         }
       } else {
         return res.status(404).json({
-          status: res.statusCode, error: 'Account does not exist'
+          status: res.statusCode,
+          error: 'Account does not exist'
         });
       }
 
-      const { accountnumber, status, modifieddate } = await
-      accountModel.updateAccountStatus(req.params.accountNumber, data.status);
+      const { accountnumber, status, modifieddate } = await accountModel.updateAccountStatus(
+        req.params.accountNumber,
+        data.status
+      );
 
       return res.status(200).json({
-        status: res.statusCode, data: { accountnumber, status, modifieddate }
+        status: res.statusCode,
+        data: { accountnumber, status, modifieddate }
       });
     } catch (err) {
       return next(err);
     }
   }
-
 
   /**
    *
@@ -87,16 +99,18 @@ class AccountController {
       const account = await accountModel.findAccountByNo(req.params.accountNumber);
       if (account) {
         await accountModel.delete(account.accountnumber);
-        return res.status(200).json({ status: res.statusCode, message: 'Account successfully deleted' });
+        return res
+          .status(200)
+          .json({ status: res.statusCode, message: 'Account successfully deleted' });
       }
       return res.status(404).json({
-        status: res.statusCode, error: 'Account does not exist'
+        status: res.statusCode,
+        error: 'Account does not exist'
       });
     } catch (err) {
       return next(err);
     }
   }
-
 
   /**
    *
@@ -115,10 +129,13 @@ class AccountController {
         // Get All Clients Accounts
         const userAccounts = await accountModel.findUserAccounts(req.user.id);
         // Check if account number is user's
-        const account = userAccounts.find(acct => acct.accountnumber === Number(req.params.accountNumber));
+        const account = userAccounts.find(
+          acct => acct.accountnumber === Number(req.params.accountNumber)
+        );
         if (!account) {
           return res.status(404).json({
-            status: res.statusCode, error: 'Not Found'
+            status: res.statusCode,
+            error: 'Not Found'
           });
         }
       }
@@ -126,11 +143,13 @@ class AccountController {
       const account = await accountModel.findAccountByNo(req.params.accountNumber);
       if (!account) {
         return res.status(404).json({
-          status: res.statusCode, error: 'Account does not exist'
+          status: res.statusCode,
+          error: 'Account does not exist'
         });
       }
-      const { email } = await userModel.findUserById(account.owner);
+      const { email, firstname, lastname } = await userModel.findUserById(account.owner);
       account.ownerEmail = email;
+      account.name = `${firstname} ${lastname}`;
       return res.status(200).json({
         status: res.statusCode,
         data: _.omit(account, ['id', 'owner', 'modifieddate'])
@@ -161,7 +180,8 @@ class AccountController {
         });
       }
       return res.status(404).json({
-        status: res.statusCode, error: 'No account(s) found for the email'
+        status: res.statusCode,
+        error: 'No account(s) found for the email'
       });
     } catch (err) {
       return next(err);
@@ -220,10 +240,11 @@ class AccountController {
         }
       }
       return res.status(404).json({
-        status: res.statusCode, message: 'You have not created an account'
+        status: res.statusCode,
+        message: 'You have not created an account'
       });
     } catch (err) {
-      next(err);
+      return next(err);
     }
   }
 }

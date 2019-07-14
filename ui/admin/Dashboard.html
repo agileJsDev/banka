@@ -1,104 +1,91 @@
 <!DOCTYPE html>
 <html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <meta
+      name="description"
+      content="A light-weight core banking application"
+    />
+    <meta
+      name="keywords"
+      content="banking app, light weight bank app, powerful bank application"
+    />
+    <link rel="stylesheet" href="../css/style.css" />
+    <title>Bank Account List | Banka</title>
+  </head>
 
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <meta name="description" content="A light-weight core banking application">
-  <meta name="keywords" content="banking app, light weight bank app, powerful bank application">
-  <link rel="stylesheet" href="../css/style.css">
-  <title>Bank Account List | Banka</title>
-</head>
-
-<body>
-  <header class="main__header sticky__header">
-    <div class="dash-container">
-
-      <button class="x-btn">
-        <div id="bar1"></div>
-        <div id="bar2"></div>
-        <div id="bar3"></div>
-      </button>
-      <div class="dialog">
-        <div class="dialog__content">
-          <span class="close">&times;</span>
-          <div class="divi">
+  <body>
+    <header class="main__header sticky__header">
+      <div class="dash-container">
+        <button class="x-btn">
+          <div id="bar1"></div>
+          <div id="bar2"></div>
+          <div id="bar3"></div>
+        </button>
+        <div class="dialog">
+          <div class="dialog__content">
+            <span class="close">&times;</span>
+            <div class="divi"></div>
           </div>
         </div>
+
+        <div id="branding">
+          <h1><a href="../index.html">Banka</a></h1>
+        </div>
       </div>
+    </header>
 
-      <div id="branding">
-        <h1><a href="../index.html">Banka</a></h1>
-      </div>
+    <div class="grid-container">
+      <aside class="sidenav">
+        <div class="sidenav__profile">
+          <div class="user__avatar"></div>
+          <div class="user__name"></div>
+        </div>
 
+        <ul class="sidenav__list">
+          <li class="sidenav__item" id="active__nav__item">
+            <a href="./dashboard.html">Dashboard</a>
+          </li>
+          <li class="sidenav__item">
+            <a href="./account-update.html">Debit/Credit Account</a>
+          </li>
+          <li class="sidenav__item" id="role_based">
+            <a href="./user-account-status.html">Accounts Status</a>
+          </li>
+          <li class="sidenav__item" id="role_based">
+            <a href="./create-user.html">Create Admin/Staff</a>
+          </li>
+          <li class="sidenav__item">
+            <a href="./reset.html">Reset Password</a>
+          </li>
+          <li class="sidenav__item" id="logout"><a>Logout</a></li>
+        </ul>
+      </aside>
 
+      <main class="main">
+        <div class="box__section">
+          <div class="card__header">
+            <h3>Bank Accounts</h3>
+          </div>
+          <div class="card__info" id="table__mobile-adj">
+            <table class="table">
+              <tr class="table__head" id="account__heads">
+                <th class="account__names">Acount Names</th>
+                <th class="account__number">Account No.</th>
+                <th class="account_type">Types</th>
+                <th class="see__more">View</th>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </main>
     </div>
-  </header>
+    <footer class="grid__footer">
+      <div class="footer__copyright">&copy; Banka&trade; 2019</div>
+    </footer>
 
-  <div class="grid-container">
-
-    <aside class="sidenav">
-      <div class="sidenav__profile">
-        <div class="user__avatar"></div>
-        <div class="user__title">Ayodeji A</div>
-      </div>
-
-
-      <ul class="sidenav__list">
-        <li class="sidenav__item" id="active__nav__item"><a href="./dashboard.html">Dashboard</a></li>
-        <li class="sidenav__item"><a href="./account-update.html">Debit/Credit Account</a></li>
-				<li class="sidenav__item"><a href="./user-account-status.html">Accounts Status</a></li>
-				<li class="sidenav__item"><a href="./create-user.html">Create Admin/Staff</a></li>
-				<li class="sidenav__item"><a href="./reset.html">Reset Password</a></li>
-        <li class="sidenav__item" id='logout'><a>Logout</a></li>
-			</ul>
-    </aside>
-
-    <main class="main">
-      <div class="box__section">
-        <div class="card__header">
-          <h3>Bank Accounts</h3>
-        </div>
-        <div class="card__info" id="table__mobile-adj">
-          <table class="table">
-            <tr class="table__head" id="account__heads">
-              <th class="account__names">Acount Names</th>
-              <th class="account__number">Account No.</th>
-              <th class="account_type"> Types</th>
-              <th class="see__more"> View </th>
-            </tr>
-            <tr class="table__row" id="account__rows">
-              <td class="row__account__name"> Funke David</td>
-              <td class="row__account__number"> 1234567890 </td>
-              <td class="row__account__type"> Savings </td>
-              <td><a href="./view-bank-account.html" class="go__to__account__page"><button>Details</button></a></td>
-            </tr>
-            <tr class="table__row">
-              <td class="row__account__name"> Mr Mike </td>
-              <td class="row__account__number"> 1234567890 </td>
-              <td class="row__account__type"> Current </td>
-              <td><a href="./view-bank-account.html" class="go__to__account__page"><button>Details</button></a></td>
-            </tr>
-
-            <tr class="table__row">
-              <td class="row__account__name"> Dauda Doe</td>
-              <td class="row__account__number"> 1234567890 </td>
-              <td class="row__account__type"> Savings </td>
-              <td><a href="./view-bank-account.html" class="go__to__account__page"><button>Details</button></a></td>
-            </tr>
-          </table>
-        </div>
-      </div>
-    </main>
-
-
-  </div>
-  <footer class="grid__footer">
-    <div class="footer__copyright"> &copy; Banka&trade; 2019 </div>
-  </footer>
-
-  <script type="text/javascript" src="../js/main.js"></script>
-</body>
-
+    <script type="text/javascript" src="../js/main.js"></script>
+  </body>
 </html>

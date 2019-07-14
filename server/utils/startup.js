@@ -10,15 +10,16 @@ const data = {
   role: '1'
 };
 
-
 const startup = async (app) => {
+  app.use(helmet());
+  app.use(compression());
+
+  // Mock User
   const email = await userModel.findEmail(data.email);
   if (!email) {
     data.password = await bcrypt.hash('BankaAdmin2019', 10);
     await userModel.createAdminUser(data);
   }
-  app.use(helmet());
-  app.use(compression());
 };
 
 export default startup;

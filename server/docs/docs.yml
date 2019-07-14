@@ -3,7 +3,7 @@ info:
   description: 'Banka is a light-weight core banking application that powers banking operations like account creation, customer deposit and withdrawals.'
   version: "1.0.0"
   title: "Banka Application API"
-host: "this-banka.herokuapp.com"
+host: "localhost:8000"
 basePath: "/api/v1"
 
 
