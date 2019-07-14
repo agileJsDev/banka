@@ -1,92 +1,114 @@
 <!DOCTYPE html>
 <html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <meta
+      name="description"
+      content="A light-weight core banking application"
+    />
+    <meta
+      name="keywords"
+      content="banking app, light weight bank app, powerful bank application"
+    />
+    <link rel="stylesheet" href="../css/style.css" />
+    <title>Create User Account | Banka</title>
+  </head>
 
-<head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta http-equiv="X-UA-Compatible" content="ie=edge">
-	<meta name="description" content="A light-weight core banking application">
-	<meta name="keywords" content="banking app, light weight bank app, powerful bank application">
-	<link rel="stylesheet" href="../css/style.css">
-	<title>Create User Account | Banka</title>
-</head>
+  <body>
+    <header class="main__header sticky__header">
+      <div class="dash-container">
+        <button class="x-btn">
+          <div id="bar1"></div>
+          <div id="bar2"></div>
+          <div id="bar3"></div>
+        </button>
+        <div class="dialog">
+          <div class="dialog__content">
+            <span class="close">&times;</span>
+            <div class="divi"></div>
+          </div>
+        </div>
 
-<body>
-	<header class="main__header sticky__header">
-		<div class="dash-container">
+        <div id="branding">
+          <h1><a href="../index.html">Banka</a></h1>
+        </div>
+      </div>
+    </header>
 
-			<button class="x-btn">
-				<div id="bar1"></div>
-				<div id="bar2"></div>
-				<div id="bar3"></div>
-			</button>
-			<div class="dialog">
-				<div class="dialog__content">
-					<span class="close">&times;</span>
-					<div class="divi">
-					</div>
-				</div>
-			</div>
+    <div class="grid-container">
+      <aside class="sidenav">
+        <div class="sidenav__profile">
+          <div class="user__avatar"></div>
+          <div class="user__name">4444</div>
+        </div>
 
-			<div id="branding">
-				<h1><a href="../index.html">Banka</a></h1>
-			</div>
+        <ul class="sidenav__list">
+          <li class="sidenav__item">
+            <a href="./dashboard.html">Dashboard</a>
+          </li>
+          <li class="sidenav__item">
+            <a href="./account-update.html">Debit/Credit Account</a>
+          </li>
+          <li class="sidenav__item">
+            <a href="./user-account-status.html">Accounts Status</a>
+          </li>
+          <li class="sidenav__item" id="active__nav__item">
+            <a href="./create-user.html">Create Admin/Staff</a>
+          </li>
+          <li class="sidenav__item">
+            <a href="./reset.html">Reset Password</a>
+          </li>
+          <li class="sidenav__item" id="logout"><a>Logout</a></li>
+        </ul>
+      </aside>
 
+      <main class="main">
+        <div class="box__section" id="box__reduced_margin">
+          <div class="card__header">
+            <h3>Create New Admin/Staff Account</h3>
+          </div>
+          <div id="create__user-form">
+            <form action="./index.html" class="form" id="create__user__form">
+              <input
+                type="email"
+                placeholder="Email Address"
+                name="email"
+                required
+              />
+              <input
+                type="text"
+                placeholder="First Name"
+                name="firstname"
+                required
+              />
+              <input
+                type="text"
+                placeholder="Last Name"
+                name="lastname"
+                required
+              />
+              <select required>
+                <option value="" selected disabled>Select User Role</option>
+                <option value="1">Admin</option>
+                <option value="0">Staff</option>
+              </select>
+              <p id="new__user__message">
+                Default Password is 'Banka007'. New User Should Change Password
+                After First Login!
+              </p>
 
-		</div>
-	</header>
+              <button type="submit" class="btn">Create User Account</button>
+            </form>
+          </div>
+        </div>
+      </main>
+    </div>
+    <footer class="grid__footer">
+      <div class="footer__copyright">&copy; Banka&trade; 2019</div>
+    </footer>
 
-	<div class="grid-container">
-
-		<aside class="sidenav">
-			<div class="sidenav__profile">
-				<div class="user__avatar"></div>
-				<div class="user__title">Ayodeji A</div>
-			</div>
-
-
-			<ul class="sidenav__list">
-					<li class="sidenav__item"><a href="./dashboard.html">Dashboard</a></li>
-					<li class="sidenav__item"><a href="./account-update.html">Debit/Credit Account</a></li>
-					<li class="sidenav__item"><a href="./user-account-status.html">Accounts Status</a></li>
-					<li class="sidenav__item" id="active__nav__item"><a href="./create-user.html">Create Admin/Staff</a></li>
-					<li class="sidenav__item"><a href="./reset.html">Reset Password</a></li>
-					<li class="sidenav__item" id='logout'><a>Logout</a></li>
-				</ul>
-		</aside>
-
-		<main class="main">
-			<div class="box__section" id="box__reduced_margin">
-				<div class="card__header">
-					<h3>Create New Admin/Staff Account</h3>
-				</div>
-				<div id="create__user-form">
-					<form action="./index.html" class="form" id="create__user__form">
-						<input type="email" placeholder="Email Address" name="email" required>
-						<input type="text" placeholder="First Name" name="firstname" required>
-						<input type="text" placeholder="Last Name" name="lastname" required>
-						<select required>
-							<option value='' selected disabled>Select User Role</option>
-							<option value="1">Admin</option>
-							<option value="0">Staff</option>
-						</select>
-						<p id="new__user__message">Default Password is 'Banka007'. New User Should Change Password After First Login!
-						</p>
-
-
-						<button type="submit" class="btn">Create User Account</button>
-					</form>
-				</div>
-			</div>
-		</main>
-
-
-	</div>
-	<footer class="grid__footer">
-		<div class="footer__copyright"> &copy; Banka&trade; 2019 </div>
-	</footer>
-
-	<script type="text/javascript" src="../js/main.js"></script>
-</body>
-
+    <script type="text/javascript" src="../js/main.js"></script>
+  </body>
 </html>

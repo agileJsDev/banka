@@ -3,6 +3,7 @@ const registerForm = document.querySelector('#register__form');
 const bankAccountForm = document.querySelector('#bank__account__form');
 const userAccountForm = document.querySelector('#create__user__form');
 const resetPasswordForm = document.querySelector('#reset__password');
+const updateBalanceForm = document.querySelector('#account__update');
 const formButton = document.querySelector('.form .btn');
 const xBtn = document.querySelector('.x-btn');
 const mobileMenu = document.querySelector('.mobile__top-nav');
@@ -91,14 +92,6 @@ const getTransactionDetails = () => {
   });
 };
 
-const deleteBankAccount = () => {
-  const res = prompt(
-    'Are you sure you want this account deleted? Enter your password to confirm: '
-  );
-  if (res) toast(toastSuccess, 'Success Dialog. Simply giving feedback to user.');
-  if (!res) toast(toastFail, 'Failed Dialog. Simply giving feedback to user.');
-};
-
 /* Logout User */
 const logutUser = () => {
   localStorage.clear();
@@ -110,7 +103,7 @@ const goBack = () => {
   window.history.back();
 };
 
-// Frontend Implementations
+/* Frontend Implementations - Consuming the API endpoints */
 const btnLoading = () => {
   formButton.disabled = true;
   formButton.classList.add('loading');
@@ -122,7 +115,7 @@ const stopBtnLoading = () => {
 };
 
 const request = (endpoint = '', method = 'GET', body = null) => {
-  const apiBase = 'http://localhost:8000/api/v1';
+  const apiBase = 'https://this-banka.herokuapp.com/api/v1';
   const token = localStorage.getItem('token');
   return fetch(`${apiBase}/${endpoint}`, {
     mode: 'cors',
@@ -147,9 +140,12 @@ const isLoggedIn = async () => {
       const user = userName;
       [user.textContent] = localStorage.getItem('name').split(' ');
     });
-  } catch (err) {
-
-  }
+    const notAdmin = localStorage.getItem('rl');
+    if (notAdmin) {
+      const el = document.querySelectorAll('#role_based');
+      el.forEach(child => child.parentNode.removeChild(child));
+    }
+  } catch (err) {}
 };
 
 // Implement Signup Functionality
@@ -172,8 +168,11 @@ const register = async (e) => {
     const response = await request('auth/signup', 'POST', data);
     stopBtnLoading();
     if (!response.data) throw Error(response.error);
-    localStorage.setItem('token', response.data.token);
-    const { firstname, lastname } = response.data;
+    const {
+      firstname, lastname, token, type
+    } = response.data;
+    localStorage.setItem('token', token);
+    localStorage.setItem('type', `${type}`);
     localStorage.setItem('name', `${firstname} ${lastname}`);
     toast(toastSuccess, 'User Profile Successfully Created');
     window.location.replace('./user/create-account.html');
@@ -182,6 +181,7 @@ const register = async (e) => {
   }
 };
 
+// Implement login Functionality
 const signIn = async (e) => {
   try {
     e.preventDefault();
@@ -192,17 +192,24 @@ const signIn = async (e) => {
     const response = await request('auth/signin', 'POST', data);
     stopBtnLoading();
     if (!response.data) throw Error(response.error);
-    localStorage.setItem('token', response.data.token);
-    const { firstname, lastname, type } = response.data;
+    const {
+      firstname, lastname, type, isadmin, token
+    } = response.data;
+    localStorage.setItem('token', token);
     localStorage.setItem('name', `${firstname} ${lastname}`);
+    localStorage.setItem('type', `${type}`);
     toast(toastSuccess, 'User Logged In');
     if (type === 'client') window.location.replace('./user/myaccounts.html');
-    else if (type === 'staff') window.location.replace('./admin/dashboard.html');
+    else if (type === 'staff') {
+      window.location.replace('./admin/dashboard.html');
+      if (!isadmin) localStorage.setItem('rl', 'f');
+    }
   } catch (error) {
     toast(toastFail, error);
   }
 };
 
+// Implement create account Functionality
 const createAccount = async (e) => {
   try {
     e.preventDefault();
@@ -252,54 +259,6 @@ const myAccounts = async () => {
   }
 };
 
-const transactionsList = [
-  {
-    transactionid: 1,
-    createddate: '2019-05-19T23:58:13.760Z',
-    type: 'credit',
-    accountnumber: 1933763471,
-    amount: 500,
-    oldbalance: 1000,
-    newbalance: 1500
-  },
-  {
-    transactionid: 2,
-    createddate: '2019-05-19T23:58:40.474Z',
-    type: 'credit',
-    accountnumber: 1933763471,
-    amount: 500,
-    oldbalance: 1500,
-    newbalance: 2000
-  },
-  {
-    transactionid: 3,
-    createddate: '2019-05-19T23:58:43.357Z',
-    type: 'credit',
-    accountnumber: 1933763471,
-    amount: 500,
-    oldbalance: 2000,
-    newbalance: 2500
-  },
-  {
-    transactionid: 4,
-    createddate: '2019-05-19T23:58:44.807Z',
-    type: 'credit',
-    accountnumber: 1933763471,
-    amount: 500,
-    oldbalance: 2500,
-    newbalance: 3000
-  },
-  {
-    transactionid: 5,
-    createddate: '2019-05-19T23:59:07.776Z',
-    type: 'debit',
-    accountnumber: 1933763471,
-    amount: 750,
-    oldbalance: 3000,
-    newbalance: 2250
-  }
-];
-
 const accountDetails = async () => {
   isLoggedIn();
   const accountNumber = localStorage.getItem('no');
@@ -313,11 +272,10 @@ const accountDetails = async () => {
   document.querySelector('.acct__type').textContent = type;
   document.querySelector('.acct__date').textContent = new Date(createddate).toDateString();
   document.querySelector('.balance').appendChild(document.createTextNode(balance));
-
-  // const transactions = await request(`accounts/${accountnumber}/transactions`);
-  // if (!transactions.data) throw Error(transactions.error);
-  // const recentTransactions = transactions.data.slice(0, 4);
-  transactionsList.forEach((transaction) => {
+  const transactions = await request(`accounts/${accountnumber}/transactions`);
+  if (!transactions.data) throw Error(transactions.error);
+  const recentTransactions = transactions.data.slice(0, 4);
+  recentTransactions.forEach((transaction) => {
     const recentTransactionsDOM = `<tr class="table__row">
     <td class="transac_date">${transaction.createddate}</td>
     <td class="transac_details">Caash Deposit //Lagos_Branch</td>
@@ -327,9 +285,11 @@ const accountDetails = async () => {
   });
 };
 
-const transactions = () => {
+const transactions = async () => {
   isLoggedIn();
-  transactionsList.forEach((transaction) => {
+  const accountNumber = localStorage.getItem('no');
+  const { data } = await request(`accounts/${accountNumber}/transactions`);
+  data.forEach((transaction) => {
     const recentTransactionsDOM = `<tr class="table__row">
     <td class="transac_date">${transaction.createddate} </td>
     <td class="transac_details"> Cash Deposit //Lagos Branch </td>
@@ -341,14 +301,226 @@ const transactions = () => {
   getTransactionDetails();
 };
 
+// Implement create role Functionality
+const createRole = async (e) => {
+  try {
+    e.preventDefault();
+    btnLoading();
+    const email = userAccountForm.elements.email.value;
+    const firstName = userAccountForm.elements.firstname.value;
+    const lastName = userAccountForm.elements.lastname.value;
+    const select = userAccountForm.querySelector('select');
+    const role = select.options[select.selectedIndex].value;
+    const data = JSON.stringify({
+      email,
+      firstName,
+      lastName,
+      role
+    });
+    const response = await request('createrole', 'POST', data);
+    stopBtnLoading();
+    if (!response.data) throw Error(response.error);
+    toast(toastSuccess, 'User Profile Successfully Created');
+  } catch (error) {
+    toast(toastFail, error);
+  }
+};
 
+const updateNameBalance = async () => {
+  try {
+    const accountNumberInput = updateBalanceForm.elements.account__number.value;
+    if (accountNumberInput.length === 10) {
+      const response = await request(`accounts/${accountNumberInput}`);
+      const balanceDOM = updateBalanceForm.elements.balance;
+      const nameDOM = updateBalanceForm.elements.name;
+      if (!response.data) {
+        balanceDOM.value = 'Null';
+        nameDOM.value = 'Null';
+        throw Error('Account does not exist');
+      }
+      const { balance, name } = response.data;
+      balanceDOM.value = new Intl.NumberFormat('en-UK', {
+        style: 'currency',
+        currency: 'NGN'
+      }).format(balance);
+      nameDOM.value = name;
+    }
+  } catch (error) {
+    toast(toastFail, error);
+  }
+};
+
+const updateAccountBalance = async (event) => {
+  try {
+    event.preventDefault();
+    const action = document.activeElement.textContent.trim().toLowerCase();
+    // const description = updateBalanceForm.elements.description.value;
+    const amount = updateBalanceForm.elements.amount.value;
+    const accountNumber = updateBalanceForm.elements.account__number.value;
+    const data = JSON.stringify({ amount });
+    const response = await request(`transactions/${accountNumber}/${action}`, 'POST', data);
+    if (!response.data) throw Error(response.error);
+    toast(toastSuccess, `The ${action} transaction is successful`);
+    updateBalanceForm.reset();
+  } catch (error) {
+    toast(toastFail, error);
+  }
+};
+
+const allAccounts = async () => {
+  isLoggedIn();
+  const { data } = await request('accounts');
+  if (!data) throw Error('No Registered Accounts');
+  await Promise.all(
+    data.map(async (account) => {
+      const res = await request(`accounts/${account.accountnumber}`);
+      const { name, type, accountnumber } = res.data;
+      const accountDOM = `<tr class="table__row">
+    <td class="row__account__name">${name}</td>
+    <td class="row__account__number">${accountnumber}</td>
+    <td class="row__account__type">${type}</td>
+    <td>
+      <a href="./view-bank-account.html" class="go__to__account__page"><button>Details</button></a>
+    </td>
+    </tr>`;
+      document.querySelector('tbody').insertAdjacentHTML('beforeend', accountDOM);
+    })
+  );
+  const accountDetailBtnDOM = document.querySelectorAll('.go__to__account__page');
+  accountDetailBtnDOM.forEach((detailsDOM) => {
+    detailsDOM.addEventListener('click', (event) => {
+      event.preventDefault();
+      const accountNumber = detailsDOM.parentElement.parentNode.querySelector(
+        '.row__account__number'
+      ).innerHTML;
+      localStorage.setItem('no', accountNumber);
+      window.location.replace('./view-bank-account.html');
+    });
+  });
+};
+
+const resetPassword = async (event) => {
+  try {
+    event.preventDefault();
+    btnLoading();
+    const password = resetPasswordForm.elements.old__password.value;
+    const newPassword = resetPasswordForm.elements.password.value;
+    const confirmNewPassword = resetPasswordForm.elements.confirm__password.value;
+    const data = JSON.stringify({ password, newPassword, confirmNewPassword });
+    const response = await request('auth/reset', 'PATCH', data);
+    stopBtnLoading();
+    if (!response.message) throw Error(response.error);
+    toast(toastSuccess, response.message);
+  } catch (error) {
+    toast(toastFail, error);
+  }
+};
+
+const indexAccessibility = () => {
+  const type = localStorage.getItem('type');
+  if (type === 'client') window.location.replace('./user/home.html');
+  else if (type === 'staff') window.location.replace('./admin/dashboard.html');
+};
+
+const viewBankAccount = async () => {
+  isLoggedIn();
+  const accountNumber = localStorage.getItem('no');
+  const response = await request(`accounts/${accountNumber}`);
+  const {
+    accountnumber, balance, type, createddate, name
+  } = response.data;
+  document.querySelector('.account__name').textContent = name;
+  document.querySelector('.acct__number').textContent = accountnumber;
+  document.querySelector('.acct__type').textContent = type;
+  document.querySelector('.acct__date').textContent = new Date(createddate).toDateString();
+  document.querySelector('.balance').appendChild(document.createTextNode(balance));
+  const accountTransactions = await request(`accounts/${accountnumber}/transactions`);
+  // if (!transactions.data) throw Error(transactions.error);
+  const recentTransactions = accountTransactions.data.slice(0, 4);
+  recentTransactions.forEach((transaction) => {
+    const { createddate, amount } = transaction;
+    const recentTransactionsDOM = `<tr class="table__row">
+    <td class="transac_date">${new Date(createddate).toDateString()}</td>
+    <td class="transac_details">Caash Deposit //Lagos_Branch</td>
+    <td class="transac_amount" id="credit_amt">${amount}</td>
+  </tr> `;
+    document.querySelector('tbody').insertAdjacentHTML('beforeend', recentTransactionsDOM);
+  });
+};
+
+const statusAction = () => {
+  const statusButtonsDOM = document.querySelectorAll('#status__actions button');
+  statusButtonsDOM.forEach((statusButton) => {
+    statusButton.addEventListener('click', async () => {
+      const statusDetail = statusButton.parentElement.parentNode;
+      const accountNumber = statusDetail.querySelector('.row__account').innerHTML;
+      let status = statusDetail.querySelector('.row__status').innerHTML;
+      status = (status === 'active' && 'dormant') || (status === 'dormant' && 'active');
+      const data = JSON.stringify({ status });
+      await request(`account/${accountNumber}`, 'PATCH', data);
+      statusDetail.querySelector('.row__status').textContent = status;
+      const otherButton = document.activeElement.previousElementSibling || document.activeElement.nextElementSibling;
+      document.activeElement.disabled = true;
+      otherButton.disabled = false;
+    });
+  });
+};
+
+const accountStatus = async () => {
+  try {
+    const { data } = await request('accounts?');
+    if (!data) throw Error('No Registered Accounts');
+    await Promise.all(
+      data.map(async (account) => {
+        const response = await request(`accounts/${account.accountnumber}`);
+        const { name, status, accountnumber } = response.data;
+        const accountStatusDOM = `<tr class="table__row">
+      <td class="user__names">${name}</td>
+      <td class="row__account">${accountnumber}</td>
+      <td class="row__status">${status}</td>
+      <td class="row__actions" id="status__actions">
+        <button class="activate__btn" ${status === 'active' && 'disabled'}>Activate</button>
+        <button class="d_activate__btn" ${status === 'dormant' && 'disabled'}>Deactivate</button>
+      </td>
+    </tr>`;
+        document.querySelector('tbody').insertAdjacentHTML('beforeend', accountStatusDOM);
+      })
+    );
+    statusAction();
+  } catch (error) {
+    toast(toastFail, error);
+  }
+};
+
+const deleteBankAccount = async () => {
+  try {
+    // eslint-disable-next-line no-alert
+    const random = Math.random()
+      .toString(32)
+      .slice(7);
+    const confirmation = prompt(`Confirm you are human. Enter these characters: ${random}`);
+    if (confirmation !== random) throw Error('Characters entered did not mtach. Try Again!');
+    const accountNumber = localStorage.getItem('no');
+    const { status } = await request(`account/${accountNumber}`, 'DELETE');
+    if (status !== 200) throw Error('You have encountered an error. Try Again!');
+    toast(toastSuccess, 'Account Deleted!');
+    localStorage.removeItem('no');
+  } catch (error) {
+    toast(toastFail, error);
+  }
+};
+
+if (updateBalanceForm) {
+  const accountNumberInputDOM = updateBalanceForm.elements.account__number;
+  accountNumberInputDOM.addEventListener('input', updateNameBalance);
+  updateBalanceForm.addEventListener('submit', updateAccountBalance);
+}
 if (registerForm) registerForm.addEventListener('submit', register);
 if (bankAccountForm) bankAccountForm.addEventListener('submit', createAccount);
 if (loginForm) loginForm.addEventListener('submit', signIn);
-
 if (deleteAccount) deleteAccount.addEventListener('click', deleteBankAccount);
-if (resetPasswordForm) resetPasswordForm.addEventListener('submit', signInSample);
-if (userAccountForm) userAccountForm.addEventListener('submit', signInSample);
+if (resetPasswordForm) resetPasswordForm.addEventListener('submit', resetPassword);
+if (userAccountForm) userAccountForm.addEventListener('submit', createRole);
 if (logoutBtn) logoutBtn.addEventListener('click', logutUser);
 if (goBackBtn) goBackBtn.addEventListener('click', goBack);
 if (passwordDOM) {
@@ -358,20 +530,55 @@ if (passwordDOM) {
 
 const currentView = window.location.pathname;
 switch (currentView) {
-  case '/C:/Users/Xwebyna/Desktop/banka/ui/user/create-account.html':
+  case 'https://ayodejiaa.github.io/banka/ui/user/create-account.html':
     isLoggedIn();
     break;
 
-  case '/C:/Users/Xwebyna/Desktop/banka/ui/user/myaccounts.html':
+  case 'https://ayodejiaa.github.io/banka/ui/user/myaccounts.html':
     myAccounts();
     break;
 
-  case '/C:/Users/Xwebyna/Desktop/banka/ui/user/home.html':
+  case 'https://ayodejiaa.github.io/banka/ui/user/home.html':
     accountDetails();
     break;
 
-  case '/C:/Users/Xwebyna/Desktop/banka/ui/user/transactions.html':
+  case 'https://ayodejiaa.github.io/banka/ui/user/transactions.html':
     transactions();
+    break;
+
+  case 'https://ayodejiaa.github.io/banka/ui/index.html':
+    indexAccessibility();
+    break;
+
+  case 'https://ayodejiaa.github.io/banka/ui/admin/dashboard.html':
+    allAccounts();
+    break;
+  case 'https://ayodejiaa.github.io/banka/ui/admin/account-update.html':
+    isLoggedIn();
+    break;
+  case 'https://ayodejiaa.github.io/banka/ui/admin/reset.html':
+    isLoggedIn();
+    break;
+
+  case 'https://ayodejiaa.github.io/banka/ui/user/reset.html':
+    isLoggedIn();
+    break;
+
+  case 'https://ayodejiaa.github.io/banka/ui/admin/view-bank-account.html':
+    viewBankAccount();
+    break;
+
+  case 'https://ayodejiaa.github.io/banka/ui/admin/view-user-transactions.html':
+    transactions();
+    break;
+
+  case 'https://ayodejiaa.github.io/banka/ui/admin/create-user.html':
+    isLoggedIn();
+    break;
+
+  case 'https://ayodejiaa.github.io/banka/ui/admin/user-account-status.html':
+    isLoggedIn();
+    accountStatus();
     break;
 
   default:

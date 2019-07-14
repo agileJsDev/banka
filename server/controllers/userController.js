@@ -29,7 +29,7 @@ class UsersController {
       user.token = userModel.generateAuthToken(user);
       return res.status(201).json({
         status: res.statusCode,
-        data: _.pick(user, ['token', 'id', 'firstname', 'lastname', 'email', 'type', 'createddate'])
+        data: _.pick(user, ['token', 'id', 'firstname', 'lastname', 'email', 'type', 'createddate', 'isadmin'])
       });
     } catch (err) {
       return next(err);
@@ -68,7 +68,7 @@ class UsersController {
       user.token = userModel.generateAuthToken(user);
       return res.status(200).json({
         status: res.statusCode,
-        data: _.pick(user, ['token', 'id', 'firstname', 'lastname', 'email', 'type'])
+        data: _.pick(user, ['token', 'id', 'firstname', 'lastname', 'email', 'type', 'isadmin'])
       });
     } catch (err) {
       return next(err);

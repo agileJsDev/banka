@@ -6,9 +6,10 @@
   "scripts": {
     "start": "node ./build/app.js",
     "build": "rm -rf build && babel server -d build",
-    "dev": "nodemon --exec babel-node --presets babel-preset-env ./server/app.js",
-    "test": "mocha --require babel-register tests/*.test.js --exit",
-    "coverage": "nyc npm test && nyc report --reporter=text-lcov | coveralls"
+    "dev": "npm run buildTables && nodemon --exec babel-node --presets babel-preset-env ./server/app.js",
+    "test": "cross-env NODE_ENV=test npm run buildTables && cross-env NODE_ENV=test mocha  --require babel-register tests/*.test.js --exit",
+    "buildTables": "babel-node --presets babel-preset-env ./server/db/buildTables.js",
+    "coverage": "nyc npm test && cross-env NODE_ENV=test nyc report --reporter=text-lcov | coveralls"
   },
   "engines": {
     "node": "10.15.3"
@@ -45,11 +46,12 @@
     "chai": "^4.2.0",
     "chai-http": "^4.2.1",
     "coveralls": "^3.0.3",
+    "cross-env": "^5.2.0",
     "eslint": "^5.16.0",
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-plugin-import": "^2.16.0",
     "mocha": "^6.1.2",
     "nodemon": "^1.18.10",
-    "nyc": "^13.3.0"
+    "nyc": "^14.1.1"
   }
 }

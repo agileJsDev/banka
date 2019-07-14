@@ -1,4 +1,4 @@
 {
-  "jwtPrivateKey" : "secret",
-  "db": "postgresql://xwebyna:xwebyna@127.0.0.1:5432/banka_db"
+  "jwtPrivateKey": "secret",
+  "db": "postgresql://ayodejiafolabi:xwebyna@127.0.0.1:5432/development"
 }
