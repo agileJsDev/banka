@@ -6,12 +6,12 @@ import cors from 'cors';
 import router from './routes';
 import { errorHandler, error404 } from './helpers/error';
 import startup from './utils/startup';
-// import { dbTableSetup } from './db';
 
-// dbTableSetup();
 const swaggerDoc = YAML.load(path.join(process.cwd(), './server/docs/docs.yml'));
 const app = express();
 app.use(express.json());
+app.use(express.static('ui', { extensions: ['html'] }));
+
 startup(app);
 app.use(cors());
 app.use('/api/v1', router);

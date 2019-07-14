@@ -530,55 +530,55 @@ if (passwordDOM) {
 
 const currentView = window.location.pathname;
 switch (currentView) {
-  case 'https://ayodejiaa.github.io/banka/ui/user/create-account.html':
+  case '/user/create-account.html':
     isLoggedIn();
     break;
 
-  case 'https://ayodejiaa.github.io/banka/ui/user/myaccounts.html':
+  case '/user/myaccounts.html':
     myAccounts();
     break;
 
-  case 'https://ayodejiaa.github.io/banka/ui/user/home.html':
+  case '/user/home.html':
     accountDetails();
     break;
 
-  case 'https://ayodejiaa.github.io/banka/ui/user/transactions.html':
+  case '/user/transactions.html':
     transactions();
     break;
 
-  case 'https://ayodejiaa.github.io/banka/ui/index.html':
+  case '/index.html':
     indexAccessibility();
     break;
 
-  case 'https://ayodejiaa.github.io/banka/ui/admin/dashboard.html':
+  case '/admin/dashboard.html':
     allAccounts();
     break;
-  case 'https://ayodejiaa.github.io/banka/ui/admin/account-update.html':
+  case '/admin/account-update.html':
     isLoggedIn();
     break;
-  case 'https://ayodejiaa.github.io/banka/ui/admin/reset.html':
-    isLoggedIn();
-    break;
-
-  case 'https://ayodejiaa.github.io/banka/ui/user/reset.html':
+  case '/admin/reset.html':
     isLoggedIn();
     break;
 
-  case 'https://ayodejiaa.github.io/banka/ui/admin/view-bank-account.html':
+  case '/user/reset.html':
+    isLoggedIn();
+    break;
+
+  case '/admin/view-bank-account.html':
     viewBankAccount();
     break;
 
-  case 'https://ayodejiaa.github.io/banka/ui/admin/view-user-transactions.html':
+  case '/admin/view-user-transactions.html':
     transactions();
     break;
 
-  case 'https://ayodejiaa.github.io/banka/ui/admin/create-user.html':
-    isLoggedIn();
-    break;
-
-  case 'https://ayodejiaa.github.io/banka/ui/admin/user-account-status.html':
+  case '/admin/user-account-status.html':
     isLoggedIn();
     accountStatus();
+    break;
+
+  case '/admin/create-user.html':
+    isLoggedIn();
     break;
 
   default:
